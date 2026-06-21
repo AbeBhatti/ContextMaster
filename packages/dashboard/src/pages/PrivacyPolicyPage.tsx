@@ -22,7 +22,7 @@ export function PrivacyPolicyPage() {
           </header>
 
           <Lede>
-            Context Cloud ("we", "us", "our") operates contextcloud.pro and the Context Cloud
+            ContextMaster ("we", "us", "our") operates contextcloud.pro and the ContextMaster
             API. This policy explains how we collect, use, and protect your
             information.
           </Lede>
@@ -51,7 +51,7 @@ export function PrivacyPolicyPage() {
           <Section title="How We Use Your Data">
             <BulletList>
               <li>
-                To provide the Context Cloud service: storing, retrieving, and managing
+                To provide the ContextMaster service: storing, retrieving, and managing
                 your knowledge bases
               </li>
               <li>
@@ -193,20 +193,20 @@ function Nav() {
     <header
       className="sticky top-0 z-50 w-full"
       style={{
-        background: "rgba(255,250,240,0.85)",
+        background: "rgba(255,255,255,0.85)",
         backdropFilter: "saturate(140%) blur(10px)",
-        borderBottom: "0.5px solid rgba(67,55,39,0.10)",
+        borderBottom: "0.5px solid rgba(24,24,27,0.10)",
       }}
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-3.5">
         <a href="/" className="flex items-center gap-2.5">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-[8px] text-[12px] font-bold tracking-wider text-cream-50"
-            style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+            style={{ background: "#3d5a80" }}
           >
             cn
           </div>
-          <div className="text-[15px] font-semibold tracking-tight">Context Cloud</div>
+          <div className="text-[15px] font-semibold tracking-tight">ContextMaster</div>
         </a>
         <a
           href="/"
@@ -224,18 +224,18 @@ function Footer() {
   return (
     <footer
       className="px-6 py-12"
-      style={{ borderTop: "0.5px solid rgba(67,55,39,0.12)" }}
+      style={{ borderTop: "0.5px solid rgba(24,24,27,0.12)" }}
     >
       <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <div className="flex items-center gap-2.5">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-[8px] text-[12px] font-bold tracking-wider text-cream-50"
-            style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+            style={{ background: "#3d5a80" }}
           >
             cn
           </div>
           <div>
-            <div className="text-[14px] font-semibold tracking-tight">Context Cloud</div>
+            <div className="text-[14px] font-semibold tracking-tight">ContextMaster</div>
             <div className="text-[11.5px] text-ink-500">Built by Abhi</div>
           </div>
         </div>
@@ -258,7 +258,7 @@ function Footer() {
           </a>
         </nav>
 
-        <div className="text-[11.5px] text-ink-500">© 2026 Context Cloud</div>
+        <div className="text-[11.5px] text-ink-500">© 2026 ContextMaster</div>
       </div>
     </footer>
   );

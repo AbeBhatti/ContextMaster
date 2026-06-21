@@ -60,7 +60,7 @@ export function ContributorSummary({
             className="flex h-6 w-6 items-center justify-center rounded-full text-[9.5px] font-bold text-cream-50"
             style={{
               background: avatarColor(c.id),
-              border: "2px solid #fffaf0",
+              border: "2px solid #ffffff",
               marginLeft: i === 0 ? 0 : -8,
             }}
             title={`${c.name} · ${c.sessions} ${
@@ -73,7 +73,7 @@ export function ContributorSummary({
         {overflow > 0 && (
           <span
             className="flex h-6 w-6 items-center justify-center rounded-full bg-cream-500 text-[9.5px] font-bold text-ink-700"
-            style={{ border: "2px solid #fffaf0", marginLeft: -8 }}
+            style={{ border: "2px solid #ffffff", marginLeft: -8 }}
           >
             +{overflow}
           </span>

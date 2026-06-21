@@ -76,7 +76,7 @@ export function MemberList({
           Members ({members.length})
         </div>
         {error && (
-          <div className="mb-2 text-[12px] text-[#b04545]">{error}</div>
+          <div className="mb-2 text-[12px] text-danger">{error}</div>
         )}
         <div className="flex flex-col gap-1.5">
           {members.map((m) => {
@@ -87,7 +87,7 @@ export function MemberList({
             <div
               key={m.user_id}
               className="flex items-center gap-3 rounded-[9px] border bg-white p-3"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <span
                 className="flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-bold text-cream-50"
@@ -116,7 +116,7 @@ export function MemberList({
                     )
                   }
                   className="rounded-md border bg-cream-50 px-2 py-0.5 text-[11.5px] capitalize"
-                  style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                  style={{ borderColor: "rgba(24,24,27,0.18)" }}
                 >
                   <option value="viewer">viewer</option>
                   <option value="editor">editor</option>
@@ -152,14 +152,14 @@ export function MemberList({
             Pending invites ({invites.length})
           </div>
           {error && (
-            <div className="mb-2 text-[12px] text-[#b04545]">{error}</div>
+            <div className="mb-2 text-[12px] text-danger">{error}</div>
           )}
           <div className="flex flex-col gap-1.5">
             {invites.map((inv) => (
               <div
                 key={inv.id}
                 className="flex items-center gap-3 rounded-[9px] border bg-cream-100 p-3"
-                style={{ borderColor: "rgba(67,55,39,0.10)" }}
+                style={{ borderColor: "rgba(24,24,27,0.10)" }}
               >
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-[13px] font-medium text-ink-900">

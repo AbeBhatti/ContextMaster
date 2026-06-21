@@ -105,7 +105,7 @@ export function KBPanel({
         onClick={onClose}
         className="absolute inset-0 transition-opacity"
         style={{
-          background: "rgba(58,51,32,.18)",
+          background: "rgba(24,24,27,.18)",
           backdropFilter: "blur(2px)",
           opacity: mounted ? 1 : 0,
           zIndex: 20,
@@ -116,8 +116,8 @@ export function KBPanel({
         className="absolute bottom-0 right-0 top-0 flex flex-col bg-cream-50 transition-transform"
         style={{
           width: "min(640px, 68%)",
-          borderLeft: "0.5px solid rgba(67,55,39,0.15)",
-          boxShadow: "-30px 0 60px rgba(58,51,32,.10)",
+          borderLeft: "0.5px solid rgba(24,24,27,0.15)",
+          boxShadow: "-30px 0 60px rgba(24,24,27,.10)",
           transform: mounted ? "translateX(0)" : "translateX(20px)",
           opacity: mounted ? 1 : 0,
           transitionDuration: "220ms",
@@ -128,7 +128,7 @@ export function KBPanel({
           className="shrink-0 overflow-y-auto px-7 pb-4 pt-5"
           style={{
             height: headerHeight,
-            borderBottom: "0.5px solid rgba(67,55,39,0.10)",
+            borderBottom: "0.5px solid rgba(24,24,27,0.10)",
           }}
         >
           <div className="mb-2.5 flex items-center justify-between">
@@ -146,7 +146,7 @@ export function KBPanel({
               {kb.is_shared && (
                 <span
                   className="rounded-full px-2 py-0.5 text-[11px] font-medium text-ink-600"
-                  style={{ border: "1px dashed rgba(67,55,39,0.3)" }}
+                  style={{ border: "1px dashed rgba(24,24,27,0.3)" }}
                 >
                   Shared
                 </span>
@@ -154,8 +154,8 @@ export function KBPanel({
               {isSystem && (
                 <span
                   className="rounded-full px-2 py-0.5 text-[11px] font-medium text-ink-600"
-                  style={{ border: "1px dashed rgba(67,55,39,0.3)" }}
-                  title="Built-in Context Cloud knowledge base — read-only"
+                  style={{ border: "1px dashed rgba(24,24,27,0.3)" }}
+                  title="Built-in ContextMaster knowledge base — read-only"
                 >
                   System
                 </span>
@@ -218,14 +218,14 @@ export function KBPanel({
           onDoubleClick={() => setHeaderHeight(280)}
           className="group relative flex h-2 shrink-0 cursor-row-resize items-center justify-center"
           style={{
-            background: isResizing ? "rgba(67,55,39,0.06)" : "transparent",
+            background: isResizing ? "rgba(24,24,27,0.06)" : "transparent",
             transition: "background 120ms",
           }}
           title="Drag to resize · double-click to reset"
         >
           <span
             className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2"
-            style={{ background: "rgba(67,55,39,0.10)" }}
+            style={{ background: "rgba(24,24,27,0.10)" }}
           />
           <GripHorizontal
             size={14}
@@ -240,7 +240,7 @@ export function KBPanel({
 
         <nav
           className="flex shrink-0 gap-1 px-5 pt-2"
-          style={{ borderBottom: "0.5px solid rgba(67,55,39,0.10)" }}
+          style={{ borderBottom: "0.5px solid rgba(24,24,27,0.10)" }}
         >
           {(
             [
@@ -257,7 +257,7 @@ export function KBPanel({
               }`}
               style={{
                 borderBottom:
-                  tab === k ? "2px solid #3a3320" : "2px solid transparent",
+                  tab === k ? "2px solid #18181b" : "2px solid transparent",
                 marginBottom: -1,
               }}
             >
@@ -320,7 +320,7 @@ function LastSessionSummary({
     <div
       className="mt-3.5 rounded-lg p-2.5"
       style={{
-        background: "rgba(214,162,74,.08)",
+        background: "rgba(61,90,128,.08)",
         borderLeft: `2px solid ${accent}`,
       }}
     >
@@ -431,10 +431,10 @@ function EditableKbName({
               cancel();
             }
           }}
-          className="m-0 w-full rounded-md bg-cream-100 px-1.5 py-0.5 text-[26px] font-semibold tracking-tight text-ink-900 outline-none ring-2 ring-[rgba(67,55,39,0.25)]"
+          className="m-0 w-full rounded-md bg-cream-100 px-1.5 py-0.5 text-[26px] font-semibold tracking-tight text-ink-900 outline-none ring-2 ring-[rgba(24,24,27,0.25)]"
         />
         {error && (
-          <span className="text-[11.5px] text-[#b04545]">{error}</span>
+          <span className="text-[11.5px] text-danger">{error}</span>
         )}
       </div>
     );
@@ -594,7 +594,7 @@ function KbActionsMenu({
       {open && (
         <div
           className="absolute right-0 top-8 z-30 w-[280px] rounded-lg border bg-white p-1.5 shadow-lg"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           {mode === "menu" && (
             <div className="flex flex-col">
@@ -691,7 +691,7 @@ function KbActionsMenu({
                         <span className="flex min-w-0 items-center gap-2">
                           <span
                             className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-[10px] font-bold text-cream-50"
-                            style={{ background: "#3a3320" }}
+                            style={{ background: "#18181b" }}
                           >
                             {w.name[0]?.toUpperCase() ?? "?"}
                           </span>
@@ -718,12 +718,12 @@ function KbActionsMenu({
           )}
 
           {error && (
-            <div className="px-2.5 pb-2 pt-1 text-[11.5px] text-[#b04545]">
+            <div className="px-2.5 pb-2 pt-1 text-[11.5px] text-danger">
               {error}
             </div>
           )}
           {success && (
-            <div className="px-2.5 pb-2 pt-1 text-[11.5px] text-[#3f7a55]">
+            <div className="px-2.5 pb-2 pt-1 text-[11.5px] text-success">
               {success}
             </div>
           )}

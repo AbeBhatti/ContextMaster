@@ -6,8 +6,7 @@ import {
   WorkspaceHeader,
   type TabId,
 } from "../components/layout/WorkspaceHeader";
-import { KnowledgeGraph, type GraphAesthetic } from "../components/graph/KnowledgeGraph";
-import { AestheticToggle } from "../components/graph/AestheticToggle";
+import { KnowledgeGraph } from "../components/graph/KnowledgeGraph";
 import { ListView } from "../components/workspace/ListView";
 import { HistoryTab } from "../components/workspace/HistoryTab";
 import { DocumentsTab } from "../components/workspace/DocumentsTab";
@@ -52,7 +51,6 @@ export function WorkspacePage() {
 
   const { data: workspace, loading, error, refetch, setData } = useWorkspace(id);
   const [selectedKbId, setSelectedKbId] = useState<string | null>(null);
-  const [aesthetic, setAesthetic] = useState<GraphAesthetic>("organic");
   const [creatingKb, setCreatingKb] = useState(false);
   const [autoRenameKb, setAutoRenameKb] = useState(false);
   const { state: ctxMenu, openMenu, closeMenu } = useKBContextMenu();
@@ -183,23 +181,18 @@ export function WorkspacePage() {
                 }
               />
             ) : (
-              <>
-                <KnowledgeGraph
-                  knowledgeBases={workspace.knowledge_bases}
-                  aesthetic={aesthetic}
-                  selectedId={selectedKbId}
-                  onSelect={(kbId) => setSelectedKbId(kbId)}
-                  onCreateKb={!isViewer ? () => setCreatingKb(true) : undefined}
-                  onNodeContextMenu={
-                    !isViewer
-                      ? (e, kb) =>
-                          openMenu(e, kb.id, kb.name, kb.chunk_count)
-                      : undefined
-                  }
-                  processingKbStatus={processingKbs.byKb}
-                />
-                <AestheticToggle value={aesthetic} onChange={setAesthetic} />
-              </>
+              <KnowledgeGraph
+                knowledgeBases={workspace.knowledge_bases}
+                selectedId={selectedKbId}
+                onSelect={(kbId) => setSelectedKbId(kbId)}
+                onCreateKb={!isViewer ? () => setCreatingKb(true) : undefined}
+                onNodeContextMenu={
+                  !isViewer
+                    ? (e, kb) => openMenu(e, kb.id, kb.name, kb.chunk_count)
+                    : undefined
+                }
+                processingKbStatus={processingKbs.byKb}
+              />
             )}
           </div>
         )}

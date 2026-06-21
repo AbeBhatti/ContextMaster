@@ -44,13 +44,13 @@ export function DocumentList({
   return (
     <div className="flex flex-col gap-1.5">
       {error && (
-        <div className="text-[12px] text-[#b04545]">{error}</div>
+        <div className="text-[12px] text-danger">{error}</div>
       )}
       {documents.map((d) => (
         <div
           key={d.id}
           className="flex items-center gap-3 rounded-[9px] border bg-white p-3"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-md bg-cream-300 text-ink-600">
             <FileText size={14} />
@@ -68,7 +68,7 @@ export function DocumentList({
               {formatRelativeTime(d.created_at)}
             </div>
             {d.processing_error && (
-              <div className="mt-1 text-[11.5px] text-[#b04545]">
+              <div className="mt-1 text-[11.5px] text-danger">
                 {d.processing_error}
               </div>
             )}
@@ -103,15 +103,15 @@ function statusStyle(status: string): React.CSSProperties {
   switch (status) {
     case "ready":
     case "completed":
-      return { background: "rgba(95,165,122,.15)", color: "#2f6b48" };
+      return { background: "rgba(5,150,105,.15)", color: "#059669" };
     case "processing":
     case "pending":
-      return { background: "rgba(214,162,74,.15)", color: "#8a5e1f" };
+      return { background: "rgba(61,90,128,.15)", color: "#3d5a80" };
     case "error":
     case "failed":
-      return { background: "rgba(176,69,69,.12)", color: "#b04545" };
+      return { background: "rgba(220,38,38,.12)", color: "#dc2626" };
     default:
-      return { background: "rgba(138,132,115,.15)", color: "#56523f" };
+      return { background: "rgba(107,114,128,.15)", color: "#6b7280" };
   }
 }
 

@@ -58,7 +58,7 @@ export function NotificationBell() {
         {unreadCount > 0 && (
           <span
             className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9.5px] font-bold text-cream-50"
-            style={{ background: "#b04545" }}
+            style={{ background: "#dc2626" }}
           >
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
@@ -69,13 +69,13 @@ export function NotificationBell() {
         <div
           className="absolute right-0 top-[110%] z-30 w-[360px] rounded-[10px] border bg-cream-50 shadow-lg"
           style={{
-            borderColor: "rgba(67,55,39,0.14)",
-            boxShadow: "0 12px 30px rgba(58,51,32,.18)",
+            borderColor: "rgba(24,24,27,0.14)",
+            boxShadow: "0 12px 30px rgba(24,24,27,.18)",
           }}
         >
           <div
             className="flex items-center justify-between px-3 py-2"
-            style={{ borderBottom: "0.5px solid rgba(67,55,39,0.10)" }}
+            style={{ borderBottom: "0.5px solid rgba(24,24,27,0.10)" }}
           >
             <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-400">
               Notifications
@@ -107,8 +107,8 @@ export function NotificationBell() {
                 onClick={() => void onClickItem(n)}
                 className="flex w-full items-start gap-2.5 border-b px-3 py-2.5 text-left hover:bg-cream-100"
                 style={{
-                  borderColor: "rgba(67,55,39,0.06)",
-                  background: n.read_at ? "transparent" : "rgba(214,162,74,.08)",
+                  borderColor: "rgba(24,24,27,0.06)",
+                  background: n.read_at ? "transparent" : "rgba(61,90,128,.08)",
                 }}
               >
                 {n.actor ? (
@@ -121,7 +121,7 @@ export function NotificationBell() {
                 ) : (
                   <span
                     className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[10.5px] font-bold text-cream-50"
-                    style={{ background: "#8a8473" }}
+                    style={{ background: "#71717a" }}
                   >
                     ?
                   </span>
@@ -148,7 +148,7 @@ export function NotificationBell() {
                 {!n.read_at && (
                   <span
                     className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                    style={{ background: "#d6a24a" }}
+                    style={{ background: "#3d5a80" }}
                   />
                 )}
               </button>

@@ -8,12 +8,14 @@ export interface KbTypeColor {
   text: string;
 }
 
+// Cool, restrained category palette anchored on the steel-navy accent.
+// No purple, no warm tan/brown — distinct muted hues that are contrast-safe on white.
 export const KB_TYPE_COLORS: Record<string, KbTypeColor> = {
-  software: { dot: "#5b8def", glow: "rgba(91,141,239,.30)", tint: "#e8efff", text: "#2f56b8" },
-  research: { dot: "#5fa57a", glow: "rgba(95,165,122,.30)", tint: "#e8f3ec", text: "#2f6b48" },
-  business: { dot: "#a87bc7", glow: "rgba(168,123,199,.30)", tint: "#f1eaf6", text: "#6b3f8c" },
-  course: { dot: "#d6a24a", glow: "rgba(214,162,74,.30)", tint: "#f8efdb", text: "#8a5e1f" },
-  general: { dot: "#8a8473", glow: "rgba(138,132,115,.30)", tint: "#ede9df", text: "#56523f" },
+  software: { dot: "#3d5a80", glow: "rgba(61,90,128,.16)", tint: "#eef2f7", text: "#2b4257" },
+  research: { dot: "#4f7d6a", glow: "rgba(79,125,106,.16)", tint: "#eef5f1", text: "#3c5f50" },
+  business: { dot: "#3f7a82", glow: "rgba(63,122,130,.16)", tint: "#eef4f5", text: "#305e64" },
+  course: { dot: "#6b86a8", glow: "rgba(107,134,168,.16)", tint: "#eef2f7", text: "#46637f" },
+  general: { dot: "#64748b", glow: "rgba(100,116,139,.16)", tint: "#f1f4f7", text: "#475569" },
 };
 
 export function colorsFor(kbType: string): KbTypeColor {
@@ -33,49 +35,49 @@ export const CHUNK_GROUPS: ChunkGroupDef[] = [
   {
     id: "decisions",
     label: "Decisions",
-    accent: "#5b8def",
+    accent: "#3d5a80",
     icon: "◆",
     matches: ["decision", "decisions"],
   },
   {
     id: "state",
     label: "Current State",
-    accent: "#8a8473",
+    accent: "#64748b",
     icon: "●",
     matches: ["state", "current_state"],
   },
   {
     id: "conventions",
     label: "Conventions",
-    accent: "#a87bc7",
+    accent: "#3f7a82",
     icon: "▲",
     matches: ["convention", "conventions"],
   },
   {
     id: "findings",
     label: "Findings",
-    accent: "#5fa57a",
+    accent: "#4f7d6a",
     icon: "✦",
     matches: ["finding", "findings"],
   },
   {
     id: "questions",
     label: "Open Questions",
-    accent: "#d6a24a",
+    accent: "#6b86a8",
     icon: "?",
     matches: ["question", "questions", "open_question"],
   },
   {
     id: "references",
     label: "References",
-    accent: "#7a8a99",
+    accent: "#566273",
     icon: "↗",
     matches: ["reference", "references", "session_summary"],
   },
   {
     id: "context",
     label: "Context & Details",
-    accent: "#7a8a99",
+    accent: "#566273",
     icon: "↳",
     matches: ["context"],
   },
@@ -108,7 +110,7 @@ export const CHUNK_TYPE_OPTIONS: { value: string; label: string }[] = [
 ];
 
 // Member avatar palette — derived from KB types so it matches.
-const AVATAR_PALETTE = ["#d6a24a", "#5b8def", "#5fa57a", "#a87bc7", "#7a8a99", "#8a8473"];
+const AVATAR_PALETTE = ["#3d5a80", "#4f7d6a", "#3f7a82", "#6b86a8", "#566273", "#64748b"];
 export function avatarColor(seed: string): string {
   let h = 0;
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
@@ -176,12 +178,12 @@ export function formatTimeUntil(iso: string): string {
 // icon works inside compact history entries without pulling in another asset
 // pipeline.
 const TOOL_META: Record<string, { label: string; icon: string; tint: string }> = {
-  claude_desktop: { label: "Claude", icon: "✦", tint: "#cf7d4a" },
-  claude_code: { label: "Claude Code", icon: "⌘", tint: "#cf7d4a" },
-  cursor: { label: "Cursor", icon: "▲", tint: "#3a3320" },
-  windsurf: { label: "Windsurf", icon: "≋", tint: "#5fa57a" },
-  vscode: { label: "VS Code", icon: "⟪⟫", tint: "#5b8def" },
-  chatgpt: { label: "ChatGPT", icon: "○", tint: "#5fa57a" },
+  claude_desktop: { label: "Claude", icon: "✦", tint: "#3d5a80" },
+  claude_code: { label: "Claude Code", icon: "⌘", tint: "#3d5a80" },
+  cursor: { label: "Cursor", icon: "▲", tint: "#18181b" },
+  windsurf: { label: "Windsurf", icon: "≋", tint: "#4f7d6a" },
+  vscode: { label: "VS Code", icon: "⟪⟫", tint: "#3f7a82" },
+  chatgpt: { label: "ChatGPT", icon: "○", tint: "#4f7d6a" },
 };
 
 export interface ToolMeta {
@@ -191,13 +193,13 @@ export interface ToolMeta {
 }
 
 export function toolMeta(toolUsed: string | null | undefined): ToolMeta {
-  if (!toolUsed) return { label: "AI tool", icon: "·", tint: "#8a8473" };
+  if (!toolUsed) return { label: "AI tool", icon: "·", tint: "#52525b" };
   const key = toolUsed.toLowerCase().replace(/[^a-z]/g, "_");
   return (
     TOOL_META[key] ?? {
       label: toolUsed,
       icon: "·",
-      tint: "#8a8473",
+      tint: "#52525b",
     }
   );
 }

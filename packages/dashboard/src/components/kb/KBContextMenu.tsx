@@ -77,9 +77,9 @@ interface KBContextMenuProps {
   currentWorkspaceId: string;
 }
 
-const HOVER_TINT = "rgba(67,55,39,0.06)";
-const HOVER_BORDER = "rgba(67,55,39,0.12)";
-const DANGER = "#b04545";
+const HOVER_TINT = "rgba(24,24,27,0.06)";
+const HOVER_BORDER = "rgba(24,24,27,0.12)";
+const DANGER = "#dc2626";
 const VIEWPORT_PAD = 8;
 
 export function KBContextMenu({
@@ -218,9 +218,9 @@ export function KBContextMenu({
         left: adjusted.left,
         top: adjusted.top,
         width: widthByMode[mode],
-        border: "0.5px solid rgba(67,55,39,0.18)",
+        border: "0.5px solid rgba(24,24,27,0.18)",
         boxShadow:
-          "0 10px 24px rgba(58,51,32,.18), 0 2px 4px rgba(58,51,32,.08)",
+          "0 10px 24px rgba(24,24,27,.18), 0 2px 4px rgba(24,24,27,.08)",
       }}
       onContextMenu={(e) => e.preventDefault()}
     >
@@ -352,8 +352,8 @@ export function KBContextMenu({
               style={{
                 borderColor:
                   confirmText.trim() === state.kbName?.trim()
-                    ? "rgba(176,69,69,0.5)"
-                    : "rgba(67,55,39,0.18)",
+                    ? "rgba(220,38,38,0.5)"
+                    : "rgba(24,24,27,0.18)",
               }}
             />
           </label>
@@ -401,7 +401,7 @@ function Header({
   return (
     <div
       className="flex items-center gap-1.5 px-3 pt-2.5 pb-2"
-      style={{ borderBottom: "0.5px solid rgba(67,55,39,0.10)" }}
+      style={{ borderBottom: "0.5px solid rgba(24,24,27,0.10)" }}
     >
       {subtitle && (
         <button
@@ -417,7 +417,7 @@ function Header({
         {subtitle && (
           <div
             className="text-[9.5px] font-semibold uppercase tracking-[0.08em]"
-            style={{ color: mode === "delete" ? DANGER : "#8a7c5e" }}
+            style={{ color: mode === "delete" ? DANGER : "#6b7280" }}
           >
             {subtitle}
           </div>
@@ -452,13 +452,13 @@ function MenuItem({
       onClick={onClick}
       className="flex items-center gap-2 px-3 py-1.5 text-left text-[13px] font-medium"
       style={{
-        color: danger ? DANGER : "#3a3320",
+        color: danger ? DANGER : "#18181b",
         background: "transparent",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = danger
-          ? "rgba(176,69,69,0.08)"
-          : "rgba(67,55,39,0.06)";
+          ? "rgba(220,38,38,0.08)"
+          : "rgba(24,24,27,0.06)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = "transparent";
@@ -466,7 +466,7 @@ function MenuItem({
     >
       <span
         className="flex h-4 w-4 items-center justify-center"
-        style={{ color: danger ? DANGER : "#6b6049" }}
+        style={{ color: danger ? DANGER : "#6b7280" }}
       >
         {icon}
       </span>

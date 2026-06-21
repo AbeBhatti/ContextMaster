@@ -85,11 +85,11 @@ export function APIKeyManager() {
         <div
           className="rounded-[9px] border p-3"
           style={{
-            background: "rgba(95,165,122,.08)",
-            borderColor: "rgba(95,165,122,.4)",
+            background: "rgba(5,150,105,.08)",
+            borderColor: "rgba(5,150,105,.4)",
           }}
         >
-          <div className="text-[12.5px] font-semibold text-[#2f6b48]">
+          <div className="text-[12.5px] font-semibold text-success">
             Key generated — copy it now. You won't see it again.
           </div>
           <div className="mt-2 flex items-center gap-2">
@@ -99,7 +99,7 @@ export function APIKeyManager() {
             <button
               onClick={() => copy(revealedKey.key)}
               className="flex h-8 items-center gap-1.5 rounded-md border bg-white px-2.5 text-[12px] font-medium text-ink-800"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             >
               <Copy size={12} /> {copied ? "Copied" : "Copy"}
             </button>
@@ -117,7 +117,7 @@ export function APIKeyManager() {
         <form
           onSubmit={create}
           className="flex flex-col gap-2 rounded-[9px] border bg-white p-3"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <input
             autoFocus
@@ -125,10 +125,10 @@ export function APIKeyManager() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-800 outline-none placeholder:text-ink-500"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           />
           {createError && (
-            <div className="text-[12px] text-[#b04545]">{createError}</div>
+            <div className="text-[12px] text-danger">{createError}</div>
           )}
           <div className="flex justify-end gap-2">
             <button
@@ -139,7 +139,7 @@ export function APIKeyManager() {
                 setCreateError(null);
               }}
               className="rounded-md border px-2.5 py-1 text-[12px] text-ink-700"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             >
               Cancel
             </button>
@@ -161,7 +161,7 @@ export function APIKeyManager() {
       {error && !loading && <ErrorState message={error} onRetry={refetch} />}
 
       {revokeError && (
-        <div className="text-[12px] text-[#b04545]">{revokeError}</div>
+        <div className="text-[12px] text-danger">{revokeError}</div>
       )}
 
       {!loading && !error && activeKeys.length === 0 && (
@@ -176,7 +176,7 @@ export function APIKeyManager() {
             <div
               key={k.id}
               className="flex items-center gap-3 rounded-[9px] border bg-white p-3"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <div className="min-w-0 flex-1">
                 <div className="truncate text-[13px] font-medium text-ink-900">

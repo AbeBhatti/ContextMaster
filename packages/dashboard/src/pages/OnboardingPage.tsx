@@ -18,7 +18,7 @@ import { track } from "../lib/analytics";
 
 import logoUrl from "@onboarding-assets/cntxtLogo.svg?url";
 
-const STARTER_PROMPT = `Check my Getting Started knowledge base from context cloud — walk me through how context cloud works, what tools I can call, and how to save and retrieve context in my workspaces.`;
+const STARTER_PROMPT = `Check my Getting Started knowledge base from ContextMaster — walk me through how ContextMaster works, what tools I can call, and how to save and retrieve context in my workspaces.`;
 
 function ProgressDots({ step }: { step: 1 | 2 | 3 }) {
   return (
@@ -31,7 +31,7 @@ function ProgressDots({ step }: { step: 1 | 2 | 3 }) {
             className="h-1.5 rounded-full transition-all"
             style={{
               width: active ? 18 : 6,
-              background: active ? "#3d3b35" : "rgba(61,59,53,0.22)",
+              background: active ? "#3d5a80" : "rgba(61,90,128,0.22)",
             }}
           />
         );
@@ -218,13 +218,13 @@ export function OnboardingPage() {
   };
 
   const backDisabled = step === 1;
-  const actionColor = "#8b5e3c";
-  const kbColor = "#b08968";
+  const actionColor = "#3d5a80";
+  const kbColor = "#3d5a80";
 
   return (
     <div
       className="flex h-screen w-screen flex-col"
-      style={{ background: "#faf9f7" }}
+      style={{ background: "#fafbfc" }}
     >
       <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
         <div className="flex items-center gap-2.5">
@@ -233,7 +233,7 @@ export function OnboardingPage() {
             alt=""
             className="h-7 w-7 object-contain"
           />
-          <span className="text-[13px] font-semibold text-gray-900">Context Cloud</span>
+          <span className="text-[13px] font-semibold text-gray-900">ContextMaster</span>
         </div>
         <ProgressDots step={step} />
         <button
@@ -260,7 +260,7 @@ export function OnboardingPage() {
                 <button
                   type="button"
                   onClick={goNextFromWelcome}
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#3d3b35] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2b25]"
+                  className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                 >
                   Let&apos;s get you set up <ArrowRight className="h-4 w-4" />
                 </button>
@@ -287,14 +287,14 @@ export function OnboardingPage() {
                 Get Started Now
               </h1>
               <p className="mt-2 text-[15px] leading-relaxed text-gray-600">
-                You&apos;re all set — here&apos;s how to make the most of Context
-                Cloud.
+                You&apos;re all set — here&apos;s how to make the most of
+                ContextMaster.
               </p>
             </div>
 
             <div
               className="rounded-xl p-6 text-white"
-              style={{ background: "#3d3b35" }}
+              style={{ background: "#3d5a80" }}
             >
               <div className="flex items-start gap-3">
                 <MessageSquare className="mt-0.5 h-5 w-5 shrink-0 opacity-90" />
@@ -308,14 +308,14 @@ export function OnboardingPage() {
                   <div className="my-4 h-px bg-white/20" />
                   <p className="text-xs leading-relaxed text-white/60">
                     This prompt activates your Getting Started knowledge base inside
-                    Context Cloud. It will walk you through every feature, show you
+                    ContextMaster. It will walk you through every feature, show you
                     which tools to call, and teach you how to save and retrieve
                     context across your workspaces — all from inside your AI.
                   </p>
                   <button
                     type="button"
                     onClick={runStarterPrompt}
-                    className="mt-4 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-[#3d3b35] transition-colors hover:bg-gray-100"
+                    className="mt-4 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-accent transition-colors hover:bg-gray-100"
                   >
                     Run this prompt
                   </button>
@@ -331,14 +331,14 @@ export function OnboardingPage() {
             <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
               <div className="flex items-center gap-2 text-sm font-semibold text-gray-900">
                 <Terminal className="h-4 w-4 text-gray-700" />
-                Prompting with Context Cloud
+                Prompting with ContextMaster
               </div>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-center text-lg font-medium">
                 <span
                   className="rounded px-2 py-1"
                   style={{
-                    background: "rgba(139, 94, 60, 0.1)",
-                    color: "#8b5e3c",
+                    background: "rgba(61, 90, 128, 0.1)",
+                    color: "#3d5a80",
                   }}
                 >
                   [action]
@@ -347,43 +347,43 @@ export function OnboardingPage() {
                 <span
                   className="rounded px-2 py-1"
                   style={{
-                    background: "rgba(176, 137, 104, 0.1)",
-                    color: "#b08968",
+                    background: "rgba(61, 90, 128, 0.1)",
+                    color: "#3d5a80",
                   }}
                 >
                   [KB/workspace]
                 </span>
                 <span className="text-gray-400">+</span>
                 <span className="rounded bg-gray-100 px-2 py-1 text-gray-600">
-                  Context Cloud
+                  ContextMaster
                 </span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <ExamplePhraseCard
-                phrase='"pull sustainable packaging from Context Cloud"'
+                phrase='"pull sustainable packaging from ContextMaster"'
                 leftLabel="action"
                 rightLabel="KB/workspace"
                 leftColor={actionColor}
                 rightColor={kbColor}
               />
               <ExamplePhraseCard
-                phrase='"save this to Science Fair Project using Context Cloud"'
+                phrase='"save this to Science Fair Project using ContextMaster"'
                 leftLabel="action"
                 rightLabel="KB/workspace"
                 leftColor={actionColor}
                 rightColor={kbColor}
               />
               <ExamplePhraseCard
-                phrase='"summarise Marketing Q3 in Context Cloud"'
+                phrase='"summarise Marketing Q3 in ContextMaster"'
                 leftLabel="action"
                 rightLabel="KB/workspace"
                 leftColor={actionColor}
                 rightColor={kbColor}
               />
               <ExamplePhraseCard
-                phrase='"check my Dev Notes on Context Cloud"'
+                phrase='"check my Dev Notes on ContextMaster"'
                 leftLabel="action"
                 rightLabel="KB/workspace"
                 leftColor={actionColor}
@@ -393,11 +393,11 @@ export function OnboardingPage() {
 
             <div
               className="rounded-lg border px-4 py-3 text-sm leading-relaxed text-gray-700"
-              style={{ background: "#f5f3ef", borderColor: "#e8e4dc" }}
+              style={{ background: "#f7f9fb", borderColor: "#e2e5e9" }}
             >
               Working in a specific project? Always name your workspace when you
               talk to your AI — e.g. &quot;in my Marketing Q3 workspace&quot; or
-              &quot;from my Dev Notes project&quot;. Context Cloud will scope every
+              &quot;from my Dev Notes project&quot;. ContextMaster will scope every
               save and search to exactly that workspace, so nothing bleeds between
               projects.
             </div>
@@ -407,7 +407,7 @@ export function OnboardingPage() {
                 type="button"
                 onClick={finish}
                 disabled={creatingWorkspace}
-                className="inline-flex items-center gap-2 rounded-lg bg-[#3d3b35] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2b25] disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
               >
                 {creatingWorkspace ? (
                   <>

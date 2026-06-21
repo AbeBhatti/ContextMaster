@@ -132,7 +132,7 @@ function SharedKbsSection({
   return (
     <section
       className="rounded-[9px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="mb-3 flex items-center justify-between">
         <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
@@ -142,7 +142,7 @@ function SharedKbsSection({
           <button
             onClick={() => setCreating(true)}
             className="flex items-center gap-1 rounded-md border px-2 py-1 text-[11.5px] font-medium text-ink-700"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           >
             <Plus size={11} /> New shared KB
           </button>
@@ -153,7 +153,7 @@ function SharedKbsSection({
         <form
           onSubmit={submit}
           className="mb-3 flex flex-col gap-2 rounded-md border bg-cream-50 p-3"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <input
             autoFocus
@@ -162,7 +162,7 @@ function SharedKbsSection({
             placeholder="KB name"
             required
             className="rounded-md border bg-white px-2.5 py-1.5 text-[13px] outline-none"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           />
           <textarea
             value={description}
@@ -170,14 +170,14 @@ function SharedKbsSection({
             placeholder={templateFor(kbType).description}
             rows={2}
             className="resize-vertical rounded-md border bg-white px-2.5 py-1.5 text-[13px] outline-none"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           />
           <div className="flex items-center gap-2">
             <select
               value={kbType}
               onChange={(e) => setKbType(e.target.value)}
               className="rounded-md border bg-white px-2 py-1.5 text-[13px] outline-none"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             >
               {KB_TYPE_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
@@ -193,7 +193,7 @@ function SharedKbsSection({
                 setError(null);
               }}
               className="rounded-md border px-3 py-1.5 text-[12.5px] font-medium text-ink-700"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             >
               Cancel
             </button>
@@ -207,7 +207,7 @@ function SharedKbsSection({
             </button>
           </div>
           {error && (
-            <div className="text-[12px] text-[#b04545]">{error}</div>
+            <div className="text-[12px] text-danger">{error}</div>
           )}
         </form>
       )}
@@ -227,7 +227,7 @@ function SharedKbsSection({
               key={kb.id}
               className="flex items-center gap-3 rounded-md border bg-cream-50 p-2.5"
               style={{
-                borderColor: "rgba(67,55,39,0.10)",
+                borderColor: "rgba(24,24,27,0.10)",
                 borderStyle: "dashed",
               }}
             >
@@ -326,7 +326,7 @@ function MembersSection({
   return (
     <section
       className="rounded-[9px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="mb-3 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
         Members ({org.members.length})
@@ -344,13 +344,13 @@ function MembersSection({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-800 outline-none"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           />
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as OrgRole)}
             className="rounded-md border bg-cream-50 px-2 py-1.5 text-[13px] text-ink-800 outline-none"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           >
             <option value="member">Member</option>
             <option value="admin">Admin</option>
@@ -366,7 +366,7 @@ function MembersSection({
         </form>
       )}
       {error && (
-        <div className="mb-2 text-[12px] text-[#b04545]">{error}</div>
+        <div className="mb-2 text-[12px] text-danger">{error}</div>
       )}
 
       <div className="flex flex-col gap-1.5">
@@ -374,7 +374,7 @@ function MembersSection({
           <div
             key={m.user_id}
             className="flex items-center gap-3 rounded-md border bg-cream-50 p-2.5"
-            style={{ borderColor: "rgba(67,55,39,0.10)" }}
+            style={{ borderColor: "rgba(24,24,27,0.10)" }}
           >
             <span
               className="flex h-7 w-7 items-center justify-center rounded-full text-[10.5px] font-bold text-cream-50"
@@ -399,7 +399,7 @@ function MembersSection({
                   changeRole(m.user_id, e.target.value as OrgRole)
                 }
                 className="rounded-md border bg-white px-2 py-0.5 text-[11.5px] capitalize"
-                style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                style={{ borderColor: "rgba(24,24,27,0.18)" }}
               >
                 <option value="member">member</option>
                 <option value="admin">admin</option>
@@ -430,7 +430,7 @@ function WorkspacesSection({ org }: { org: OrganizationDetail }) {
   return (
     <section
       className="rounded-[9px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="mb-3 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
         Linked workspaces
@@ -441,11 +441,11 @@ function WorkspacesSection({ org }: { org: OrganizationDetail }) {
             key={ws.id}
             to={`/workspace/${ws.id}`}
             className="flex items-center gap-3 rounded-md border bg-cream-50 p-2.5 hover:bg-cream-100"
-            style={{ borderColor: "rgba(67,55,39,0.10)" }}
+            style={{ borderColor: "rgba(24,24,27,0.10)" }}
           >
             <span
               className="flex h-7 w-7 items-center justify-center rounded-md text-[11px] font-bold text-cream-50"
-              style={{ background: "#cfc3a5" }}
+              style={{ background: "#d1d5db" }}
             >
               {ws.name[0]?.toUpperCase() ?? "?"}
             </span>

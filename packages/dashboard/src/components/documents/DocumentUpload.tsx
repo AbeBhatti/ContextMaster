@@ -72,7 +72,7 @@ export function DocumentUpload({
             value={selectedKb}
             onChange={(e) => setSelectedKb(e.target.value)}
             className="flex-1 rounded-md border bg-cream-50 px-2 py-1 text-[12.5px] text-ink-800 outline-none"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           >
             {knowledgeBases.map((kb) => (
               <option key={kb.id} value={kb.id}>
@@ -99,8 +99,8 @@ export function DocumentUpload({
         }`}
         style={{
           borderColor: dragOver
-            ? "rgba(67,55,39,0.4)"
-            : "rgba(67,55,39,0.20)",
+            ? "rgba(24,24,27,0.4)"
+            : "rgba(24,24,27,0.20)",
         }}
       >
         <input
@@ -131,7 +131,7 @@ export function DocumentUpload({
         )}
       </div>
       {error && (
-        <div className="text-[12px] text-[#b04545]">{error}</div>
+        <div className="text-[12px] text-danger">{error}</div>
       )}
     </div>
   );

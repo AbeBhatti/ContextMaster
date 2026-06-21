@@ -53,7 +53,7 @@ const SECTIONS: Section[] = [
     title: "Connecting your AI tool",
     items: [
       { id: "connect-tools", title: "Setup by tool" },
-      { id: "connect-troubleshoot-1", title: "My AI isn't using Context Cloud" },
+      { id: "connect-troubleshoot-1", title: "My AI isn't using ContextMaster" },
       { id: "connect-troubleshoot-2", title: "I don't see my knowledge bases" },
     ],
   },
@@ -146,7 +146,7 @@ export function HelpPage() {
 
           <div
             className="flex items-center gap-2 rounded-md border bg-white px-2.5 py-2"
-            style={{ borderColor: "rgba(67,55,39,0.14)" }}
+            style={{ borderColor: "rgba(24,24,27,0.14)" }}
           >
             <Search size={13} className="text-ink-400" />
             <input
@@ -159,7 +159,7 @@ export function HelpPage() {
 
           {filteredSections.length === 0 && (
             <div className="rounded-md border bg-white p-6 text-center text-[13px] text-ink-500"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               No matches for "{search}".
             </div>
@@ -174,7 +174,7 @@ export function HelpPage() {
             >
               <Subsection id="getting-started-quick" title="Quick start">
                 <p>
-                  Context Cloud is your AI's memory. After connecting, you can save
+                  ContextMaster is your AI's memory. After connecting, you can save
                   knowledge from any conversation and recall it later — across
                   sessions, devices, and teammates.
                 </p>
@@ -274,7 +274,7 @@ export function HelpPage() {
                   You're in control of what gets saved. When you say{" "}
                   <span className="font-semibold">"save this"</span>,{" "}
                   <span className="font-semibold">"save my progress"</span>, or{" "}
-                  <span className="font-semibold">"save this to Context Cloud"</span>,
+                  <span className="font-semibold">"save this to ContextMaster"</span>,
                   your AI calls the{" "}
                   <code className="rounded bg-cream-200 px-1 text-[11.5px]">
                     commit
@@ -342,7 +342,7 @@ export function HelpPage() {
               <Subsection id="documents" title="Document Upload">
                 <p>
                   Drop a PDF, .docx, .txt, .md, or .csv into the Documents tab
-                  and Context Cloud processes it into searchable chunks your AI can
+                  and ContextMaster processes it into searchable chunks your AI can
                   reference. Useful for project briefs, design docs, research
                   papers, or any reference material.
                 </p>
@@ -399,11 +399,11 @@ export function HelpPage() {
               </Subsection>
               <Subsection
                 id="connect-troubleshoot-1"
-                title="My AI isn't using Context Cloud"
+                title="My AI isn't using ContextMaster"
               >
                 <p>
                   If your AI is searching its own chat history instead of your
-                  Context Cloud knowledge bases, try:
+                  ContextMaster knowledge bases, try:
                 </p>
                 <ul className="mt-2 ml-4 list-disc space-y-1 text-ink-700">
                   <li>
@@ -416,16 +416,16 @@ export function HelpPage() {
                   <li>
                     Be specific: say{" "}
                     <span className="font-semibold">
-                      "check my Context Cloud knowledge base"
+                      "check my ContextMaster knowledge base"
                     </span>{" "}
                     or{" "}
-                    <span className="font-semibold">"what does Context Cloud say about…"</span>
+                    <span className="font-semibold">"what does ContextMaster say about…"</span>
                   </li>
                   <li>
-                    Context Cloud stores structured, curated knowledge (decisions,
+                    ContextMaster stores structured, curated knowledge (decisions,
                     findings, conventions). Chat history stores raw conversation
                     text. If you want the curated version, point your AI to
-                    Context Cloud.
+                    ContextMaster.
                   </li>
                 </ul>
                 <p className="mt-3 font-semibold text-ink-800">
@@ -434,7 +434,7 @@ export function HelpPage() {
                 <ul className="mt-1 ml-4 list-disc space-y-1 text-ink-700">
                   <li>Check that the connector shows as "connected" in your AI tool's settings.</li>
                   <li>
-                    Verify Context Cloud tools (commit, recall, get_context, get_history,
+                    Verify ContextMaster tools (commit, recall, get_context, get_history,
                     list_knowledge_bases) appear in the tool's tool list.
                   </li>
                   <li>
@@ -453,7 +453,7 @@ export function HelpPage() {
               >
                 <ul className="ml-4 list-disc space-y-1 text-ink-700">
                   <li>
-                    Confirm you're signed into the same Context Cloud account in your AI
+                    Confirm you're signed into the same ContextMaster account in your AI
                     tool that you're using here.
                   </li>
                   <li>
@@ -494,11 +494,11 @@ export function HelpPage() {
                 }
               />
               <FAQ
-                question="What AI tools does Context Cloud work with?"
+                question="What AI tools does ContextMaster work with?"
                 answer="Claude (web + desktop), ChatGPT (web + app), OpenAI Codex, Cursor, VS Code (Copilot), and Windsurf. Any MCP-compatible client should work."
               />
               <FAQ
-                question="Can I use Context Cloud for free?"
+                question="Can I use ContextMaster for free?"
                 answer="Yes — everything is free during early access. You currently have full access to all features."
               />
               <FAQ
@@ -534,7 +534,7 @@ function CollapsibleSection({
     <section
       id={id}
       className="rounded-[10px] border bg-white"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <button
         onClick={onToggle}
@@ -550,7 +550,7 @@ function CollapsibleSection({
       {open && (
         <div
           className="flex flex-col gap-4 border-t px-4 py-4"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           {children}
         </div>
@@ -587,7 +587,7 @@ function FAQ({
   return (
     <div
       className="rounded-md border bg-cream-50/40"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <button
         onClick={() => setOpen((o) => !o)}
@@ -603,7 +603,7 @@ function FAQ({
       {open && (
         <div
           className="border-t px-3 py-2.5 text-[12.5px] leading-relaxed text-ink-700"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           {answer}
         </div>

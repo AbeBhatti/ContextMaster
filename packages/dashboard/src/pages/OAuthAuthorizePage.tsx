@@ -82,7 +82,7 @@ export function OAuthAuthorizePage() {
     <div className="flex h-screen w-screen items-center justify-center bg-cream-50 p-6">
       <div
         className="w-full max-w-md rounded-xl border bg-white p-6"
-        style={{ borderColor: "rgba(67,55,39,0.12)" }}
+        style={{ borderColor: "rgba(24,24,27,0.12)" }}
       >
         <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-400">
           Authorize connector

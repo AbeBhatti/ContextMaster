@@ -40,7 +40,7 @@ export function SettingsPage() {
           <button
             onClick={() => navigate("/help")}
             className="ml-auto flex items-center gap-1.5 rounded-md border bg-white px-2.5 py-1.5 text-[12px] font-medium text-ink-700 hover:bg-cream-100"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           >
             <HelpCircle size={12} /> Help
           </button>
@@ -56,7 +56,7 @@ export function SettingsPage() {
 
         <section
           className="rounded-[10px] border bg-white p-4"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <MCPConfig />
         </section>
@@ -64,7 +64,7 @@ export function SettingsPage() {
         <section
           id="api-keys"
           className="rounded-[10px] border bg-white"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <button
             onClick={() => setAdvancedOpen((o) => !o)}
@@ -87,7 +87,7 @@ export function SettingsPage() {
           {advancedOpen && (
             <div
               className="border-t px-4 py-4"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <APIKeyManager />
             </div>
@@ -111,7 +111,7 @@ function PlanSection() {
   return (
     <section
       className="overflow-hidden rounded-[10px] border bg-white"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="flex items-center justify-between gap-4 px-4 py-4">
         <div className="min-w-0 flex-1">
@@ -123,8 +123,8 @@ function PlanSection() {
         <span
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold"
           style={{
-            background: "rgba(214,162,74,0.18)",
-            color: "#8a5e1f",
+            background: "rgba(61,90,128,0.18)",
+            color: "#3d5a80",
           }}
         >
           <Sparkles size={11} />
@@ -169,7 +169,7 @@ function ClerkAccountSection({ user }: { user: User | null }) {
   return (
     <section
       className="flex flex-col gap-4 rounded-[10px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="flex items-center gap-3">
         {avatarUrl ? (
@@ -197,7 +197,7 @@ function ClerkAccountSection({ user }: { user: User | null }) {
         <button
           onClick={onSwitchAccounts}
           className="flex items-center gap-1.5 rounded-md border bg-white px-3 py-1.5 text-[12.5px] font-medium text-ink-800"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <UserCog size={12} /> Manage / switch account
           <ExternalLink size={11} className="ml-0.5 text-ink-500" />
@@ -205,8 +205,8 @@ function ClerkAccountSection({ user }: { user: User | null }) {
         <button
           onClick={onSignOut}
           disabled={signingOut}
-          className="flex items-center gap-1.5 rounded-md border bg-white px-3 py-1.5 text-[12.5px] font-medium text-[#b04545] disabled:opacity-60"
-          style={{ borderColor: "rgba(176,69,69,0.4)" }}
+          className="flex items-center gap-1.5 rounded-md border bg-white px-3 py-1.5 text-[12.5px] font-medium text-danger disabled:opacity-60"
+          style={{ borderColor: "rgba(220,38,38,0.4)" }}
         >
           <LogOut size={12} /> {signingOut ? "Signing out…" : "Sign out"}
         </button>
@@ -223,7 +223,7 @@ function BypassAccountSection({ user }: { user: User | null }) {
   return (
     <section
       className="flex flex-col gap-4 rounded-[10px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="flex items-center gap-3">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gold-400 text-[16px] font-bold text-cream-50">

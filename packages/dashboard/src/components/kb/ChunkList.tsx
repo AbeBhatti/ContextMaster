@@ -62,7 +62,7 @@ export function ChunkList({ workspaceId, kbId, isViewer = false }: ChunkListProp
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full rounded-lg border bg-cream-300 py-2.5 pl-9 pr-3 text-[13px] text-ink-900 outline-none placeholder:text-ink-500 focus:bg-cream-100"
-          style={{ borderColor: "rgba(67,55,39,0.12)" }}
+          style={{ borderColor: "rgba(24,24,27,0.12)" }}
         />
         <Search
           size={14}
@@ -82,7 +82,7 @@ export function ChunkList({ workspaceId, kbId, isViewer = false }: ChunkListProp
               <div
                 key={g.id}
                 className="border-b"
-                style={{ borderColor: "rgba(67,55,39,0.08)" }}
+                style={{ borderColor: "rgba(24,24,27,0.08)" }}
               >
                 <button
                   onClick={() => setOpen({ ...open, [g.id]: !isOpen })}

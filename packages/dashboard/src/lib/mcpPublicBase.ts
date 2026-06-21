@@ -1,13 +1,12 @@
-/** Public HTTPS base for MCP URLs shown in onboarding and help (not localhost API). */
+/**
+ * Base used to build the MCP URLs shown in onboarding and help.
+ * Env-driven off VITE_API_URL so this local build advertises the real local
+ * MCP endpoint (http://localhost:3001/mcp/protocol) instead of a production
+ * host. Falls back to localhost:3001 when VITE_API_URL is unset.
+ */
 export function getPublicMcpApiBase(): string {
   const raw =
     (import.meta.env.VITE_API_URL as string | undefined)?.replace(/\/$/, "") ??
     "";
-  if (
-    /^https:\/\//i.test(raw) &&
-    !/localhost|127\.0\.0\.1/i.test(raw)
-  ) {
-    return raw;
-  }
-  return "https://api.contextcloud.pro";
+  return raw || "http://localhost:3001";
 }

@@ -57,7 +57,7 @@ export function ChunkEditor({ chunk, onSaved, onCancel }: ChunkEditorProps) {
   return (
     <div
       className="flex flex-col gap-2 rounded-[9px] border bg-white p-3"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <textarea
         autoFocus
@@ -65,14 +65,14 @@ export function ChunkEditor({ chunk, onSaved, onCancel }: ChunkEditorProps) {
         onChange={(e) => setContent(e.target.value)}
         rows={4}
         className="resize-vertical rounded-md border bg-cream-50 p-2 text-[13px] leading-relaxed text-ink-900 outline-none"
-        style={{ borderColor: "rgba(67,55,39,0.12)" }}
+        style={{ borderColor: "rgba(24,24,27,0.12)" }}
       />
       <div className="flex flex-wrap items-center gap-2">
         <select
           value={chunkType}
           onChange={(e) => setChunkType(e.target.value)}
           className="rounded-md border bg-cream-50 px-2 py-1 text-[12px] text-ink-800 outline-none"
-          style={{ borderColor: "rgba(67,55,39,0.12)" }}
+          style={{ borderColor: "rgba(24,24,27,0.12)" }}
         >
           {CHUNK_TYPE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -88,15 +88,15 @@ export function ChunkEditor({ chunk, onSaved, onCancel }: ChunkEditorProps) {
           onChange={(e) => setTagsText(e.target.value)}
           placeholder="tag1, tag2"
           className="flex-1 rounded-md border bg-cream-50 px-2 py-1 text-[12px] text-ink-800 outline-none placeholder:text-ink-500"
-          style={{ borderColor: "rgba(67,55,39,0.12)" }}
+          style={{ borderColor: "rgba(24,24,27,0.12)" }}
         />
       </div>
-      {error && <div className="text-[11.5px] text-[#b04545]">{error}</div>}
+      {error && <div className="text-[11.5px] text-danger">{error}</div>}
       <div className="flex justify-end gap-2">
         <button
           onClick={onCancel}
           className="rounded-md border px-2.5 py-1 text-[12px] text-ink-700"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           Cancel
         </button>

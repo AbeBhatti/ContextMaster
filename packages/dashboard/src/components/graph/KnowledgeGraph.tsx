@@ -6,11 +6,8 @@ import { deriveEdges, recencyOf } from "./edges";
 import { useForceLayout } from "./useForceLayout";
 import { ProcessingRing } from "./ProcessingRing";
 
-export type GraphAesthetic = "organic" | "constellation" | "architectural";
-
 interface KnowledgeGraphProps {
   knowledgeBases: KnowledgeBase[];
-  aesthetic: GraphAesthetic;
   selectedId: string | null;
   onSelect: (id: string) => void;
   onCreateKb?: () => void;
@@ -32,7 +29,6 @@ interface NodeData extends KnowledgeBase {
 
 export function KnowledgeGraph({
   knowledgeBases,
-  aesthetic,
   selectedId,
   onSelect,
   onCreateKb,
@@ -70,10 +66,9 @@ export function KnowledgeGraph({
 
   const edges = useMemo(() => deriveEdges(knowledgeBases), [knowledgeBases]);
 
-  const repel =
-    aesthetic === "constellation" ? 18000 : aesthetic === "architectural" ? 14000 : 16000;
-  const spring = aesthetic === "architectural" ? 0.06 : 0.04;
-  const restPad = aesthetic === "architectural" ? 110 : 130;
+  const repel = 16000;
+  const spring = 0.04;
+  const restPad = 130;
 
   const { positions, setDragging } = useForceLayout(
     nodes.map((n) => ({ id: n.id, size: n.size })),
@@ -183,28 +178,14 @@ export function KnowledgeGraph({
     dragRef.current = null;
   };
 
-  const isDark = aesthetic === "constellation";
-  const edgeColor = isDark ? "rgba(255,255,255,.18)" : "rgba(67,55,39,.18)";
-  const edgeHover = isDark ? "rgba(180,200,255,.7)" : "rgba(143,107,52,.7)";
+  // Light theme on the same white canvas as the rest of the app.
+  const isDark = false;
+  const edgeColor = "rgba(24,24,27,.16)";
+  const edgeHover = "rgba(61,90,128,.55)";
 
-  const bgStyle: React.CSSProperties =
-    aesthetic === "constellation"
-      ? {
-          background:
-            "radial-gradient(ellipse at 50% 40%, #1a1d2e 0%, #0c0e1a 70%, #07080f 100%)",
-          color: "#e6e7ee",
-        }
-      : aesthetic === "architectural"
-      ? {
-          background: "#fbf8f1",
-          backgroundImage:
-            "linear-gradient(rgba(120,108,86,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(120,108,86,.10) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }
-      : {
-          background:
-            "radial-gradient(ellipse at 50% 30%, #fffaf0 0%, #f5efe2 100%)",
-        };
+  const bgStyle: React.CSSProperties = {
+    background: "radial-gradient(ellipse at 50% 30%, #ffffff 0%, #fafafa 100%)",
+  };
 
   return (
     <div
@@ -221,19 +202,6 @@ export function KnowledgeGraph({
         setDragging(null);
       }}
     >
-      {aesthetic === "constellation" && (
-        <div
-          data-bg="true"
-          className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 13% 22%, rgba(255,255,255,.5) 1px, transparent 1.4px), radial-gradient(circle at 77% 64%, rgba(255,255,255,.4) 1px, transparent 1.4px), radial-gradient(circle at 38% 86%, rgba(255,255,255,.35) 1px, transparent 1.4px), radial-gradient(circle at 88% 14%, rgba(255,255,255,.45) 1px, transparent 1.4px), radial-gradient(circle at 22% 56%, rgba(255,255,255,.25) 1px, transparent 1.2px)",
-            backgroundSize:
-              "420px 420px, 380px 380px, 500px 500px, 360px 360px, 280px 280px",
-          }}
-        />
-      )}
-
       <svg
         width={size.w}
         height={size.h}
@@ -297,7 +265,7 @@ export function KnowledgeGraph({
                   onMouseEnter={() => setHoveredEdge(i)}
                   onMouseLeave={() => setHoveredEdge(null)}
                 />
-                {isHovered && aesthetic !== "constellation" && (
+                {isHovered && (
                   <g transform={`translate(${cx} ${cy})`}>
                     <rect
                       x={-tagW / 2}
@@ -313,7 +281,7 @@ export function KnowledgeGraph({
                       dy={4}
                       fontSize={10}
                       fontWeight={500}
-                      fill="#5a4d36"
+                      fill="#52525b"
                     >
                       {e.tags[0]}
                     </text>
@@ -361,24 +329,15 @@ export function KnowledgeGraph({
                     idSeed={n.id}
                   />
                 )}
-                {aesthetic === "architectural" ? (
-                  <ArchNode
-                    n={n}
-                    r={r}
-                    tc={tc}
-                    isSelected={isSelected}
-                  />
-                ) : (
-                  <OrganicNode
-                    n={n}
-                    r={r}
-                    tc={tc}
-                    isDark={isDark}
-                    isHovered={isHovered}
-                    isSelected={isSelected}
-                    recencyAlpha={recencyAlpha}
-                  />
-                )}
+                <OrganicNode
+                  n={n}
+                  r={r}
+                  tc={tc}
+                  isDark={isDark}
+                  isHovered={isHovered}
+                  isSelected={isSelected}
+                  recencyAlpha={recencyAlpha}
+                />
 
                 {isHovered && (
                   <g
@@ -391,12 +350,12 @@ export function KnowledgeGraph({
                       width={260}
                       height={32}
                       rx={8}
-                      fill={isDark ? "rgba(18,20,32,.95)" : "rgba(255,250,240,.98)"}
-                      stroke={isDark ? "rgba(255,255,255,.12)" : "rgba(67,55,39,.12)"}
+                      fill={isDark ? "rgba(18,20,32,.95)" : "rgba(255,255,255,.98)"}
+                      stroke={isDark ? "rgba(255,255,255,.12)" : "rgba(24,24,27,.12)"}
                       style={{
                         filter: isDark
                           ? "drop-shadow(0 6px 14px rgba(0,0,0,.45))"
-                          : "drop-shadow(0 4px 12px rgba(58,51,32,.10))",
+                          : "drop-shadow(0 4px 12px rgba(24,24,27,.10))",
                       }}
                     />
                     <text
@@ -406,7 +365,7 @@ export function KnowledgeGraph({
                       fontSize={10}
                       fontWeight={600}
                       letterSpacing="0.06em"
-                      fill={isDark ? "#8c92aa" : "#a08665"}
+                      fill={isDark ? "#8c92aa" : "#71717a"}
                       style={{ textTransform: "uppercase" }}
                     >
                       Last session
@@ -417,7 +376,7 @@ export function KnowledgeGraph({
                       textAnchor="middle"
                       fontSize={11}
                       fontWeight={500}
-                      fill={isDark ? "#e6e7ee" : "#3a3320"}
+                      fill={isDark ? "#e6e7ee" : "#27272a"}
                     >
                       {truncate(
                         n.last_session_summary ??
@@ -438,10 +397,10 @@ export function KnowledgeGraph({
       <div
         className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-[10px] p-1"
         style={{
-          background: isDark ? "rgba(20,22,36,.7)" : "rgba(255,250,240,.85)",
+          background: isDark ? "rgba(20,22,36,.7)" : "rgba(255,255,255,.85)",
           backdropFilter: "blur(10px)",
           border: `0.5px solid ${
-            isDark ? "rgba(255,255,255,.12)" : "rgba(67,55,39,.15)"
+            isDark ? "rgba(255,255,255,.12)" : "rgba(24,24,27,.15)"
           }`,
         }}
       >
@@ -467,7 +426,7 @@ export function KnowledgeGraph({
             height: 18,
             background: isDark
               ? "rgba(255,255,255,.15)"
-              : "rgba(67,55,39,.15)",
+              : "rgba(24,24,27,.15)",
           }}
         />
         <IconBtn
@@ -484,12 +443,12 @@ export function KnowledgeGraph({
           onClick={onCreateKb}
           className="absolute bottom-4 left-4 flex items-center gap-2 rounded-[10px] px-3.5 py-2.5 text-[12.5px] font-medium"
           style={{
-            background: isDark ? "rgba(20,22,36,.7)" : "rgba(255,250,240,.85)",
+            background: isDark ? "rgba(20,22,36,.7)" : "rgba(255,255,255,.85)",
             backdropFilter: "blur(10px)",
             border: `0.5px solid ${
-              isDark ? "rgba(255,255,255,.18)" : "rgba(67,55,39,.18)"
+              isDark ? "rgba(255,255,255,.18)" : "rgba(24,24,27,.18)"
             }`,
-            color: isDark ? "#e6e7ee" : "#3a3320",
+            color: isDark ? "#e6e7ee" : "#27272a",
           }}
         >
           <Plus size={14} /> Add knowledge base
@@ -524,7 +483,7 @@ function OrganicNode({
       style={{
         filter: isDark
           ? "none"
-          : "drop-shadow(0 2px 6px rgba(58,51,32,.10))",
+          : "drop-shadow(0 2px 6px rgba(24,24,27,.10))",
       }}
     >
       <circle
@@ -570,7 +529,7 @@ function OrganicNode({
       <g transform={`translate(${r * 0.7} ${-r * 0.7})`}>
         <circle
           r={11}
-          fill={isDark ? "#0c0e1a" : "#fffaf0"}
+          fill={isDark ? "#0c0e1a" : "#ffffff"}
           stroke={tc.dot}
           strokeWidth={1.2}
         />
@@ -603,7 +562,7 @@ function OrganicNode({
             width={44}
             height={14}
             rx={7}
-            fill={isDark ? "#0c0e1a" : "#fffaf0"}
+            fill={isDark ? "#0c0e1a" : "#ffffff"}
             stroke={tc.dot}
             strokeDasharray="3 2"
             strokeWidth={1}
@@ -626,7 +585,7 @@ function OrganicNode({
         fontSize={13}
         fontWeight={600}
         letterSpacing="-0.01em"
-        fill={isDark ? "#e6e7ee" : "#3a3320"}
+        fill={isDark ? "#e6e7ee" : "#27272a"}
         style={{ pointerEvents: "none" }}
       >
         {n.name}
@@ -637,150 +596,12 @@ function OrganicNode({
         fontSize={10}
         fontWeight={500}
         letterSpacing="0.08em"
-        fill={isDark ? "rgba(255,255,255,.45)" : "rgba(58,51,32,.42)"}
+        fill={isDark ? "rgba(255,255,255,.45)" : "rgba(24,24,27,.42)"}
         style={{ pointerEvents: "none", textTransform: "uppercase" }}
       >
         {n.kb_type} ·{" "}
         {n.recency > 0.7 ? "active" : n.recency > 0.4 ? "recent" : "quiet"}
       </text>
-    </g>
-  );
-}
-
-interface ArchNodeProps {
-  n: NodeData;
-  r: number;
-  tc: { dot: string; tint: string; text: string };
-  isSelected: boolean;
-}
-
-function ArchNode({ n, r, tc, isSelected }: ArchNodeProps) {
-  const w = r * 2.2;
-  const h = r * 1.5;
-  const monogram = initialOf(n.name);
-  const display = n.name.length > 18 ? n.name.slice(0, 17) + "…" : n.name;
-  return (
-    <g>
-      {isSelected && (
-        <rect
-          x={-w / 2 - 4}
-          y={-h / 2 - 4}
-          width={w + 8}
-          height={h + 8}
-          rx={12}
-          fill="none"
-          stroke={tc.dot}
-          strokeWidth={1.5}
-          strokeDasharray="2 4"
-        />
-      )}
-      <rect
-        x={-w / 2 + 1}
-        y={-h / 2 + 3}
-        width={w}
-        height={h}
-        rx={10}
-        fill="rgba(58,51,32,.10)"
-      />
-      <rect
-        x={-w / 2}
-        y={-h / 2}
-        width={w}
-        height={h}
-        rx={10}
-        fill="#ffffff"
-        stroke={tc.dot}
-        strokeWidth={1.2}
-        strokeDasharray={n.is_shared || n.is_system ? "4 3" : "0"}
-      />
-      <rect
-        x={-w / 2}
-        y={-h / 2}
-        width={w}
-        height={4}
-        rx={10}
-        fill={tc.dot}
-        opacity={0.9}
-      />
-      <g transform={`translate(${-w / 2 + 18} ${-h / 2 + 22})`}>
-        <rect x={-12} y={-12} width={24} height={24} rx={6} fill={tc.tint} />
-        <text
-          textAnchor="middle"
-          dy={4}
-          fontSize={11}
-          fontWeight={700}
-          fill={tc.text}
-        >
-          {monogram}
-        </text>
-      </g>
-      <text
-        x={-w / 2 + 36}
-        y={-h / 2 + 19}
-        fontSize={11.5}
-        fontWeight={600}
-        fill="#2a2415"
-      >
-        {display}
-      </text>
-      <text
-        x={-w / 2 + 36}
-        y={-h / 2 + 30}
-        fontSize={9.5}
-        fontWeight={600}
-        letterSpacing="0.08em"
-        fill="rgba(58,51,32,.45)"
-        style={{ textTransform: "uppercase" }}
-      >
-        {n.kb_type} · {n.chunk_count} items
-      </text>
-      <g transform={`translate(0 ${h / 2 - 14})`}>
-        <rect
-          x={-w / 2 + 8}
-          y={0}
-          width={w - 16}
-          height={4}
-          rx={2}
-          fill={tc.dot}
-          opacity={0.9}
-        />
-        <text
-          x={-w / 2 + 8}
-          y={-4}
-          fontSize={8.5}
-          fontWeight={600}
-          letterSpacing="0.10em"
-          fill="rgba(58,51,32,.40)"
-          style={{ textTransform: "uppercase" }}
-        >
-          {n.chunk_count} chunks
-        </text>
-      </g>
-      {n.is_shared && (
-        <g transform={`translate(${w / 2 - 28} ${-h / 2 + 22})`}>
-          <rect
-            x={-22}
-            y={-7}
-            width={44}
-            height={14}
-            rx={7}
-            fill="#fffaf0"
-            stroke={tc.dot}
-            strokeDasharray="3 2"
-            strokeWidth={1}
-          />
-          <text
-            textAnchor="middle"
-            dy={3.5}
-            fontSize={8.5}
-            fontWeight={700}
-            letterSpacing="0.10em"
-            fill={tc.text}
-          >
-            SHARED
-          </text>
-        </g>
-      )}
     </g>
   );
 }
@@ -806,12 +627,12 @@ function IconBtn({
         height: 26,
         background: "transparent",
         border: 0,
-        color: isDark ? "#e6e7ee" : "#5a4d36",
+        color: isDark ? "#e6e7ee" : "#52525b",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = isDark
           ? "rgba(255,255,255,.08)"
-          : "rgba(67,55,39,.08)";
+          : "rgba(24,24,27,.08)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = "transparent";

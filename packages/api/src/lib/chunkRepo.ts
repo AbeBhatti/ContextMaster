@@ -54,6 +54,27 @@ export interface HybridRow {
   valid_to: string | null;
 }
 
+// A single candidate from one retrieval arm, BEFORE fusion. `score` is the
+// arm-native score (cosine similarity for the vector arm, BM25 for the
+// full-text arm); `rank` is its 1-based position within that arm.
+export interface ArmCandidateRow {
+  id: string;
+  knowledge_base_id: string;
+  content: string;
+  chunk_type: string;
+  score: number;
+  rank: number;
+}
+
+// Explain bundle: the fused result (identical to hybridRecall's output) plus
+// the two raw arms that fed it. Purely additive — used by the recall
+// `explain` path to visualize retrieval; the fusion math is unchanged.
+export interface HybridExplain {
+  fused: HybridRow[];
+  vectorArm: ArmCandidateRow[];
+  bm25Arm: ArmCandidateRow[];
+}
+
 export interface LinkedRow {
   id: string;
   knowledge_base_id: string;
@@ -111,6 +132,32 @@ function parseSearch(reply: unknown): Array<{ id: string; fields: Record<string,
       }
     }
     out.push({ id: key.startsWith(chunkPrefix) ? key.slice(chunkPrefix.length) : key, fields });
+  }
+  return out;
+}
+
+// FT.SEARCH reply with WITHSCORES + RETURN: [count, key, score, [f,v,...], ...]
+function parseSearchWithScores(
+  reply: unknown
+): Array<{ id: string; score: number; fields: Record<string, string> }> {
+  const arr = reply as unknown[];
+  if (!Array.isArray(arr)) return [];
+  const out: Array<{ id: string; score: number; fields: Record<string, string> }> = [];
+  for (let i = 1; i + 2 < arr.length + 1; i += 3) {
+    const key = bufToStr(arr[i]);
+    const score = Number(bufToStr(arr[i + 1]));
+    const rawFields = arr[i + 2];
+    const fields: Record<string, string> = {};
+    if (Array.isArray(rawFields)) {
+      for (let j = 0; j < rawFields.length; j += 2) {
+        fields[bufToStr(rawFields[j])] = bufToStr(rawFields[j + 1]);
+      }
+    }
+    out.push({
+      id: key.startsWith(chunkPrefix) ? key.slice(chunkPrefix.length) : key,
+      score: Number.isFinite(score) ? score : 0,
+      fields,
+    });
   }
   return out;
 }
@@ -365,7 +412,27 @@ export interface HybridRecallParams {
 }
 
 export async function hybridRecall(redis: RedisClient, p: HybridRecallParams): Promise<HybridRow[]> {
-  if (p.kbIds.length === 0) return [];
+  return (await hybridRecallCore(redis, p, false)).fused;
+}
+
+// Explain variant: returns the exact same fused output as hybridRecall, plus
+// the two raw arms (with arm-native scores) that fed the fusion. Additive —
+// the fusion math, ranking, filtering, and slice are byte-for-byte identical;
+// the only difference is the BM25 arm is queried WITHSCORES so the real BM25
+// score can be surfaced, and the per-arm candidates are collected.
+export async function hybridRecallExplain(
+  redis: RedisClient,
+  p: HybridRecallParams
+): Promise<HybridExplain> {
+  return hybridRecallCore(redis, p, true);
+}
+
+async function hybridRecallCore(
+  redis: RedisClient,
+  p: HybridRecallParams,
+  explain: boolean
+): Promise<HybridExplain> {
+  if (p.kbIds.length === 0) return { fused: [], vectorArm: [], bm25Arm: [] };
 
   const filterParts = [tagIn("knowledge_base_id", p.kbIds), "@status:{active}"];
   if (p.chunkTypes && p.chunkTypes.length > 0) filterParts.push(tagIn("chunk_type", p.chunkTypes));
@@ -395,19 +462,23 @@ export async function hybridRecall(redis: RedisClient, p: HybridRecallParams): P
   }
 
   // --- BM25 arm: top 60 by full-text relevance ---
-  let ftsRows: Array<{ id: string; fields: Record<string, string> }> = [];
+  // (WITHSCORES only in explain mode; ordering — and thus fusion rank — is
+  // identical either way since BM25 scoring drives the default sort.)
+  let ftsRows: Array<{ id: string; fields: Record<string, string>; score?: number }> = [];
   const textQuery = toTextQuery(p.queryText);
   if (textQuery) {
     try {
-      const ftsReply = await redis.sendCommand([
+      const cmd = [
         "FT.SEARCH", idx.chunks,
         `${filter} @content:(${textQuery})`,
         "SCORER", "BM25",
+        ...(explain ? ["WITHSCORES"] : []),
         "LIMIT", "0", "60",
         ...ret,
         "DIALECT", "2",
-      ]);
-      ftsRows = parseSearch(ftsReply);
+      ];
+      const ftsReply = await redis.sendCommand(cmd);
+      ftsRows = explain ? parseSearchWithScores(ftsReply) : parseSearch(ftsReply);
     } catch {
       // Pure-stopword / unparseable text query — fall back to vector-only.
       ftsRows = [];
@@ -438,7 +509,7 @@ export async function hybridRecall(redis: RedisClient, p: HybridRecallParams): P
   });
   scored.sort((a, b) => b.score - a.score);
 
-  return scored.slice(0, p.matchCount).map(({ id, f, score }) => ({
+  const fusedRows: HybridRow[] = scored.slice(0, p.matchCount).map(({ id, f, score }) => ({
     id,
     knowledge_base_id: f.fields.knowledge_base_id ?? "",
     content: f.fields.content ?? "",
@@ -454,6 +525,31 @@ export async function hybridRecall(redis: RedisClient, p: HybridRecallParams): P
     valid_from: msToIso(f.fields.valid_from),
     valid_to: msToIso(f.fields.valid_to),
   }));
+
+  // Raw arms (cheap to build; only consumed by the explain path). Ranks here
+  // match the positions used in fusion above.
+  const vectorArm: ArmCandidateRow[] = explain
+    ? vecRows.map((r, i) => ({
+        id: r.id,
+        knowledge_base_id: r.fields.knowledge_base_id ?? "",
+        content: r.fields.content ?? "",
+        chunk_type: r.fields.chunk_type ?? "",
+        score: r.sim,
+        rank: i + 1,
+      }))
+    : [];
+  const bm25Arm: ArmCandidateRow[] = explain
+    ? ftsRows.map((r, i) => ({
+        id: r.id,
+        knowledge_base_id: r.fields.knowledge_base_id ?? "",
+        content: r.fields.content ?? "",
+        chunk_type: r.fields.chunk_type ?? "",
+        score: r.score ?? 0,
+        rank: i + 1,
+      }))
+    : [];
+
+  return { fused: fusedRows, vectorArm, bm25Arm };
 }
 
 // ---- linked-chunk expansion ----------------------------------------

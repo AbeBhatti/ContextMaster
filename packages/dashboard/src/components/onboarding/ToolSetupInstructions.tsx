@@ -21,9 +21,9 @@ const URL_PROTOCOL = `${REMOTE_BASE}/mcp/protocol`;
 const URL_SSE = `${REMOTE_BASE}/mcp/sse`;
 const PLACEHOLDER_KEY = "YOUR_API_KEY";
 
-const TEAL = "#5a8a8c";
-const TEAL_BG = "rgba(90,138,140,0.06)";
-const TEAL_BORDER = "rgba(90,138,140,0.45)";
+const TEAL = "#3d5a80";
+const TEAL_BG = "rgba(61,90,128,0.06)";
+const TEAL_BORDER = "rgba(61,90,128,0.35)";
 
 type Variant = "settings" | "onboarding" | "help";
 
@@ -94,9 +94,9 @@ export function ToolSetupInstructions({
               key={t.id}
               type="button"
               onClick={() => onSelect(t.id)}
-              className="group relative flex items-center gap-2.5 rounded-[10px] border bg-white px-3.5 py-3 text-left transition-all hover:border-[rgba(67,55,39,0.30)] hover:bg-cream-100"
+              className="group relative flex items-center gap-2.5 rounded-[10px] border bg-white px-3.5 py-3 text-left transition-all hover:border-[rgba(24,24,27,0.30)] hover:bg-cream-100"
               style={{
-                borderColor: isExpanded ? TEAL : "rgba(67,55,39,0.14)",
+                borderColor: isExpanded ? TEAL : "rgba(24,24,27,0.14)",
                 background: isExpanded ? TEAL_BG : "#fff",
                 boxShadow: isExpanded ? `0 0 0 1px ${TEAL}` : undefined,
               }}
@@ -105,8 +105,8 @@ export function ToolSetupInstructions({
               <span
                 className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[14px] font-semibold"
                 style={{
-                  background: isExpanded ? TEAL : "rgba(67,55,39,0.08)",
-                  color: isExpanded ? "#fff" : "#5a4d36",
+                  background: isExpanded ? TEAL : "rgba(24,24,27,0.08)",
+                  color: isExpanded ? "#fff" : "#52525b",
                 }}
               >
                 {t.icon}
@@ -186,7 +186,7 @@ function CyclingTipsStrip() {
             className="h-1 w-1 rounded-full transition-colors"
             style={{
               background:
-                i === index ? "rgba(67,55,39,0.45)" : "rgba(67,55,39,0.15)",
+                i === index ? "rgba(24,24,27,0.45)" : "rgba(24,24,27,0.15)",
             }}
           />
         ))}
@@ -253,11 +253,11 @@ function ClaudeCard({
                 Open <B>Settings → Connectors</B>.
               </>,
               <>
-                Click <B>"Add custom connector"</B>, name it <B>cntxt</B>, and
+                Click <B>"Add custom connector"</B>, name it <B>ContextMaster</B>, and
                 paste this URL:
               </>,
               <>
-                Click <B>Add</B> → sign in with your Context Cloud account when
+                Click <B>Add</B> → sign in with your ContextMaster account when
                 prompted.
               </>,
             ]}
@@ -299,12 +299,12 @@ function ChatGPTCard() {
             Click <B>"Create app"</B> and paste this URL:
           </>,
           <>
-            Click <B>Authenticate</B> → sign in with your Context Cloud account.
+            Click <B>Authenticate</B> → sign in with your ContextMaster account.
           </>,
         ]}
       />
       <CopyField value={URL_SSE} tool="chatgpt" />
-      <Done>Context Cloud tools will now appear in your ChatGPT conversations.</Done>
+      <Done>ContextMaster tools will now appear in your ChatGPT conversations.</Done>
     </Section>
   );
 }
@@ -333,15 +333,15 @@ function CodexCard() {
                 Select the <B>Streamable HTTP</B> tab.
               </>,
               <>
-                Name it <B>cntxt</B> and paste this URL:
+                Name it <B>ContextMaster</B> and paste this URL:
               </>,
               <>
-                Click <B>Authorize</B> → sign in with your Context Cloud account.
+                Click <B>Authorize</B> → sign in with your ContextMaster account.
               </>,
             ]}
           />
           <CopyField value={URL_PROTOCOL} tool="codex" />
-          <Done>Context Cloud is now connected to Codex.</Done>
+          <Done>ContextMaster is now connected to Codex.</Done>
         </div>
       ) : (
         <div className="flex flex-col gap-2.5">
@@ -517,7 +517,7 @@ function ApiKeyHint({
         </button>
       </div>
       {generateError && (
-        <div className="text-[11.5px] text-[#b04545]">{generateError}</div>
+        <div className="text-[11.5px] text-danger">{generateError}</div>
       )}
     </div>
   );
@@ -571,11 +571,11 @@ function RevealedKeyBanner({
     <div
       className="mb-4 rounded-[9px] border p-3"
       style={{
-        background: "rgba(95,165,122,.08)",
-        borderColor: "rgba(95,165,122,.4)",
+        background: "rgba(5,150,105,.08)",
+        borderColor: "rgba(5,150,105,.4)",
       }}
     >
-      <div className="text-[12.5px] font-semibold text-[#2f6b48]">
+      <div className="text-[12.5px] font-semibold text-success">
         Key generated — copy it now. You won't see it again.
       </div>
       <div className="mt-2 flex items-center gap-2">
@@ -585,7 +585,7 @@ function RevealedKeyBanner({
         <button
           onClick={copy}
           className="flex h-8 items-center gap-1.5 rounded-md border bg-white px-2.5 text-[12px] font-medium text-ink-800"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           {copied ? <Check size={12} /> : <Copy size={12} />}
           {copied ? "Copied" : "Copy"}
@@ -606,12 +606,12 @@ function TipsCard() {
     <div
       className="rounded-[10px] border p-3.5"
       style={{
-        background: "rgba(214,162,74,0.06)",
-        borderColor: "rgba(214,162,74,0.30)",
+        background: "rgba(61,90,128,0.06)",
+        borderColor: "rgba(61,90,128,0.30)",
       }}
     >
-      <div className="flex items-center gap-1.5 text-[12.5px] font-semibold text-[#8a5e1f]">
-        <Lightbulb size={12} /> How to use Context Cloud
+      <div className="flex items-center gap-1.5 text-[12.5px] font-semibold text-accent">
+        <Lightbulb size={12} /> How to use ContextMaster
       </div>
       <div className="mt-2 text-[12.5px] leading-relaxed text-ink-800">
         <p>
@@ -630,9 +630,9 @@ function TipsCard() {
         </p>
         <p
           className="mt-1.5 rounded-md bg-white/60 px-2.5 py-2 font-mono text-[11.5px] italic text-ink-800"
-          style={{ borderLeft: "2px solid rgba(214,162,74,0.5)" }}
+          style={{ borderLeft: "2px solid rgba(61,90,128,0.5)" }}
         >
-          "I have Context Cloud connected. Always check Context Cloud (check_memory) at the
+          "I have ContextMaster connected. Always check ContextMaster (check_memory) at the
           start of conversations about ongoing work. Suggest saving progress at
           session end."
         </p>
@@ -668,7 +668,7 @@ function Tabs<T extends string>({
   return (
     <div
       className="flex items-center gap-1 border-b"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
       role="tablist"
     >
       {tabs.map((t) => {
@@ -682,7 +682,7 @@ function Tabs<T extends string>({
             onClick={() => onChange(t.id)}
             className="relative -mb-px px-3 py-2 text-[12.5px] font-semibold transition-colors"
             style={{
-              color: isActive ? TEAL : "rgba(67,55,39,0.55)",
+              color: isActive ? TEAL : "rgba(24,24,27,0.55)",
               borderBottom: `2px solid ${isActive ? TEAL : "transparent"}`,
             }}
           >
@@ -704,7 +704,7 @@ function Steps({ steps }: { steps: ReactNode[] }) {
         >
           <span
             className="mt-[1px] flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold text-cream-50"
-            style={{ background: "#3a3320" }}
+            style={{ background: "#18181b" }}
           >
             {i + 1}
           </span>
@@ -761,14 +761,14 @@ function CopyField({ value, tool }: { value: string; tool?: OnboardingToolId }) 
     <div className="flex items-center gap-2">
       <code
         className="flex-1 truncate rounded-md border bg-white px-2.5 py-1.5 font-mono text-[12px] text-ink-900"
-        style={{ borderColor: "rgba(67,55,39,0.18)" }}
+        style={{ borderColor: "rgba(24,24,27,0.18)" }}
       >
         {value}
       </code>
       <button
         onClick={onCopy}
         className="flex h-8 items-center gap-1.5 rounded-md border bg-white px-2.5 text-[12px] font-medium text-ink-800 hover:bg-cream-100"
-        style={{ borderColor: "rgba(67,55,39,0.18)" }}
+        style={{ borderColor: "rgba(24,24,27,0.18)" }}
       >
         {copied ? <Check size={12} /> : <Copy size={12} />}
         {copied ? "Copied" : "Copy"}
@@ -793,14 +793,14 @@ function CodeBlock({ value, tool }: { value: string; tool?: OnboardingToolId }) 
     <div className="relative">
       <pre
         className="overflow-x-auto whitespace-pre-wrap break-all rounded-[9px] border bg-cream-50 p-3 pr-20 font-mono text-[11.5px] leading-relaxed text-ink-900"
-        style={{ borderColor: "rgba(67,55,39,0.12)" }}
+        style={{ borderColor: "rgba(24,24,27,0.12)" }}
       >
         {value}
       </pre>
       <button
         onClick={onCopy}
         className="absolute right-2 top-2 flex items-center gap-1 rounded-md border bg-white px-2 py-1 text-[11px] font-medium text-ink-700 hover:bg-cream-100"
-        style={{ borderColor: "rgba(67,55,39,0.18)" }}
+        style={{ borderColor: "rgba(24,24,27,0.18)" }}
       >
         {copied ? <Check size={10} /> : <Copy size={10} />}
         {copied ? "Copied" : "Copy"}

@@ -55,11 +55,11 @@ function formatMs(ms: number | null | undefined): string {
 
 function StatusPill({ status }: { status: ProcessingJob["status"] }) {
   const meta = {
-    queued: { label: "Queued", color: "#b88a2c", bg: "rgba(214,162,74,0.16)" },
+    queued: { label: "Queued", color: "#6b7280", bg: "rgba(107,114,128,0.14)" },
     processing: {
       label: "Processing",
-      color: "#3a6b8a",
-      bg: "rgba(74,138,180,0.14)",
+      color: "#3d5a80",
+      bg: "rgba(61,90,128,0.14)",
     },
     completed: {
       label: "Completed",
@@ -68,8 +68,8 @@ function StatusPill({ status }: { status: ProcessingJob["status"] }) {
     },
     failed: {
       label: "Failed",
-      color: "#b04545",
-      bg: "rgba(176,69,69,0.12)",
+      color: "#dc2626",
+      bg: "rgba(220,38,38,0.12)",
     },
   }[status];
   return (
@@ -153,20 +153,20 @@ export function ConversationViewer({
   return (
     <div
       className="fixed inset-0 z-50 flex justify-end"
-      style={{ background: "rgba(58,51,32,.32)", backdropFilter: "blur(2px)" }}
+      style={{ background: "rgba(24,24,27,.32)", backdropFilter: "blur(2px)" }}
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className="flex h-full w-full max-w-[820px] flex-col bg-cream-50 shadow-2xl"
-        style={{ borderLeft: "0.5px solid rgba(67,55,39,0.15)" }}
+        style={{ borderLeft: "0.5px solid rgba(24,24,27,0.15)" }}
         role="dialog"
         aria-modal="true"
       >
         {/* Header */}
         <div
           className="flex items-start justify-between gap-4 px-6 pb-4 pt-5"
-          style={{ borderBottom: "0.5px solid rgba(67,55,39,0.10)" }}
+          style={{ borderBottom: "0.5px solid rgba(24,24,27,0.10)" }}
         >
           <div className="min-w-0 flex-1">
             <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
@@ -219,7 +219,7 @@ export function ConversationViewer({
                 Loading conversation…
               </div>
             ) : error ? (
-              <div className="rounded-lg border border-[rgba(176,69,69,0.3)] bg-[rgba(176,69,69,0.06)] px-3 py-2 text-[12.5px] text-[#b04545]">
+              <div className="rounded-lg border border-danger/30 bg-danger/5 px-3 py-2 text-[12.5px] text-danger">
                 {error}
               </div>
             ) : !job?.conversation_text ? (
@@ -235,11 +235,11 @@ export function ConversationViewer({
                     style={{
                       background:
                         t.speaker === "user"
-                          ? "rgba(214,162,74,0.10)"
+                          ? "rgba(61,90,128,0.10)"
                           : t.speaker === "ai"
                           ? "rgba(74,138,180,0.08)"
-                          : "rgba(67,55,39,0.04)",
-                      border: "0.5px solid rgba(67,55,39,0.08)",
+                          : "rgba(24,24,27,0.04)",
+                      border: "0.5px solid rgba(24,24,27,0.08)",
                     }}
                   >
                     <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-500">
@@ -262,8 +262,8 @@ export function ConversationViewer({
           <aside
             className="w-72 shrink-0 overflow-y-auto px-5 py-5 text-[12px] text-ink-700"
             style={{
-              borderLeft: "0.5px solid rgba(67,55,39,0.10)",
-              background: "rgba(67,55,39,0.025)",
+              borderLeft: "0.5px solid rgba(24,24,27,0.10)",
+              background: "rgba(24,24,27,0.025)",
             }}
           >
             <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-500">
@@ -322,17 +322,17 @@ export function ConversationViewer({
 
             {job?.error_message && (
               <>
-                <div className="mt-5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#b04545]">
+                <div className="mt-5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-danger">
                   Error
                 </div>
-                <div className="mt-1 rounded-md bg-[rgba(176,69,69,0.08)] px-2 py-1.5 text-[12px] leading-snug text-[#b04545]">
+                <div className="mt-1 rounded-md bg-danger/10 px-2 py-1.5 text-[12px] leading-snug text-danger">
                   {job.error_message}
                 </div>
               </>
             )}
 
             {reExtractError && (
-              <div className="mt-4 rounded-md bg-[rgba(176,69,69,0.08)] px-2 py-1.5 text-[12px] text-[#b04545]">
+              <div className="mt-4 rounded-md bg-danger/10 px-2 py-1.5 text-[12px] text-danger">
                 {reExtractError}
               </div>
             )}

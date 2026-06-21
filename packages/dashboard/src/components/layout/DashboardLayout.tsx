@@ -101,7 +101,7 @@ export function DashboardLayout() {
       <div className="flex h-screen w-screen">
         <div
           className="flex w-[240px] flex-shrink-0 flex-col gap-2 bg-cream-200 p-4"
-          style={{ borderRight: "0.5px solid rgba(67,55,39,0.12)" }}
+          style={{ borderRight: "0.5px solid rgba(24,24,27,0.12)" }}
         >
           <Skeleton className="h-6 w-24" />
           <Skeleton className="h-9 w-full" />

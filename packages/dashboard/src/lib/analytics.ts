@@ -36,8 +36,7 @@ type ClientEvent =
   | "settings.api_key_generated"
   | "workspace.created"
   | "workspace.switched"
-  | "graph.node_clicked"
-  | "graph.aesthetic_changed";
+  | "graph.node_clicked";
 
 interface IdentifyProfile {
   email?: string | null;

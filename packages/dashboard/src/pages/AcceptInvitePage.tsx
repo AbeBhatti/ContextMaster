@@ -69,7 +69,7 @@ export function AcceptInvitePage() {
       <div className="w-full max-w-md">
         <div
           className="rounded-xl border bg-white p-6"
-          style={{ borderColor: "rgba(67,55,39,0.12)" }}
+          style={{ borderColor: "rgba(24,24,27,0.12)" }}
         >
           <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-400">
             Workspace invite
@@ -151,7 +151,7 @@ export function AcceptInvitePage() {
                     <SignUpButton mode="modal" forceRedirectUrl={`/invite/${token}`}>
                       <button
                         onClick={markPendingAndAuth}
-                        className="w-full rounded-md border border-[rgba(67,55,39,0.18)] bg-white px-3 py-2 text-[13px] font-medium text-ink-800 hover:bg-cream-100"
+                        className="w-full rounded-md border border-[rgba(24,24,27,0.18)] bg-white px-3 py-2 text-[13px] font-medium text-ink-800 hover:bg-cream-100"
                       >
                         Create account
                       </button>
@@ -163,7 +163,7 @@ export function AcceptInvitePage() {
               {isLoaded && isSignedIn && (
                 <>
                   {acceptError && (
-                    <div className="mt-3 text-[12px] text-[#b04545]">
+                    <div className="mt-3 text-[12px] text-danger">
                       {acceptError}
                     </div>
                   )}

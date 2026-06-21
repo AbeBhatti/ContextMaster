@@ -55,7 +55,7 @@ export function WorkspaceHeader({
       {isViewer && (
         <div
           className="mb-3 flex items-center gap-2 rounded-md border bg-cream-100 px-3 py-1.5 text-[12px] text-ink-700"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <Eye size={12} />
           You have view-only access to this workspace. Ask the workspace owner to
@@ -87,7 +87,7 @@ export function WorkspaceHeader({
                   className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[10.5px] font-bold text-cream-50"
                   style={{
                     background: avatarColor(m.user_id),
-                    border: "2px solid #fffaf0",
+                    border: "2px solid #ffffff",
                     marginLeft: i === 0 ? 0 : -8,
                   }}
                   title={m.name}
@@ -98,7 +98,7 @@ export function WorkspaceHeader({
               {overflow > 0 && (
                 <span
                   className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-cream-500 text-[10.5px] font-bold text-ink-700"
-                  style={{ border: "2px solid #fffaf0", marginLeft: -8 }}
+                  style={{ border: "2px solid #ffffff", marginLeft: -8 }}
                 >
                   +{overflow}
                 </span>
@@ -108,7 +108,7 @@ export function WorkspaceHeader({
           {onCreateKb && (
             <button
               onClick={onCreateKb}
-              className="flex items-center gap-1.5 rounded-lg border border-[rgba(67,55,39,0.18)] bg-cream-50 px-3 py-[7px] text-[12.5px] font-medium text-ink-800 hover:bg-cream-100"
+              className="flex items-center gap-1.5 rounded-lg border border-[rgba(24,24,27,0.18)] bg-cream-50 px-3 py-[7px] text-[12.5px] font-medium text-ink-800 hover:bg-cream-100"
             >
               <Plus size={12} /> New knowledge base
             </button>
@@ -116,7 +116,7 @@ export function WorkspaceHeader({
           {!workspace.is_default && onInvite && (
             <button
               onClick={onInvite}
-              className="rounded-lg border border-[rgba(67,55,39,0.18)] bg-cream-50 px-3 py-[7px] text-[12.5px] font-medium text-ink-800 hover:bg-cream-100"
+              className="rounded-lg border border-[rgba(24,24,27,0.18)] bg-cream-50 px-3 py-[7px] text-[12.5px] font-medium text-ink-800 hover:bg-cream-100"
             >
               Invite
             </button>
@@ -125,7 +125,7 @@ export function WorkspaceHeader({
       </div>
       <div
         className="flex gap-0.5"
-        style={{ borderBottom: "0.5px solid rgba(67,55,39,0.12)" }}
+        style={{ borderBottom: "0.5px solid rgba(24,24,27,0.12)" }}
       >
         {tabs.map((t) => {
           const active = t.id === activeTab;
@@ -138,7 +138,7 @@ export function WorkspaceHeader({
               }`}
               style={{
                 borderBottom: active
-                  ? "2px solid #3a3320"
+                  ? "2px solid #18181b"
                   : "2px solid transparent",
                 marginBottom: -1,
               }}

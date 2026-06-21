@@ -73,7 +73,7 @@ export function SettingsTab({
         <form
           onSubmit={save}
           className="flex flex-col gap-3 rounded-[10px] border bg-white p-4"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <div className="text-[14px] font-semibold text-ink-800">
             Workspace details
@@ -88,7 +88,7 @@ export function SettingsTab({
               disabled={!isOwner}
               required
               className="rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-900 outline-none disabled:opacity-60"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             />
           </label>
           <label className="flex flex-col gap-1.5">
@@ -101,11 +101,11 @@ export function SettingsTab({
               disabled={!isOwner}
               rows={3}
               className="resize-vertical rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-900 outline-none disabled:opacity-60"
-              style={{ borderColor: "rgba(67,55,39,0.18)" }}
+              style={{ borderColor: "rgba(24,24,27,0.18)" }}
             />
           </label>
           {error && (
-            <div className="text-[12px] text-[#b04545]">{error}</div>
+            <div className="text-[12px] text-danger">{error}</div>
           )}
           {!isOwner ? (
             <div className="text-[12px] text-ink-500">
@@ -114,7 +114,7 @@ export function SettingsTab({
           ) : (
             <div className="flex items-center justify-end gap-2">
               {savedAt && !dirty && (
-                <span className="text-[12px] text-[#2f6b48]">Saved</span>
+                <span className="text-[12px] text-success">Saved</span>
               )}
               <button
                 type="submit"
@@ -140,9 +140,9 @@ export function SettingsTab({
         {isOwner && !workspace.is_default && (
           <div
             className="rounded-[10px] border p-4"
-            style={{ borderColor: "rgba(176,69,69,0.4)" }}
+            style={{ borderColor: "rgba(220,38,38,0.4)" }}
           >
-            <div className="text-[13px] font-semibold text-[#b04545]">
+            <div className="text-[13px] font-semibold text-danger">
               Delete workspace
             </div>
             <div className="mt-1 text-[12px] text-ink-500">
@@ -158,14 +158,14 @@ export function SettingsTab({
                   onClick={() => setConfirmingDelete(false)}
                   disabled={deleting}
                   className="rounded-md border px-2.5 py-1 text-[12px] text-ink-700"
-                  style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                  style={{ borderColor: "rgba(24,24,27,0.18)" }}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={performDelete}
                   disabled={deleting}
-                  className="flex items-center gap-1.5 rounded-md bg-[#b04545] px-2.5 py-1 text-[12px] font-medium text-white disabled:opacity-60"
+                  className="flex items-center gap-1.5 rounded-md bg-danger px-2.5 py-1 text-[12px] font-medium text-white disabled:opacity-60"
                 >
                   {deleting && <Loader2 size={12} className="animate-spin" />}
                   Delete forever
@@ -174,8 +174,8 @@ export function SettingsTab({
             ) : (
               <button
                 onClick={() => setConfirmingDelete(true)}
-                className="mt-3 rounded-md border bg-white px-3 py-1.5 text-[12px] font-medium text-[#b04545]"
-                style={{ borderColor: "rgba(176,69,69,0.4)" }}
+                className="mt-3 rounded-md border bg-white px-3 py-1.5 text-[12px] font-medium text-danger"
+                style={{ borderColor: "rgba(220,38,38,0.4)" }}
               >
                 Delete this workspace
               </button>
@@ -240,7 +240,7 @@ function PrivacySection({
   return (
     <section
       className="rounded-[10px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="flex items-center justify-between gap-3">
         <div>
@@ -273,16 +273,16 @@ function PrivacySection({
               className="flex items-start gap-2.5 rounded-[10px] border px-3 py-3 text-left transition-all disabled:opacity-70"
               style={{
                 borderColor: active
-                  ? "rgba(214,162,74,0.55)"
-                  : "rgba(67,55,39,0.14)",
-                background: active ? "rgba(214,162,74,0.10)" : "white",
+                  ? "rgba(61,90,128,0.55)"
+                  : "rgba(24,24,27,0.14)",
+                background: active ? "rgba(61,90,128,0.10)" : "white",
               }}
             >
               <span
                 className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
                 style={{
-                  background: active ? "rgba(214,162,74,0.25)" : "#f5efe2",
-                  color: active ? "#8a5e1f" : "#5a4d36",
+                  background: active ? "rgba(61,90,128,0.25)" : "#f5f6f7",
+                  color: active ? "#3d5a80" : "#52525b",
                 }}
               >
                 {isSaving ? (
@@ -304,7 +304,7 @@ function PrivacySection({
         })}
       </div>
       {error && (
-        <div className="mt-2 text-[12px] text-[#b04545]">{error}</div>
+        <div className="mt-2 text-[12px] text-danger">{error}</div>
       )}
     </section>
   );

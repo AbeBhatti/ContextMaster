@@ -18,11 +18,11 @@ interface ProcessingRingProps {
 }
 
 // Visual constants. The arc is ~28% of the circle; rounded line caps soften
-// the leading/trailing edges. Teal accent matches existing dashboard signals.
+// the leading/trailing edges. Uses the brand steel-navy accent.
 const ARC_FRACTION = 0.28;
 const STROKE_WIDTH = 2.5;
 const RING_GAP = 4; // px gap between node edge and ring
-const ACCENT = "#22d3ee";
+const ACCENT = "#3d5a80";
 
 export function ProcessingRing({
   radius,

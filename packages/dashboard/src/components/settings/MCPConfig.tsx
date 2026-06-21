@@ -18,7 +18,7 @@ export function MCPConfig() {
 
       <div
         className="mt-1 flex items-center justify-between border-t pt-2 text-[12px] text-ink-500"
-        style={{ borderColor: "rgba(67,55,39,0.10)" }}
+        style={{ borderColor: "rgba(24,24,27,0.10)" }}
       >
         <Link
           to="/help#connect"

@@ -71,7 +71,7 @@ export function OrganizationsPage() {
             <form
               onSubmit={submit}
               className="flex items-center gap-2 rounded-[9px] border bg-white p-3"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <input
                 autoFocus
@@ -80,7 +80,7 @@ export function OrganizationsPage() {
                 placeholder="Organization name"
                 required
                 className="flex-1 rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-800 outline-none"
-                style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                style={{ borderColor: "rgba(24,24,27,0.18)" }}
               />
               <button
                 type="submit"
@@ -98,7 +98,7 @@ export function OrganizationsPage() {
                   setCreateError(null);
                 }}
                 className="rounded-md border px-3 py-1.5 text-[13px] font-medium text-ink-700"
-                style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                style={{ borderColor: "rgba(24,24,27,0.18)" }}
               >
                 Cancel
               </button>
@@ -106,7 +106,7 @@ export function OrganizationsPage() {
           </div>
         )}
         {createError && (
-          <div className="text-[12px] text-[#b04545]">{createError}</div>
+          <div className="text-[12px] text-danger">{createError}</div>
         )}
 
         {loading && (
@@ -122,7 +122,7 @@ export function OrganizationsPage() {
             <OrgExplainer />
             <div
               className="rounded-[9px] border bg-white p-6 text-center"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <Building2 size={20} className="mx-auto text-ink-400" />
               <div className="mt-2 text-[13px] font-medium text-ink-800">
@@ -141,11 +141,11 @@ export function OrganizationsPage() {
               key={org.id}
               to={`/organizations/${org.id}`}
               className="flex items-center gap-3 rounded-[9px] border bg-white p-3 transition-colors hover:bg-cream-100"
-              style={{ borderColor: "rgba(67,55,39,0.10)" }}
+              style={{ borderColor: "rgba(24,24,27,0.10)" }}
             >
               <span
                 className="flex h-9 w-9 items-center justify-center rounded-md text-[12px] font-bold text-cream-50"
-                style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+                style={{ background: "#3d5a80" }}
               >
                 {org.name[0]?.toUpperCase() ?? "?"}
               </span>
@@ -176,7 +176,7 @@ function OrgExplainer() {
   return (
     <div
       className="flex items-start gap-2 rounded-[9px] px-3 py-2.5 text-[12.5px] leading-snug text-ink-700"
-      style={{ background: "rgba(58,51,32,0.05)" }}
+      style={{ background: "rgba(24,24,27,0.05)" }}
     >
       <Building2 size={13} className="mt-0.5 shrink-0 text-ink-500" />
       <span>

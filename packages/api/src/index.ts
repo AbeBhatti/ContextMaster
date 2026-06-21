@@ -17,6 +17,7 @@ import { workspacesRouter, publicInvitesRouter } from "./routes/workspaces.js";
 import { organizationsRouter } from "./routes/organizations.js";
 import { notificationsRouter } from "./routes/notifications.js";
 import { billingRouter } from "./routes/billing.js";
+import { recallRouter } from "./routes/recall.js";
 import { oauthRouter } from "./routes/oauth.js";
 import { startWorker } from "./services/jobService.js";
 
@@ -127,6 +128,7 @@ app.use("/api/auth", clerkAuth, authRouter);
 app.use("/api/organizations", clerkAuth, organizationsRouter);
 app.use("/api/notifications", clerkAuth, notificationsRouter);
 app.use("/api/billing", clerkAuth, billingRouter);
+app.use("/api/recall", clerkAuth, recallRouter);
 app.use("/api", clerkAuth, workspacesRouter);
 
 // Start the HTTP server immediately; connect to Redis in the background so the

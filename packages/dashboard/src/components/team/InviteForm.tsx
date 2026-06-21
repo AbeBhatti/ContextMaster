@@ -37,7 +37,7 @@ export function InviteForm({ workspaceId, onInvited }: InviteFormProps) {
     <form
       onSubmit={submit}
       className="flex flex-col gap-2 rounded-[9px] border bg-white p-4"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="text-[13px] font-semibold text-ink-800">
         Invite by email
@@ -50,13 +50,13 @@ export function InviteForm({ workspaceId, onInvited }: InviteFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="flex-1 rounded-md border bg-cream-50 px-2.5 py-1.5 text-[13px] text-ink-800 outline-none placeholder:text-ink-500"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         />
         <select
           value={role}
           onChange={(e) => setRole(e.target.value)}
           className="rounded-md border bg-cream-50 px-2 py-1.5 text-[13px] text-ink-800 outline-none"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <option value="editor">Editor</option>
           <option value="viewer">Viewer</option>
@@ -70,9 +70,9 @@ export function InviteForm({ workspaceId, onInvited }: InviteFormProps) {
           Send invite
         </button>
       </div>
-      {error && <div className="text-[12px] text-[#b04545]">{error}</div>}
+      {error && <div className="text-[12px] text-danger">{error}</div>}
       {success && (
-        <div className="text-[12px] text-[#2f6b48]">{success}</div>
+        <div className="text-[12px] text-success">{success}</div>
       )}
     </form>
   );

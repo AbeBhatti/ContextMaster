@@ -44,7 +44,7 @@ export function HistoryTab({
           value={userFilter}
           onChange={(e) => setUserFilter(e.target.value)}
           className="rounded-md border bg-cream-50 px-2.5 py-1.5 text-[12.5px] text-ink-800 outline-none"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <option value="">All members</option>
           {members.map((m) => (
@@ -57,7 +57,7 @@ export function HistoryTab({
           value={kbFilter}
           onChange={(e) => setKbFilter(e.target.value)}
           className="rounded-md border bg-cream-50 px-2.5 py-1.5 text-[12.5px] text-ink-800 outline-none"
-          style={{ borderColor: "rgba(67,55,39,0.18)" }}
+          style={{ borderColor: "rgba(24,24,27,0.18)" }}
         >
           <option value="">All knowledge bases</option>
           {knowledgeBases.map((kb) => (

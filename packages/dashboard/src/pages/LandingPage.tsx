@@ -75,10 +75,10 @@ function Nav() {
     <header
       className="sticky top-0 z-50 w-full transition-colors"
       style={{
-        background: scrolled ? "rgba(255,250,240,0.85)" : "transparent",
+        background: scrolled ? "rgba(255,255,255,0.85)" : "transparent",
         backdropFilter: scrolled ? "saturate(140%) blur(10px)" : "none",
         borderBottom: scrolled
-          ? "0.5px solid rgba(67,55,39,0.10)"
+          ? "0.5px solid rgba(24,24,27,0.10)"
           : "0.5px solid transparent",
       }}
     >
@@ -86,11 +86,11 @@ function Nav() {
         <a href="#top" className="flex items-center gap-2.5">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-[8px] text-[12px] font-bold tracking-wider text-cream-50"
-            style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+            style={{ background: "#3d5a80" }}
           >
             cn
           </div>
-          <div className="text-[15px] font-semibold tracking-tight">Context Cloud</div>
+          <div className="text-[15px] font-semibold tracking-tight">ContextMaster</div>
         </a>
         <nav className="hidden items-center gap-7 md:flex">
           <a
@@ -103,7 +103,7 @@ function Nav() {
             href="#why"
             className="text-[13px] text-ink-700 transition-colors hover:text-ink-900"
           >
-            Why Context Cloud
+            Why ContextMaster
           </a>
           <a
             href="#pricing"
@@ -127,7 +127,7 @@ function Nav() {
           <SignUpButton mode="modal">
             <button
               className="flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-[13px] font-semibold text-cream-50 transition-opacity hover:opacity-90"
-              style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+              style={{ background: "#3d5a80" }}
             >
               Get started
               <ArrowRight size={12} />
@@ -146,12 +146,12 @@ function Hero() {
       className="relative isolate overflow-hidden px-6 pb-24 pt-20 sm:pt-28"
     >
       <BackgroundGlow />
-      <div className="relative mx-auto grid w-full max-w-6xl items-start gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="relative mx-auto w-full max-w-3xl">
         <Reveal>
           <div className="flex flex-col items-start">
             <div
               className="mb-6 inline-flex items-center gap-2 rounded-full border bg-white/70 px-3 py-1 text-[11.5px] font-medium uppercase tracking-[0.12em] text-ink-700"
-              style={{ borderColor: "rgba(67,55,39,0.15)" }}
+              style={{ borderColor: "rgba(24,24,27,0.15)" }}
             >
               <Sparkles size={11} className="text-gold-400" />
               The multiplayer brain for AI-native teams
@@ -165,7 +165,7 @@ function Hero() {
               {" "}— everyone's AI knows it.
             </p>
             <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ink-600">
-              Context Cloud is an MCP memory server that gives your team's AI coding sessions persistent, structured memory. Unlike single-player memory tools, Context Cloud supports shared workspaces with role-based access, typed knowledge chunks (decisions, findings, conventions, state), automatic deduplication, and a{" "}
+              ContextMaster is an MCP memory server that gives your team's AI coding sessions persistent, structured memory. Unlike single-player memory tools, ContextMaster supports shared workspaces with role-based access, typed knowledge chunks (decisions, findings, conventions, state), automatic deduplication, and a{" "}
               <a href="https://contextcloud.pro" className="underline hover:text-ink-900">web dashboard</a>{" "}
               to browse and curate what your team's AI knows. Works with{" "}
               <a href="https://claude.ai" className="underline hover:text-ink-900">Claude</a>, Cursor, Codex, and Windsurf.
@@ -175,7 +175,7 @@ function Hero() {
                 <button
                   className="group flex items-center gap-2 rounded-md px-5 py-3 text-[14px] font-semibold text-cream-50 shadow-sm transition-all hover:shadow-md"
                   style={{
-                    background: "linear-gradient(135deg,#3a3320,#5a4d36)",
+                    background: "#3d5a80",
                   }}
                 >
                   Create Free Workspace
@@ -188,7 +188,7 @@ function Hero() {
               <a
                 href="#how"
                 className="rounded-md border bg-white px-5 py-3 text-[14px] font-medium text-ink-800 transition-colors hover:bg-cream-100"
-                style={{ borderColor: "rgba(67,55,39,0.18)" }}
+                style={{ borderColor: "rgba(24,24,27,0.18)" }}
               >
                 See how it works
               </a>
@@ -198,41 +198,21 @@ function Hero() {
             </div>
             <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] text-ink-500">
               <span className="flex items-center gap-1.5">
-                <Check size={12} className="text-[#5fa57a]" /> Claude
+                <Check size={12} className="text-success" /> Claude
               </span>
               <span className="flex items-center gap-1.5">
-                <Check size={12} className="text-[#5fa57a]" /> Claude Code
+                <Check size={12} className="text-success" /> Claude Code
               </span>
               <span className="flex items-center gap-1.5">
-                <Check size={12} className="text-[#5fa57a]" /> ChatGPT
+                <Check size={12} className="text-success" /> ChatGPT
               </span>
               <span className="flex items-center gap-1.5">
-                <Check size={12} className="text-[#5fa57a]" /> Cursor
+                <Check size={12} className="text-success" /> Cursor
               </span>
               <span className="flex items-center gap-1.5">
-                <Check size={12} className="text-[#5fa57a]" /> Codex
+                <Check size={12} className="text-success" /> Codex
               </span>
             </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <div
-            className="relative aspect-square w-full max-w-[520px] mt-[52px] overflow-hidden rounded-2xl border shadow-xl"
-            style={{
-              borderColor: "rgba(67,55,39,0.10)",
-            }}
-          >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-contain"
-            >
-              <source src="/context_remo_landing_page.webm" type="video/webm" />
-              <source src="/context_remo_landing_page.mp4" type="video/mp4" />
-            </video>
           </div>
         </Reveal>
       </div>
@@ -347,7 +327,7 @@ function CyclingTool() {
           top: 0,
           left: 0,
           whiteSpace: "nowrap",
-          color: "#a08665",
+          color: "#71717a",
           willChange: "clip-path",
           ...emStyle,
         }}
@@ -420,16 +400,14 @@ function BackgroundGlow() {
         className="pointer-events-none absolute -top-32 right-[-10%] -z-10 h-[420px] w-[520px] rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(214,162,74,0.32), rgba(214,162,74,0))",
-          filter: "blur(20px)",
+            "radial-gradient(closest-side, rgba(61,90,128,0.06), rgba(61,90,128,0))",
         }}
       />
       <div
         className="pointer-events-none absolute -bottom-32 left-[-12%] -z-10 h-[420px] w-[520px] rounded-full"
         style={{
           background:
-            "radial-gradient(closest-side, rgba(91,141,239,0.18), rgba(91,141,239,0))",
-          filter: "blur(20px)",
+            "radial-gradient(closest-side, rgba(61,90,128,0.05), rgba(61,90,128,0))",
         }}
       />
     </>
@@ -476,11 +454,11 @@ function Services() {
   ];
 
   return (
-    <section className="px-6 py-20" style={{ background: "rgba(247,241,227,0.45)" }}>
+    <section className="px-6 py-20" style={{ background: "rgba(250,250,250,0.45)" }}>
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionHeading
-            eyebrow="What Context Cloud provides"
+            eyebrow="What ContextMaster provides"
             title="Everything your team's AI needs to remember."
           />
         </Reveal>
@@ -489,11 +467,11 @@ function Services() {
             <Reveal key={s.name} delay={i * 60}>
               <div
                 className="flex h-full flex-col rounded-[14px] border bg-white p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
-                style={{ borderColor: "rgba(67,55,39,0.10)" }}
+                style={{ borderColor: "rgba(24,24,27,0.10)" }}
               >
                 <div
                   className="mb-4 flex h-10 w-10 items-center justify-center rounded-[10px]"
-                  style={{ background: "rgba(214,162,74,0.18)", color: "#9c7335" }}
+                  style={{ background: "rgba(61,90,128,0.18)", color: "#3d5a80" }}
                 >
                   <s.icon size={17} />
                 </div>
@@ -588,10 +566,10 @@ function HowItWorks() {
                 }`}
                 style={{
                   borderColor: isActive
-                    ? "rgba(214,162,74,0.50)"
-                    : "rgba(67,55,39,0.10)",
+                    ? "rgba(61,90,128,0.50)"
+                    : "rgba(24,24,27,0.10)",
                   boxShadow: isActive
-                    ? "0 26px 50px -20px rgba(58,51,32,0.40), 0 0 0 1px rgba(214,162,74,0.30)"
+                    ? "0 10px 30px -14px rgba(16,24,40,0.16), 0 0 0 1px rgba(61,90,128,0.35)"
                     : undefined,
                   transform: isActive ? "translateY(-8px)" : undefined,
                   transition:
@@ -601,7 +579,7 @@ function HowItWorks() {
                 <div
                   className="mb-5 flex h-10 w-10 items-center justify-center rounded-[10px] text-cream-50"
                   style={{
-                    background: "linear-gradient(135deg,#3a3320,#5a4d36)",
+                    background: "#3d5a80",
                   }}
                 >
                   <s.icon size={17} />
@@ -645,7 +623,7 @@ function CntxtLogo({ size = 14 }: { size?: number }) {
         y1="75"
         x2="50"
         y2="20"
-        stroke="rgba(255,250,240,0.7)"
+        stroke="rgba(255,255,255,0.7)"
         strokeWidth="8"
         strokeLinecap="round"
       />
@@ -654,7 +632,7 @@ function CntxtLogo({ size = 14 }: { size?: number }) {
         y1="20"
         x2="78"
         y2="68"
-        stroke="rgba(255,250,240,0.7)"
+        stroke="rgba(255,255,255,0.7)"
         strokeWidth="8"
         strokeLinecap="round"
       />
@@ -663,23 +641,23 @@ function CntxtLogo({ size = 14 }: { size?: number }) {
         y1="68"
         x2="30"
         y2="75"
-        stroke="rgba(255,250,240,0.7)"
+        stroke="rgba(255,255,255,0.7)"
         strokeWidth="8"
         strokeLinecap="round"
       />
-      <circle cx="30" cy="75" r="10" fill="rgba(255,250,240,0.7)" />
-      <circle cx="50" cy="20" r="14" fill="rgba(255,250,240,0.7)" />
-      <circle cx="50" cy="20" r="6" fill="#2a2415" />
-      <circle cx="78" cy="68" r="14" fill="rgba(255,250,240,0.7)" />
-      <circle cx="78" cy="68" r="6" fill="#2a2415" />
+      <circle cx="30" cy="75" r="10" fill="rgba(255,255,255,0.7)" />
+      <circle cx="50" cy="20" r="14" fill="rgba(255,255,255,0.7)" />
+      <circle cx="50" cy="20" r="6" fill="#18181b" />
+      <circle cx="78" cy="68" r="14" fill="rgba(255,255,255,0.7)" />
+      <circle cx="78" cy="68" r="6" fill="#18181b" />
     </svg>
   );
 }
 
-const DEMO_PRIMARY = "rgba(255,250,240,0.85)";
-const DEMO_MUTED = "rgba(255,250,240,0.5)";
+const DEMO_PRIMARY = "rgba(255,255,255,0.85)";
+const DEMO_MUTED = "rgba(255,255,255,0.5)";
 const DEMO_CONTAINER: React.CSSProperties = {
-  background: "#2a2415",
+  background: "#18181b",
   minHeight: "240px",
   display: "flex",
   flexDirection: "column",
@@ -763,8 +741,8 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
         <div
           className="flex items-center justify-between rounded-[6px] px-2.5 py-1.5 font-mono"
           style={{
-            background: "rgba(255,250,240,0.05)",
-            border: "0.5px solid rgba(255,250,240,0.12)",
+            background: "rgba(255,255,255,0.05)",
+            border: "0.5px solid rgba(255,255,255,0.12)",
             fontSize: "11px",
             color: DEMO_PRIMARY,
           }}
@@ -774,7 +752,7 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
           </span>
           <span
             className="ml-2 flex items-center gap-1"
-            style={{ color: copied ? "#5fa57a" : DEMO_MUTED }}
+            style={{ color: copied ? "#059669" : DEMO_MUTED }}
           >
             {copied ? <Check size={11} /> : <Copy size={11} />}
           </span>
@@ -785,8 +763,8 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
         <div
           className="rounded-[6px] p-2.5"
           style={{
-            background: "rgba(255,250,240,0.05)",
-            border: "0.5px solid rgba(255,250,240,0.12)",
+            background: "rgba(255,255,255,0.05)",
+            border: "0.5px solid rgba(255,255,255,0.12)",
           }}
         >
           <div
@@ -800,12 +778,12 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
             style={{
               fontSize: "11px",
               color: nameFilled ? DEMO_PRIMARY : DEMO_MUTED,
-              borderBottom: "0.5px solid rgba(255,250,240,0.12)",
+              borderBottom: "0.5px solid rgba(255,255,255,0.12)",
               padding: "3px 0",
               marginBottom: 4,
             }}
           >
-            Name: {nameFilled ? "Context Cloud" : ""}
+            Name: {nameFilled ? "ContextMaster" : ""}
             <span
               style={{
                 opacity: nameFilled || !showDialog ? 0 : 1,
@@ -820,7 +798,7 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
             style={{
               fontSize: "11px",
               color: urlFilled ? DEMO_PRIMARY : DEMO_MUTED,
-              borderBottom: "0.5px solid rgba(255,250,240,0.12)",
+              borderBottom: "0.5px solid rgba(255,255,255,0.12)",
               padding: "3px 0",
             }}
           >
@@ -845,7 +823,7 @@ function ConnectDemo({ playing, onComplete }: DemoProps) {
           alignItems: "center",
           justifyContent: "center",
           gap: 6,
-          color: "#5fa57a",
+          color: "#059669",
           fontSize: 12,
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
         }}
@@ -863,7 +841,7 @@ function WindowDots() {
     width: 4,
     height: 4,
     borderRadius: 9999,
-    background: "rgba(255,250,240,0.25)",
+    background: "rgba(255,255,255,0.25)",
   };
   return (
     <span style={{ display: "inline-flex", gap: 3 }}>
@@ -887,7 +865,7 @@ function DemoBar({
         height: 4,
         width,
         borderRadius: 2,
-        background: color ?? "rgba(255,250,240,0.18)",
+        background: color ?? "rgba(255,255,255,0.18)",
         marginBottom: 5,
         transition: "width 500ms cubic-bezier(0.5, 0, 0.5, 1)",
       }}
@@ -910,8 +888,8 @@ function KnowledgeBase({
         display: "flex",
         alignItems: "center",
         gap: 8,
-        background: "rgba(255,250,240,0.05)",
-        border: "0.5px solid rgba(255,250,240,0.12)",
+        background: "rgba(255,255,255,0.05)",
+        border: "0.5px solid rgba(255,255,255,0.12)",
         borderRadius: 6,
         padding: "7px 10px",
         boxShadow: active
@@ -1020,7 +998,7 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
   // 1: save_memory action pulses gold inside the session
   // 2: beam activates + gold chunk travels down from session to KB
   // 3: KB receives — gold pulse, counter ticks 12 → 13
-  // 4: "Saved to Context Cloud" indicator fades in
+  // 4: "Saved to ContextMaster" indicator fades in
   // last: hold + reset → onComplete
   const step = useLoopedSteps(
     [0, 2000, 2900, 3800, 4700, 6300],
@@ -1055,12 +1033,12 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
   return (
     <div
       className="overflow-hidden rounded-[10px]"
-      style={{ background: "#2a2415", padding: 14, minHeight: 240 }}
+      style={{ background: "#18181b", padding: 14, minHeight: 240 }}
     >
       <div
         style={{
-          background: "rgba(255,250,240,0.05)",
-          border: "0.5px solid rgba(255,250,240,0.12)",
+          background: "rgba(255,255,255,0.05)",
+          border: "0.5px solid rgba(255,255,255,0.12)",
           borderRadius: 6,
           padding: "8px 10px",
         }}
@@ -1072,7 +1050,7 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
             gap: 6,
             paddingBottom: 6,
             marginBottom: 7,
-            borderBottom: "0.5px solid rgba(255,250,240,0.08)",
+            borderBottom: "0.5px solid rgba(255,255,255,0.08)",
           }}
         >
           <WindowDots />
@@ -1101,13 +1079,13 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
             padding: "4px 8px",
             borderRadius: 4,
             background: pulseSave
-              ? "rgba(214,162,74,0.18)"
-              : "rgba(255,250,240,0.05)",
+              ? "rgba(61,90,128,0.18)"
+              : "rgba(255,255,255,0.05)",
             border: pulseSave
-              ? "0.5px solid rgba(214,162,74,0.55)"
-              : "0.5px solid rgba(255,250,240,0.12)",
+              ? "0.5px solid rgba(61,90,128,0.55)"
+              : "0.5px solid rgba(255,255,255,0.12)",
             boxShadow: pulseSave
-              ? "0 0 14px rgba(214,162,74,0.45)"
+              ? "0 0 0 3px rgba(61,90,128,0.20)"
               : "none",
             transition:
               "background 500ms ease, border-color 500ms ease, box-shadow 500ms ease",
@@ -1117,7 +1095,7 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
           <span
             style={{
               fontSize: 10.5,
-              color: pulseSave ? "#d6a24a" : DEMO_PRIMARY,
+              color: pulseSave ? "#3d5a80" : DEMO_PRIMARY,
               fontFamily:
                 "ui-monospace, SFMono-Regular, Menlo, monospace",
               transition: "color 500ms ease",
@@ -1129,17 +1107,17 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
       </div>
 
       <div style={{ position: "relative", height: 48, margin: "10px 0" }}>
-        <Beam height={48} active={beamActive} accent="#d6a24a" />
+        <Beam height={48} active={beamActive} accent="#3d5a80" />
         <TravelingChunk
           travel={traveling}
           height={48}
-          accent="#d6a24a"
+          accent="#3d5a80"
         />
       </div>
 
       <KnowledgeBase
         active={kbActive}
-        accent="#d6a24a"
+        accent="#3d5a80"
         count={kbActive ? 13 : 12}
       />
 
@@ -1155,8 +1133,8 @@ function SaveDemo({ playing, onComplete }: DemoProps) {
           gap: 4,
         }}
       >
-        <Check size={11} style={{ color: "#5fa57a" }} />
-        Saved to Context Cloud
+        <Check size={11} style={{ color: "#059669" }} />
+        Saved to ContextMaster
       </div>
     </div>
   );
@@ -1208,7 +1186,7 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
   return (
     <div
       className="overflow-hidden rounded-[10px]"
-      style={{ background: "#2a2415", padding: 14, minHeight: 240 }}
+      style={{ background: "#18181b", padding: 14, minHeight: 240 }}
     >
       <div
         style={{
@@ -1223,22 +1201,22 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
           marginBottom: 6,
         }}
       >
-        <span style={{ color: "rgba(255,250,240,0.45)" }}>Claude</span>
+        <span style={{ color: "rgba(255,255,255,0.45)" }}>Claude</span>
         <ArrowRight
           size={10}
-          style={{ color: "rgba(255,250,240,0.40)" }}
+          style={{ color: "rgba(255,255,255,0.40)" }}
         />
-        <span style={{ color: "rgba(255,250,240,0.85)" }}>Cursor</span>
+        <span style={{ color: "rgba(255,255,255,0.85)" }}>Cursor</span>
       </div>
 
       <div
         style={{
-          background: "rgba(255,250,240,0.05)",
-          border: "0.5px solid rgba(255,250,240,0.12)",
+          background: "rgba(255,255,255,0.05)",
+          border: "0.5px solid rgba(255,255,255,0.12)",
           borderRadius: 6,
           padding: "8px 10px",
           boxShadow: showContent
-            ? "0 0 0 1px rgba(91,141,239,0.35)"
+            ? "0 0 0 1px rgba(61,90,128,0.35)"
             : "none",
           transition: "box-shadow 600ms ease",
         }}
@@ -1250,7 +1228,7 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
             gap: 6,
             paddingBottom: 5,
             marginBottom: 6,
-            borderBottom: "0.5px solid rgba(255,250,240,0.08)",
+            borderBottom: "0.5px solid rgba(255,255,255,0.08)",
           }}
         >
           <WindowDots />
@@ -1279,7 +1257,7 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
           <span
             style={{
               fontSize: 11,
-              color: "#5b8def",
+              color: "#3d5a80",
               fontFamily:
                 "ui-monospace, SFMono-Regular, Menlo, monospace",
               fontWeight: 600,
@@ -1316,8 +1294,8 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
         </div>
         <div
           style={{
-            background: "rgba(255,250,240,0.04)",
-            borderLeft: "2.5px solid #5b8def",
+            background: "rgba(255,255,255,0.04)",
+            borderLeft: "2.5px solid #3d5a80",
             borderRadius: 3,
             padding: "5px 8px",
             opacity: showContent ? 1 : 0,
@@ -1344,7 +1322,7 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
             style={{
               fontSize: 11,
               lineHeight: 1.4,
-              color: "rgba(255,250,240,0.92)",
+              color: "rgba(255,255,255,0.92)",
             }}
           >
             JSONB — flexible schemas + team already on Postgres…
@@ -1353,16 +1331,16 @@ function RecallDemo({ playing, onComplete }: DemoProps) {
       </div>
 
       <div style={{ position: "relative", height: 28, margin: "6px 0" }}>
-        <Beam height={28} active={beamActive} accent="#5b8def" />
+        <Beam height={28} active={beamActive} accent="#3d5a80" />
         <TravelingChunk
           travel={traveling}
           height={28}
-          accent="#5b8def"
+          accent="#3d5a80"
           reverse
         />
       </div>
 
-      <KnowledgeBase active={kbActive} accent="#5b8def" count={13} />
+      <KnowledgeBase active={kbActive} accent="#3d5a80" count={13} />
 
       <div
         style={{
@@ -1398,14 +1376,14 @@ function WhyContextCloud() {
       icon: Globe,
       label: "Portable",
       headline: "Your context is trapped. We set it free.",
-      body: "Built-in memory locks your knowledge inside one platform. Context Cloud works across Claude, Cursor, ChatGPT, and Codex with the same knowledge base.",
+      body: "Built-in memory locks your knowledge inside one platform. ContextMaster works across Claude, Cursor, ChatGPT, and Codex with the same knowledge base.",
       illustration: <PortableIllustration />,
     },
     {
       icon: Code2,
       label: "Persistent",
       headline: "Your AI remembers decisions, not just preferences.",
-      body: "Claude's built-in memory knows you like Postgres. Context Cloud knows WHY you chose Postgres, what schema you settled on, and which tradeoffs you considered.",
+      body: "Claude's built-in memory knows you like Postgres. ContextMaster knows WHY you chose Postgres, what schema you settled on, and which tradeoffs you considered.",
       illustration: <PersistentIllustration />,
     },
   ];
@@ -1413,12 +1391,12 @@ function WhyContextCloud() {
     <section
       id="why"
       className="px-6 py-28"
-      style={{ background: "rgba(247,241,227,0.45)" }}
+      style={{ background: "rgba(250,250,250,0.45)" }}
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <SectionHeading
-            eyebrow="Why Context Cloud"
+            eyebrow="Why ContextMaster"
             title="Memory for every teammate, every tool, every session."
           />
         </Reveal>
@@ -1428,8 +1406,8 @@ function WhyContextCloud() {
               <div
                 className="group relative h-full overflow-hidden rounded-[14px] border bg-white p-8 transition-all hover:-translate-y-0.5 hover:shadow-md"
                 style={{
-                  borderColor: "rgba(67,55,39,0.10)",
-                  borderTop: "2px solid #d6a24a",
+                  borderColor: "rgba(24,24,27,0.10)",
+                  borderTop: "2px solid #3d5a80",
                 }}
               >
                 <div
@@ -1437,7 +1415,7 @@ function WhyContextCloud() {
                   className="pointer-events-none absolute inset-x-0 top-0 h-32"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(214,162,74,0.10) 0%, transparent 70%)",
+                      "linear-gradient(180deg, rgba(61,90,128,0.10) 0%, transparent 70%)",
                   }}
                 />
                 <div
@@ -1445,7 +1423,7 @@ function WhyContextCloud() {
                   className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full opacity-50 transition-opacity group-hover:opacity-80"
                   style={{
                     background:
-                      "radial-gradient(closest-side, rgba(214,162,74,0.22), transparent)",
+                      "radial-gradient(closest-side, rgba(61,90,128,0.22), transparent)",
                   }}
                 />
                 <div className="relative">
@@ -1455,15 +1433,15 @@ function WhyContextCloud() {
                   <div
                     className="mb-4 flex h-11 w-11 items-center justify-center rounded-[10px]"
                     style={{
-                      background: "rgba(214,162,74,0.18)",
-                      color: "#9c7335",
+                      background: "rgba(61,90,128,0.18)",
+                      color: "#3d5a80",
                     }}
                   >
                     <p.icon size={18} />
                   </div>
                   <div
                     className="mb-2 text-[10.5px] font-semibold uppercase tracking-[0.14em]"
-                    style={{ color: "#9c7335" }}
+                    style={{ color: "#3d5a80" }}
                   >
                     {p.label}
                   </div>
@@ -1484,10 +1462,10 @@ function WhyContextCloud() {
 }
 
 function SharedIllustration() {
-  const INK = "rgba(67,55,39,0.80)";
-  const INK_BORDER = "rgba(67,55,39,0.28)";
-  const INK_DOTTED = "rgba(67,55,39,0.32)";
-  const SUBTLE_INK = "rgb(146,135,114)";
+  const INK = "rgba(24,24,27,0.80)";
+  const INK_BORDER = "rgba(24,24,27,0.28)";
+  const INK_DOTTED = "rgba(24,24,27,0.32)";
+  const SUBTLE_INK = "rgb(113,113,122)";
   return (
     <svg
       viewBox="0 0 280 128"
@@ -1509,20 +1487,20 @@ function SharedIllustration() {
 
       {/* cntxt node at center — gold accent */}
       <g transform="translate(140, 50)">
-        <circle r="15" fill="#fffaf0" stroke={INK_BORDER} strokeWidth="1.4" />
+        <circle r="15" fill="#ffffff" stroke={INK_BORDER} strokeWidth="1.4" />
         <g transform="translate(-6.5, -6.5) scale(0.13)">
-          <line x1="30" y1="75" x2="50" y2="20" stroke="#d6a24a" strokeWidth="10" strokeLinecap="round" />
-          <line x1="50" y1="20" x2="78" y2="68" stroke="#d6a24a" strokeWidth="10" strokeLinecap="round" />
-          <line x1="78" y1="68" x2="30" y2="75" stroke="#d6a24a" strokeWidth="10" strokeLinecap="round" />
-          <circle cx="30" cy="75" r="11" fill="#d6a24a" />
-          <circle cx="50" cy="20" r="15" fill="#d6a24a" />
-          <circle cx="78" cy="68" r="15" fill="#d6a24a" />
+          <line x1="30" y1="75" x2="50" y2="20" stroke="#3d5a80" strokeWidth="10" strokeLinecap="round" />
+          <line x1="50" y1="20" x2="78" y2="68" stroke="#3d5a80" strokeWidth="10" strokeLinecap="round" />
+          <line x1="78" y1="68" x2="30" y2="75" stroke="#3d5a80" strokeWidth="10" strokeLinecap="round" />
+          <circle cx="30" cy="75" r="11" fill="#3d5a80" />
+          <circle cx="50" cy="20" r="15" fill="#3d5a80" />
+          <circle cx="78" cy="68" r="15" fill="#3d5a80" />
         </g>
       </g>
 
       {/* Bob (left) */}
       <g>
-        <circle cx="46" cy="50" r="24" fill="#fffaf0" stroke={INK_BORDER} strokeWidth="1.5" />
+        <circle cx="46" cy="50" r="24" fill="#ffffff" stroke={INK_BORDER} strokeWidth="1.5" />
         <g transform="translate(46, 50)" fill={INK}>
           <circle cx="0" cy="-6" r="5" />
           <path d="M -10 11 Q -10 1 0 1 Q 10 1 10 11 Z" />
@@ -1537,7 +1515,7 @@ function SharedIllustration() {
 
       {/* Jen (right) */}
       <g>
-        <circle cx="234" cy="50" r="24" fill="#fffaf0" stroke={INK_BORDER} strokeWidth="1.5" />
+        <circle cx="234" cy="50" r="24" fill="#ffffff" stroke={INK_BORDER} strokeWidth="1.5" />
         <g transform="translate(234, 50)" fill={INK}>
           <circle cx="0" cy="-6" r="5" />
           <path d="M -10 11 Q -10 1 0 1 Q 10 1 10 11 Z" />
@@ -1554,10 +1532,10 @@ function SharedIllustration() {
 }
 
 function PortableIllustration() {
-  const TILE_BG = "#fffaf0";
-  const TILE_BORDER = "rgba(67,55,39,0.22)";
-  const THREAD = "rgba(67,55,39,0.30)";
-  const ICON = "rgba(58,51,32,0.92)";
+  const TILE_BG = "#ffffff";
+  const TILE_BORDER = "rgba(24,24,27,0.22)";
+  const THREAD = "rgba(24,24,27,0.30)";
+  const ICON = "rgba(24,24,27,0.92)";
   // Tile geometry: 40x40 tiles at y=24, evenly spaced across 280-wide viewBox.
   // 4 tiles × 40 = 160; remaining 120 is split into 3 gaps + 2 outer margins of 24 each.
   const TILE = 40;
@@ -1602,7 +1580,7 @@ function PortableIllustration() {
         <g transform={logoTransform(xs[0])} fill={ICON}>
           <path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z" />
         </g>
-        <text x={xs[0] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(146,135,114)">
+        <text x={xs[0] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(113,113,122)">
           Claude
         </text>
       </g>
@@ -1622,7 +1600,7 @@ function PortableIllustration() {
         <g transform={logoTransform(xs[1])} fill={ICON}>
           <path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23" />
         </g>
-        <text x={xs[1] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(146,135,114)">
+        <text x={xs[1] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(113,113,122)">
           Cursor
         </text>
       </g>
@@ -1642,7 +1620,7 @@ function PortableIllustration() {
         <g transform={logoTransform(xs[2])} fill={ICON}>
           <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z" />
         </g>
-        <text x={xs[2] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(146,135,114)">
+        <text x={xs[2] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(113,113,122)">
           ChatGPT
         </text>
       </g>
@@ -1671,7 +1649,7 @@ function PortableIllustration() {
           <polyline points="5,-6 10,0 5,6" />
           <line x1="-2.5" y1="7" x2="2.5" y2="-7" />
         </g>
-        <text x={xs[3] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(146,135,114)">
+        <text x={xs[3] + TILE / 2} y={Y + TILE + 16} textAnchor="middle" fontSize="10" fill="rgb(113,113,122)">
           Codex
         </text>
       </g>
@@ -1695,7 +1673,7 @@ function PersistentIllustration() {
         width="108"
         height="62"
         rx="9"
-        fill="rgba(67,55,39,0.10)"
+        fill="rgba(24,24,27,0.10)"
       />
       {/* Middle card */}
       <rect
@@ -1704,7 +1682,7 @@ function PersistentIllustration() {
         width="108"
         height="62"
         rx="9"
-        fill="rgba(67,55,39,0.18)"
+        fill="rgba(24,24,27,0.18)"
       />
       {/* Front card — cream surface with gold accent border + ink content lines */}
       <g>
@@ -1714,8 +1692,8 @@ function PersistentIllustration() {
           width="108"
           height="68"
           rx="9"
-          fill="#fffaf0"
-          stroke="rgba(214,162,74,0.65)"
+          fill="#ffffff"
+          stroke="rgba(61,90,128,0.65)"
           strokeWidth="1.5"
         />
         <rect
@@ -1724,7 +1702,7 @@ function PersistentIllustration() {
           width="64"
           height="3.5"
           rx="1.75"
-          fill="rgba(67,55,39,0.60)"
+          fill="rgba(24,24,27,0.60)"
         />
         <rect
           x="66"
@@ -1732,7 +1710,7 @@ function PersistentIllustration() {
           width="80"
           height="3.5"
           rx="1.75"
-          fill="rgba(67,55,39,0.42)"
+          fill="rgba(24,24,27,0.42)"
         />
         <rect
           x="66"
@@ -1740,7 +1718,7 @@ function PersistentIllustration() {
           width="48"
           height="3.5"
           rx="1.75"
-          fill="rgba(67,55,39,0.28)"
+          fill="rgba(24,24,27,0.28)"
         />
       </g>
     </svg>
@@ -1815,8 +1793,8 @@ function Comparison() {
           <div
             className="mt-14 overflow-hidden rounded-[14px] border bg-white"
             style={{
-              borderColor: "rgba(67,55,39,0.14)",
-              boxShadow: "0 24px 60px -32px rgba(58,51,32,0.28)",
+              borderColor: "rgba(24,24,27,0.14)",
+              boxShadow: "0 16px 40px -28px rgba(16,24,40,0.18)",
             }}
           >
             <div className="overflow-x-auto">
@@ -1829,8 +1807,8 @@ function Comparison() {
                     <th
                       className="px-5 py-4 align-bottom text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-500"
                       style={{
-                        borderBottom: "1px solid rgba(67,55,39,0.20)",
-                        background: "rgba(247,241,227,0.55)",
+                        borderBottom: "1px solid rgba(24,24,27,0.20)",
+                        background: "rgba(250,250,250,0.55)",
                         width: "26%",
                       }}
                     >
@@ -1845,7 +1823,7 @@ function Comparison() {
                       sub="Claude, ChatGPT"
                     />
                     <ComparisonHeader
-                      label="Context Cloud"
+                      label="ContextMaster"
                       sub="The full picture"
                       highlight
                     />
@@ -1861,8 +1839,8 @@ function Comparison() {
                           style={{
                             borderBottom: isLast
                               ? "none"
-                              : "1px solid rgba(67,55,39,0.10)",
-                            background: "rgba(247,241,227,0.30)",
+                              : "1px solid rgba(24,24,27,0.10)",
+                            background: "rgba(250,250,250,0.30)",
                           }}
                         >
                           {r.feature}
@@ -1911,23 +1889,23 @@ function ComparisonHeader({
       className="px-5 py-4 align-bottom"
       style={{
         borderBottom: highlight
-          ? "1px solid rgba(214,162,74,0.55)"
-          : "1px solid rgba(67,55,39,0.20)",
+          ? "1px solid rgba(61,90,128,0.55)"
+          : "1px solid rgba(24,24,27,0.20)",
         background: highlight
-          ? "rgba(214,162,74,0.18)"
-          : "rgba(247,241,227,0.55)",
+          ? "rgba(61,90,128,0.18)"
+          : "rgba(250,250,250,0.55)",
         width: "24.6%",
       }}
     >
       <div
         className="text-[12px] font-semibold uppercase tracking-[0.12em]"
-        style={{ color: highlight ? "#9c7335" : "rgb(120,108,87)" }}
+        style={{ color: highlight ? "#3d5a80" : "rgb(82,82,91)" }}
       >
         {label}
       </div>
       <div
         className="mt-1 text-[11px] font-normal normal-case tracking-normal"
-        style={{ color: highlight ? "rgba(156,115,53,0.75)" : "rgb(146,135,114)" }}
+        style={{ color: highlight ? "rgba(61,90,128,0.75)" : "rgb(113,113,122)" }}
       >
         {sub}
       </div>
@@ -1946,16 +1924,16 @@ function ComparisonCell({
 }) {
   const color =
     cell.tone === "yes"
-      ? "#3f8f5a"
+      ? "#059669"
       : cell.tone === "partial"
-        ? "#c08a2a"
-        : "rgb(140,128,107)";
+        ? "#3d5a80"
+        : "rgb(107,114,128)";
   return (
     <td
       className="px-5 py-3.5 text-[13.5px]"
       style={{
-        borderBottom: isLast ? "none" : "1px solid rgba(67,55,39,0.10)",
-        background: highlight ? "rgba(214,162,74,0.12)" : "transparent",
+        borderBottom: isLast ? "none" : "1px solid rgba(24,24,27,0.10)",
+        background: highlight ? "rgba(61,90,128,0.12)" : "transparent",
         color,
         fontWeight: highlight ? 600 : 500,
       }}
@@ -1979,7 +1957,7 @@ function Pricing() {
     <section
       id="pricing"
       className="px-6 py-28"
-      style={{ background: "rgba(247,241,227,0.45)" }}
+      style={{ background: "rgba(250,250,250,0.45)" }}
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
@@ -1993,8 +1971,8 @@ function Pricing() {
           <div
             className="mx-auto mt-14 max-w-3xl rounded-[18px] border bg-white p-10 text-center"
             style={{
-              borderColor: "rgba(214,162,74,0.4)",
-              boxShadow: "0 30px 60px -30px rgba(214,162,74,0.45)",
+              borderColor: "rgba(61,90,128,0.4)",
+              boxShadow: "0 20px 40px -24px rgba(16,24,40,0.18)",
             }}
           >
             <div className="text-[72px] font-semibold leading-none tracking-tight text-ink-900">
@@ -2012,7 +1990,7 @@ function Pricing() {
                 >
                   <Check
                     size={14}
-                    className="mt-1 shrink-0 text-[#5fa57a]"
+                    className="mt-1 shrink-0 text-success"
                   />
                   <span>{f}</span>
                 </li>
@@ -2024,7 +2002,7 @@ function Pricing() {
                 <button
                   className="group flex items-center gap-2 rounded-md px-5 py-3 text-[14px] font-semibold text-cream-50 shadow-sm transition-all hover:shadow-md"
                   style={{
-                    background: "linear-gradient(135deg,#3a3320,#5a4d36)",
+                    background: "#3d5a80",
                   }}
                 >
                   Create Free Workspace
@@ -2037,7 +2015,7 @@ function Pricing() {
             </div>
 
             <div className="mx-auto mt-5 max-w-md text-[12px] text-ink-400">
-              We keep costs near zero because Context Cloud has no server-side
+              We keep costs near zero because ContextMaster has no server-side
               LLM costs. Your AI tool does the thinking. We just remember.
             </div>
           </div>
@@ -2050,19 +2028,19 @@ function Pricing() {
 const FAQ_ITEMS: { q: string; a: string }[] = [
   {
     q: "What is the best MCP memory server for teams?",
-    a: "Context Cloud is the only MCP memory server with shared team workspaces. It provides role-based access, typed knowledge (decisions, findings, conventions, state), cross-tool support, and a web dashboard. Free tier available at contextcloud.pro.",
+    a: "ContextMaster is the only MCP memory server with shared team workspaces. It provides role-based access, typed knowledge (decisions, findings, conventions, state), cross-tool support, and a web dashboard. Free tier available at contextcloud.pro.",
   },
   {
     q: "How do I share AI context between team members?",
-    a: "Invite teammates to a Context Cloud workspace by email. When one engineer's AI commits knowledge, any teammate's AI recalls it instantly across Claude Code, Cursor, Codex, or any MCP-compatible tool.",
+    a: "Invite teammates to a ContextMaster workspace by email. When one engineer's AI commits knowledge, any teammate's AI recalls it instantly across Claude Code, Cursor, Codex, or any MCP-compatible tool.",
   },
   {
-    q: "How does Context Cloud compare to mem0 and Basic Memory?",
-    a: "mem0 and Basic Memory are single-user. Context Cloud adds shared team workspaces with RBAC, typed knowledge structure, attribution tracking, automatic deduplication, and a web dashboard for engineering teams.",
+    q: "How does ContextMaster compare to mem0 and Basic Memory?",
+    a: "mem0 and Basic Memory are single-user. ContextMaster adds shared team workspaces with RBAC, typed knowledge structure, attribution tracking, automatic deduplication, and a web dashboard for engineering teams.",
   },
   {
-    q: "Does Context Cloud work with Claude Code and Cursor?",
-    a: "Yes. Context Cloud works with Claude (web, desktop, and Code), Cursor, Codex, Windsurf, and any MCP-compatible client. Connect at api.contextcloud.pro/mcp/protocol or via @contextcloud/mcp-client.",
+    q: "Does ContextMaster work with Claude Code and Cursor?",
+    a: "Yes. ContextMaster works with Claude (web, desktop, and Code), Cursor, Codex, Windsurf, and any MCP-compatible client. Connect at api.contextcloud.pro/mcp/protocol or via @contextcloud/mcp-client.",
   },
   {
     q: "What is an MCP memory server?",
@@ -2085,7 +2063,7 @@ function FAQ() {
         <Reveal delay={80}>
           <ul
             className="mt-12 overflow-hidden rounded-[14px] border bg-white"
-            style={{ borderColor: "rgba(67,55,39,0.10)" }}
+            style={{ borderColor: "rgba(24,24,27,0.10)" }}
           >
             {FAQ_ITEMS.map((item, i) => {
               const open = openIndex === i;
@@ -2094,7 +2072,7 @@ function FAQ() {
                   key={item.q}
                   style={{
                     borderTop:
-                      i === 0 ? "none" : "0.5px solid rgba(67,55,39,0.10)",
+                      i === 0 ? "none" : "0.5px solid rgba(24,24,27,0.10)",
                   }}
                 >
                   <button
@@ -2145,7 +2123,7 @@ function ClosingCTA() {
         <Reveal>
           <h2 className="text-[clamp(24px,3.5vw,36px)] font-semibold leading-tight tracking-[-0.02em] text-ink-900">
             Everyone builds single-player memory. We built{" "}
-            <em className="not-italic" style={{ color: "#a08665" }}>
+            <em className="not-italic" style={{ color: "#71717a" }}>
               multiplayer
             </em>
             .
@@ -2157,7 +2135,7 @@ function ClosingCTA() {
               <button
                 className="group flex items-center gap-2 rounded-md px-5 py-3 text-[14px] font-semibold text-cream-50 shadow-sm transition-all hover:shadow-md"
                 style={{
-                  background: "linear-gradient(135deg,#3a3320,#5a4d36)",
+                  background: "#3d5a80",
                 }}
               >
                 Create Free Workspace
@@ -2179,16 +2157,16 @@ function ClosingCTA() {
 
 function About() {
   return (
-    <section className="px-6 py-16" style={{ background: "rgba(247,241,227,0.45)" }}>
+    <section className="px-6 py-16" style={{ background: "rgba(250,250,250,0.45)" }}>
       <div className="mx-auto max-w-3xl">
         <Reveal>
           <h3 className="text-[18px] font-semibold tracking-tight text-ink-900">
-            About Context Cloud
+            About ContextMaster
           </h3>
           <p className="mt-3 text-[14px] leading-relaxed text-ink-700">
             Built by{" "}
             <a href="https://github.com/abhinavala" className="underline hover:text-ink-900">Abhi</a>
-            {" "}— a CS student at Santa Clara University and founder building at the intersection of AI infrastructure and developer tooling. Context Cloud was built using itself: every architecture decision and convention in the codebase lives in a shared Context Cloud workspace.
+            {" "}— a CS student at Santa Clara University and founder building at the intersection of AI infrastructure and developer tooling. ContextMaster was built using itself: every architecture decision and convention in the codebase lives in a shared ContextMaster workspace.
           </p>
           <p className="mt-4 text-[13px] text-ink-600">
             Questions?{" "}
@@ -2206,18 +2184,18 @@ function Footer() {
   return (
     <footer
       className="px-6 py-12"
-      style={{ borderTop: "0.5px solid rgba(67,55,39,0.12)" }}
+      style={{ borderTop: "0.5px solid rgba(24,24,27,0.12)" }}
     >
       <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <div className="flex items-center gap-2.5">
           <div
             className="flex h-7 w-7 items-center justify-center rounded-[8px] text-[12px] font-bold tracking-wider text-cream-50"
-            style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+            style={{ background: "#3d5a80" }}
           >
             cn
           </div>
           <div>
-            <div className="text-[14px] font-semibold tracking-tight">Context Cloud</div>
+            <div className="text-[14px] font-semibold tracking-tight">ContextMaster</div>
             <div className="text-[11.5px] text-ink-500">
               <a href="mailto:abhi@contextcloud.pro" className="hover:text-ink-900">abhi@contextcloud.pro</a>
             </div>
@@ -2251,7 +2229,7 @@ function Footer() {
           </a>
         </nav>
 
-        <div className="text-[11.5px] text-ink-500">© 2026 Context Cloud</div>
+        <div className="text-[11.5px] text-ink-500">© 2026 ContextMaster</div>
       </div>
     </footer>
   );

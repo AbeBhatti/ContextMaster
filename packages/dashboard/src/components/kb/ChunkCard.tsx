@@ -69,7 +69,7 @@ export function ChunkCard({
     <div
       id={`chunk-${chunk.id}`}
       className="group relative rounded-[9px] border bg-white p-3.5"
-      style={{ borderColor: "rgba(67,55,39,0.10)" }}
+      style={{ borderColor: "rgba(24,24,27,0.10)" }}
     >
       <div className="mb-2 text-[13px] leading-relaxed text-ink-900">
         {chunk.content}
@@ -118,25 +118,25 @@ export function ChunkCard({
         </span>
       </div>
       {error && (
-        <div className="mt-2 text-[11.5px] text-[#b04545]">{error}</div>
+        <div className="mt-2 text-[11.5px] text-danger">{error}</div>
       )}
       {confirmDelete ? (
         <div className="mt-2 flex justify-end gap-2 border-t pt-2"
-          style={{ borderColor: "rgba(67,55,39,0.10)" }}
+          style={{ borderColor: "rgba(24,24,27,0.10)" }}
         >
           <span className="mr-auto text-[12px] text-ink-700">Archive this chunk?</span>
           <button
             disabled={deleting}
             onClick={() => setConfirmDelete(false)}
             className="rounded-md border px-2 py-0.5 text-[11.5px] text-ink-700"
-            style={{ borderColor: "rgba(67,55,39,0.18)" }}
+            style={{ borderColor: "rgba(24,24,27,0.18)" }}
           >
             Cancel
           </button>
           <button
             disabled={deleting}
             onClick={performDelete}
-            className="rounded-md bg-[#b04545] px-2 py-0.5 text-[11.5px] font-medium text-white disabled:opacity-60"
+            className="rounded-md bg-danger px-2 py-0.5 text-[11.5px] font-medium text-white disabled:opacity-60"
           >
             {deleting ? "Archiving…" : "Archive"}
           </button>

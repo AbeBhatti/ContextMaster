@@ -84,16 +84,16 @@ export function Sidebar({
   return (
     <aside
       className="flex h-full w-[240px] flex-shrink-0 flex-col bg-cream-200 px-3 py-[18px] border-r"
-      style={{ borderColor: "rgba(67,55,39,0.12)" }}
+      style={{ borderColor: "rgba(24,24,27,0.12)" }}
     >
       <div className="flex items-center gap-2.5 px-2.5 pb-[18px] pt-1">
         <div
           className="flex h-6 w-6 items-center justify-center rounded-[7px] text-[11px] font-bold tracking-wider text-cream-50"
-          style={{ background: "linear-gradient(135deg,#3a3320,#5a4d36)" }}
+          style={{ background: "#3d5a80" }}
         >
           cn
         </div>
-        <div className="text-sm font-semibold text-ink-900">Context Cloud</div>
+        <div className="text-sm font-semibold text-ink-900">ContextMaster</div>
       </div>
 
       <div className="px-2.5 pb-1.5 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
@@ -120,15 +120,15 @@ export function Sidebar({
               className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors ${
                 active
                   ? "text-ink-900"
-                  : "text-ink-700 hover:bg-[rgba(58,51,32,0.04)]"
+                  : "text-ink-700 hover:bg-[rgba(24,24,27,0.04)]"
               }`}
-              style={active ? { background: "rgba(58,51,32,0.08)" } : undefined}
+              style={active ? { background: "rgba(24,24,27,0.08)" } : undefined}
             >
               <span
                 className={`flex h-[22px] w-[22px] items-center justify-center rounded-md text-[11px] font-bold ${
                   active ? "text-cream-50" : "text-ink-700"
                 }`}
-                style={{ background: active ? "#3a3320" : "#cfc3a5" }}
+                style={{ background: active ? "#18181b" : "#d1d5db" }}
               >
                 {w.name[0]?.toUpperCase() ?? "?"}
               </span>
@@ -165,7 +165,7 @@ export function Sidebar({
         >
           <div
             className="flex items-start gap-2 rounded-md px-2 py-2 text-[11.5px] leading-snug text-ink-700"
-            style={{ background: "rgba(58,51,32,0.05)" }}
+            style={{ background: "rgba(24,24,27,0.05)" }}
           >
             <FolderClosed size={11} className="mt-0.5 shrink-0 text-ink-500" />
             <span>
@@ -180,13 +180,13 @@ export function Sidebar({
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             placeholder="Workspace name"
-            className="rounded-lg border border-[rgba(67,55,39,0.18)] bg-cream-50 px-2.5 py-2 text-[13px] text-ink-800 outline-none placeholder:text-ink-500 focus:border-[rgba(67,55,39,0.4)]"
+            className="rounded-lg border border-[rgba(24,24,27,0.18)] bg-cream-50 px-2.5 py-2 text-[13px] text-ink-800 outline-none placeholder:text-ink-500 focus:border-[rgba(24,24,27,0.4)]"
           />
           {orgs.length > 0 && (
             <select
               value={newOrgId}
               onChange={(e) => setNewOrgId(e.target.value)}
-              className="rounded-lg border border-[rgba(67,55,39,0.18)] bg-cream-50 px-2.5 py-2 text-[12.5px] text-ink-800 outline-none"
+              className="rounded-lg border border-[rgba(24,24,27,0.18)] bg-cream-50 px-2.5 py-2 text-[12.5px] text-ink-800 outline-none"
             >
               <option value="">No organization (personal)</option>
               {orgs.map((o) => (
@@ -197,7 +197,7 @@ export function Sidebar({
             </select>
           )}
           {createError && (
-            <div className="text-[11.5px] text-[#b04545]">{createError}</div>
+            <div className="text-[11.5px] text-danger">{createError}</div>
           )}
           <div className="flex gap-1.5">
             <button
@@ -215,7 +215,7 @@ export function Sidebar({
                 setNewOrgId("");
                 setCreateError(null);
               }}
-              className="rounded-lg border border-[rgba(67,55,39,0.18)] px-2.5 py-1.5 text-[12px] font-medium text-ink-700"
+              className="rounded-lg border border-[rgba(24,24,27,0.18)] px-2.5 py-1.5 text-[12px] font-medium text-ink-700"
             >
               Cancel
             </button>
@@ -224,7 +224,7 @@ export function Sidebar({
       ) : (
         <button
           onClick={() => setCreating(true)}
-          className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-[rgba(67,55,39,0.25)] bg-transparent px-2.5 py-2 text-[12.5px] font-medium text-ink-600 hover:bg-[rgba(58,51,32,0.04)]"
+          className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-[rgba(24,24,27,0.25)] bg-transparent px-2.5 py-2 text-[12.5px] font-medium text-ink-600 hover:bg-[rgba(24,24,27,0.04)]"
         >
           <Plus size={14} /> New workspace
         </button>
@@ -235,10 +235,10 @@ export function Sidebar({
         className={`mt-1.5 flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] font-medium transition-colors ${
           orgsActive
             ? "text-ink-900"
-            : "text-ink-700 hover:bg-[rgba(58,51,32,0.04)]"
+            : "text-ink-700 hover:bg-[rgba(24,24,27,0.04)]"
         }`}
         style={
-          orgsActive ? { background: "rgba(58,51,32,0.08)" } : undefined
+          orgsActive ? { background: "rgba(24,24,27,0.08)" } : undefined
         }
       >
         <Building2 size={14} /> Organizations
@@ -254,11 +254,11 @@ export function Sidebar({
         className={`mt-0.5 flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] font-medium transition-colors ${
           location.pathname.startsWith("/help")
             ? "text-ink-900"
-            : "text-ink-700 hover:bg-[rgba(58,51,32,0.04)]"
+            : "text-ink-700 hover:bg-[rgba(24,24,27,0.04)]"
         }`}
         style={
           location.pathname.startsWith("/help")
-            ? { background: "rgba(58,51,32,0.08)" }
+            ? { background: "rgba(24,24,27,0.08)" }
             : undefined
         }
       >
@@ -267,7 +267,7 @@ export function Sidebar({
 
       <button
         onClick={() => navigate("/onboarding")}
-        className="mt-0.5 flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[11.5px] text-ink-500 transition-colors hover:bg-[rgba(58,51,32,0.04)] hover:text-ink-700"
+        className="mt-0.5 flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[11.5px] text-ink-500 transition-colors hover:bg-[rgba(24,24,27,0.04)] hover:text-ink-700"
       >
         <BookOpen size={12} /> Getting Started
       </button>
@@ -275,15 +275,15 @@ export function Sidebar({
       {user && (
         <div
           className="mt-2 pt-1"
-          style={{ borderTop: "0.5px solid rgba(67,55,39,0.10)" }}
+          style={{ borderTop: "0.5px solid rgba(24,24,27,0.10)" }}
         >
           <button
             onClick={() => navigate("/settings")}
             aria-label="Account settings"
             className={`group flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors ${
               settingsActive
-                ? "bg-[rgba(58,51,32,0.08)]"
-                : "hover:bg-[rgba(58,51,32,0.04)]"
+                ? "bg-[rgba(24,24,27,0.08)]"
+                : "hover:bg-[rgba(24,24,27,0.04)]"
             }`}
           >
             <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-gold-400 text-[11px] font-bold text-cream-50">
@@ -297,8 +297,8 @@ export function Sidebar({
                 <span
                   className="shrink-0 rounded-full px-1.5 py-px text-[9.5px] font-semibold uppercase tracking-[0.06em]"
                   style={{
-                    background: "rgba(214,162,74,0.18)",
-                    color: "#8a5e1f",
+                    background: "rgba(61,90,128,0.18)",
+                    color: "#3d5a80",
                   }}
                   title="Early Access — full access to all features"
                 >

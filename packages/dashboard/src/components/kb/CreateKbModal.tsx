@@ -67,18 +67,18 @@ export function CreateKbModal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-6"
-      style={{ background: "rgba(58,51,32,.32)", backdropFilter: "blur(2px)" }}
+      style={{ background: "rgba(24,24,27,.32)", backdropFilter: "blur(2px)" }}
       onClick={onClose}
     >
       <form
         onSubmit={submit}
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-[460px] rounded-2xl bg-cream-50 shadow-2xl"
-        style={{ border: "0.5px solid rgba(67,55,39,0.15)" }}
+        style={{ border: "0.5px solid rgba(24,24,27,0.15)" }}
       >
         <div
           className="flex items-center justify-between px-6 pb-4 pt-5"
-          style={{ borderBottom: "0.5px solid rgba(67,55,39,0.10)" }}
+          style={{ borderBottom: "0.5px solid rgba(24,24,27,0.10)" }}
         >
           <div>
             <div className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-ink-400">
@@ -108,7 +108,7 @@ export function CreateKbModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder='e.g. "Project Financials" or "GTM Strategy"'
-              className="rounded-lg border border-[rgba(67,55,39,0.18)] bg-white px-3 py-2.5 text-[15px] font-medium text-ink-900 outline-none placeholder:text-ink-400 placeholder:font-normal focus:border-[rgba(67,55,39,0.4)]"
+              className="rounded-lg border border-[rgba(24,24,27,0.18)] bg-white px-3 py-2.5 text-[15px] font-medium text-ink-900 outline-none placeholder:text-ink-400 placeholder:font-normal focus:border-[rgba(24,24,27,0.4)]"
               required
             />
           </label>
@@ -129,10 +129,10 @@ export function CreateKbModal({
                     className="flex flex-col items-center gap-1 rounded-lg px-2 py-2 text-[11.5px] font-medium transition-colors"
                     style={{
                       background: active ? c.tint : "transparent",
-                      color: active ? c.text : "#6b6049",
+                      color: active ? c.text : "#6b7280",
                       border: active
                         ? `1px solid ${c.dot}`
-                        : "1px solid rgba(67,55,39,0.12)",
+                        : "1px solid rgba(24,24,27,0.12)",
                     }}
                   >
                     <span
@@ -157,7 +157,7 @@ export function CreateKbModal({
                 setDescriptionTouched(true);
               }}
               rows={4}
-              className="resize-none rounded-lg border border-[rgba(67,55,39,0.18)] bg-white px-3 py-2.5 text-[13px] leading-snug text-ink-800 outline-none placeholder:text-ink-400 focus:border-[rgba(67,55,39,0.4)]"
+              className="resize-none rounded-lg border border-[rgba(24,24,27,0.18)] bg-white px-3 py-2.5 text-[13px] leading-snug text-ink-800 outline-none placeholder:text-ink-400 focus:border-[rgba(24,24,27,0.4)]"
               placeholder={templateFor(kbType).description}
             />
             <span className="text-[11px] text-ink-500">
@@ -167,18 +167,18 @@ export function CreateKbModal({
           </label>
 
           {error && (
-            <div className="text-[12px] text-[#b04545]">{error}</div>
+            <div className="text-[12px] text-danger">{error}</div>
           )}
         </div>
 
         <div
           className="flex items-center justify-end gap-2 px-6 py-3.5"
-          style={{ borderTop: "0.5px solid rgba(67,55,39,0.10)" }}
+          style={{ borderTop: "0.5px solid rgba(24,24,27,0.10)" }}
         >
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-[rgba(67,55,39,0.18)] bg-white px-3.5 py-1.5 text-[13px] font-medium text-ink-700 hover:bg-cream-100"
+            className="rounded-lg border border-[rgba(24,24,27,0.18)] bg-white px-3.5 py-1.5 text-[13px] font-medium text-ink-700 hover:bg-cream-100"
           >
             Cancel
           </button>

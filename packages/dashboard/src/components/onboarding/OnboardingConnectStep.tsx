@@ -34,8 +34,8 @@ function videoSrc(filename: string): string | undefined {
 
 const PLACEHOLDER_KEY = "YOUR_API_KEY";
 
-const PRIMARY = "#3d3b35";
-const SELECTED_BG = "#f0ede8";
+const PRIMARY = "#3d5a80";
+const SELECTED_BG = "#eef2f7";
 
 const TOOLS: {
   id: OnboardingToolId;
@@ -252,7 +252,7 @@ function ApiKeyRow({
         type="button"
         onClick={onGenerate}
         disabled={generating}
-        className="inline-flex w-fit items-center gap-1.5 rounded-lg bg-[#3d3b35] px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-[#2d2b25] disabled:opacity-50"
+        className="inline-flex w-fit items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
       >
         {generating ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -404,7 +404,7 @@ export function OnboardingConnectStep({
             }}
             className={`flex flex-row items-center justify-start gap-2.5 rounded-lg border bg-white px-3 py-2.5 text-left transition-colors hover:border-gray-400 sm:gap-3 sm:px-3.5 sm:py-3 ${
               sel
-                ? "border-[#3d3b35]"
+                ? "border-accent"
                 : "border-gray-300"
             }`}
             style={sel ? { background: SELECTED_BG } : undefined}
@@ -457,7 +457,7 @@ export function OnboardingConnectStep({
                       onClick={() =>
                         openExternal("https://claude.ai/settings/connectors?modal=add-custom-connector")
                       }
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3b35] px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-[#2d2b25]"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-accent-hover"
                     >
                       Go to Claude <ArrowRight className="h-3.5 w-3.5" />
                     </button>
@@ -467,7 +467,7 @@ export function OnboardingConnectStep({
               <div className="flex gap-2">
                 <StepCircle n={3} />
                 <div>
-                  Name it <b>cntxt</b>, paste the URL and click connect
+                  Name it <b>ContextMaster</b>, paste the URL and click connect
                 </div>
               </div>
               <p className="text-xs text-gray-600">
@@ -533,7 +533,7 @@ export function OnboardingConnectStep({
               <div className="flex gap-2">
                 <StepCircle n={3} />
                 <div>
-                  Name it <b>cntxt</b> and paste the URL
+                  Name it <b>ContextMaster</b> and paste the URL
                 </div>
               </div>
               <div className="flex gap-2">
@@ -594,7 +594,7 @@ export function OnboardingConnectStep({
                       "https://chatgpt.com/#settings/Connectors/Advanced"
                     )
                   }
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3b35] px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-[#2d2b25]"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-accent-hover"
                 >
                   Go to ChatGPT <ArrowRight className="h-3.5 w-3.5" />
                 </button>
@@ -627,7 +627,7 @@ export function OnboardingConnectStep({
           <div className="flex gap-2">
             <StepCircle n={3} />
             <div>
-              Name it <b>cntxt</b>, paste the URL, and click Save
+              Name it <b>ContextMaster</b>, paste the URL, and click Save
             </div>
           </div>
           <p className="text-xs text-gray-600">
@@ -647,7 +647,7 @@ export function OnboardingConnectStep({
           <div>
             <a
               href={cursorMcpInstallLink}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#3d3b35] px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-[#2d2b25]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-accent-hover"
             >
               Open in Cursor <ArrowRight className="h-3.5 w-3.5" />
             </a>
@@ -674,7 +674,7 @@ export function OnboardingConnectStep({
             <StepCircle n={3} />
             <div>
               Choose <b>&quot;HTTP (HTTP or Server-Sent Events)&quot;</b> → paste the URL
-              and name it <b>cntxt</b>
+              and name it <b>ContextMaster</b>
             </div>
           </div>
           <p className="text-xs text-gray-600">
@@ -764,7 +764,7 @@ export function OnboardingConnectStep({
             <button
               type="button"
               onClick={onContinue}
-              className="inline-flex items-center gap-2 rounded-lg bg-[#3d3b35] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2b25]"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
             >
               Continue <ArrowRight className="h-4 w-4" />
             </button>
@@ -803,7 +803,7 @@ export function OnboardingConnectStep({
             <button
               type="button"
               onClick={onContinue}
-              className="inline-flex items-center gap-2 rounded-lg bg-[#3d3b35] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2b25]"
+              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
             >
               I&apos;ve connected <ArrowRight className="h-4 w-4" />
             </button>

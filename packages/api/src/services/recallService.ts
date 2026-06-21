@@ -87,6 +87,50 @@ export interface RecallOptions {
   maxResults?: number;
   chunkTypes?: string[];
   userId?: string;
+  /** When true, also return the two pre-fusion retrieval arms (additive). */
+  explain?: boolean;
+}
+
+// One candidate from a single retrieval arm, before fusion.
+export interface RecallExplainArm {
+  id: string;
+  knowledge_base_id: string;
+  knowledge_base_name: string;
+  content: string;
+  chunk_type: string;
+  score: number; // cosine similarity (vector arm) or BM25 score (bm25 arm)
+  rank: number; // 1-based position within this arm
+}
+
+// One row of the fused result, with the fusion + temporal signals exposed.
+export interface RecallExplainCombined {
+  id: string;
+  knowledge_base_id: string;
+  knowledge_base_name: string;
+  content: string;
+  chunk_type: string;
+  rrf_score: number;
+  temporal_weight: number; // per-chunk recency weight (decay^ageHours), 0..1
+  vec_rank: number | null;
+  fts_rank: number | null;
+  valid_from: string | null;
+  created_at: string;
+}
+
+export interface RecallExplain {
+  vector: RecallExplainArm[]; // sorted by cosine desc
+  bm25: RecallExplainArm[]; // sorted by BM25 desc
+  combined: RecallExplainCombined[]; // sorted by RRF desc (rank 1 = highest)
+}
+
+// Per-chunk recency weight used by the temporal reranker: exponential decay on
+// the chunk's age, with a per-type decay rate. Exposed so the viz can show the
+// real "temporal weight" the engine applies (not a hardcoded number).
+function recencyWeightFor(chunkType: string, timestamp: string | null): number {
+  if (!timestamp) return 0.5;
+  const ageHours = Math.max(0, (Date.now() - new Date(timestamp).getTime()) / 3_600_000);
+  const decayRate = CHUNK_TYPE_DECAY[chunkType] ?? DEFAULT_DECAY;
+  return Math.pow(decayRate, ageHours);
 }
 
 export interface LinkedChunk {
@@ -116,6 +160,7 @@ export interface RecallResponse {
     linked_chunks: LinkedChunk[];
   }>;
   applied_chunk_type_filter?: string;
+  explain?: RecallExplain;
 }
 
 // Default search scope: all KBs in the user's open-scope workspaces. Populated
@@ -185,14 +230,26 @@ export async function recall(options: RecallOptions): Promise<RecallResponse> {
   // meant to surface type-level matches that may sit below the floor).
   const minVectorSimilarity = safetyValveTripped ? 0 : 0.2;
 
-  const rows = await chunkRepo.hybridRecall(redis, {
+  const hybridParams = {
     kbIds: knowledgeBaseIds,
     queryText: query,
     queryEmbedding,
     chunkTypes: effectiveTypes && effectiveTypes.length > 0 ? effectiveTypes : null,
     matchCount,
     minVectorSimilarity,
-  });
+  };
+
+  // In explain mode, run the explain variant once and reuse its fused output as
+  // `rows` (it is byte-for-byte identical to hybridRecall) so we don't query
+  // twice. The raw arms are kept aside to build the response.explain block.
+  let explainBundle: Awaited<ReturnType<typeof chunkRepo.hybridRecallExplain>> | null = null;
+  let rows;
+  if (options.explain) {
+    explainBundle = await chunkRepo.hybridRecallExplain(redis, hybridParams);
+    rows = explainBundle.fused;
+  } else {
+    rows = await chunkRepo.hybridRecall(redis, hybridParams);
+  }
 
   const kbIds = [...new Set(rows.map((r) => r.knowledge_base_id))];
   const kbNameMap = await kbRepo.getKbNames(redis, kbIds);
@@ -318,7 +375,70 @@ export async function recall(options: RecallOptions): Promise<RecallResponse> {
     }
   }
 
-  return { chunks: finalChunks, applied_chunk_type_filter: appliedIntent };
+  let explain: RecallExplain | undefined;
+  if (explainBundle) {
+    // Resolve KB names for any arm/combined chunks not already mapped.
+    const explainKbIds = new Set<string>();
+    for (const a of explainBundle.vectorArm) explainKbIds.add(a.knowledge_base_id);
+    for (const a of explainBundle.bm25Arm) explainKbIds.add(a.knowledge_base_id);
+    for (const f of explainBundle.fused) explainKbIds.add(f.knowledge_base_id);
+    const missing = [...explainKbIds].filter((id) => id && !kbNameMap.has(id));
+    if (missing.length > 0) {
+      const extra = await kbRepo.getKbNames(redis, missing);
+      for (const [id, name] of extra) kbNameMap.set(id, name);
+    }
+    const nameOf = (id: string) => kbNameMap.get(id) ?? "Unknown";
+
+    // Rank lookups so the combined rows can show each chunk's source ranks.
+    const vecRankById = new Map(explainBundle.vectorArm.map((a) => [a.id, a.rank]));
+    const ftsRankById = new Map(explainBundle.bm25Arm.map((a) => [a.id, a.rank]));
+
+    const vector = [...explainBundle.vectorArm]
+      .sort((a, b) => b.score - a.score)
+      .map((a) => ({
+        id: a.id,
+        knowledge_base_id: a.knowledge_base_id,
+        knowledge_base_name: nameOf(a.knowledge_base_id),
+        content: a.content,
+        chunk_type: a.chunk_type,
+        score: a.score,
+        rank: a.rank,
+      }));
+
+    const bm25 = [...explainBundle.bm25Arm]
+      .sort((a, b) => b.score - a.score)
+      .map((a) => ({
+        id: a.id,
+        knowledge_base_id: a.knowledge_base_id,
+        knowledge_base_name: nameOf(a.knowledge_base_id),
+        content: a.content,
+        chunk_type: a.chunk_type,
+        score: a.score,
+        rank: a.rank,
+      }));
+
+    // Combined column: the genuine RRF fusion output, sorted by RRF desc so
+    // rank 1 = highest RRF and scores decrease monotonically down the list.
+    const combined = [...explainBundle.fused]
+      .sort((a, b) => b.rrf_score - a.rrf_score)
+      .map((f) => ({
+        id: f.id,
+        knowledge_base_id: f.knowledge_base_id,
+        knowledge_base_name: nameOf(f.knowledge_base_id),
+        content: f.content,
+        chunk_type: f.chunk_type,
+        rrf_score: f.rrf_score,
+        temporal_weight: recencyWeightFor(f.chunk_type, f.valid_from ?? f.created_at ?? null),
+        vec_rank: vecRankById.get(f.id) ?? null,
+        fts_rank: ftsRankById.get(f.id) ?? null,
+        valid_from: f.valid_from,
+        created_at: f.created_at,
+      }));
+
+    explain = { vector, bm25, combined };
+  }
+
+  return { chunks: finalChunks, applied_chunk_type_filter: appliedIntent, explain };
 }
 
 // Cross-KB dedup of PRIMARY results (linked_chunks left untouched).

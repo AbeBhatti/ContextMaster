@@ -34,17 +34,17 @@ export function HistoryTimeline({ sessions, jobs }: HistoryTimelineProps) {
     <div className="relative pl-5">
       <div
         className="absolute bottom-1 left-1.5 top-1 w-px"
-        style={{ background: "rgba(67,55,39,0.14)" }}
+        style={{ background: "rgba(24,24,27,0.14)" }}
       />
 
       {inflightJobs.map((j) => {
         const tool = toolMeta(j.tool_used);
-        const dotColor = j.status === "failed" ? "#b04545" : "#3a6b8a";
+        const dotColor = j.status === "failed" ? "#dc2626" : "#3d5a80";
         return (
           <div key={`job-${j.id}`} className="relative pb-5">
             <span
               className="absolute -left-4 top-1 h-2.5 w-2.5 rounded-full"
-              style={{ background: "#fffaf0", border: `2px solid ${dotColor}` }}
+              style={{ background: "#ffffff", border: `2px solid ${dotColor}` }}
             />
             <div className="flex flex-wrap items-center gap-2 text-[12.5px] text-ink-700">
               {j.tool_used && (
@@ -63,7 +63,7 @@ export function HistoryTimeline({ sessions, jobs }: HistoryTimelineProps) {
             </div>
             <div className="mt-1 flex items-center gap-1.5 text-[13px] text-ink-700">
               {j.status === "failed" ? (
-                <span className="text-[#b04545]">Processing failed</span>
+                <span className="text-danger">Processing failed</span>
               ) : (
                 <>
                   <Loader2 size={12} className="animate-spin text-ink-400" />
@@ -84,7 +84,7 @@ export function HistoryTimeline({ sessions, jobs }: HistoryTimelineProps) {
           <div key={`session-${s.id}`} className="relative pb-5">
             <span
               className="absolute -left-4 top-1 h-2.5 w-2.5 rounded-full"
-              style={{ background: "#fffaf0", border: "2px solid #d6a24a" }}
+              style={{ background: "#ffffff", border: "2px solid #3d5a80" }}
             />
             <div className="flex items-center gap-2 text-[12.5px] text-ink-700">
               <span

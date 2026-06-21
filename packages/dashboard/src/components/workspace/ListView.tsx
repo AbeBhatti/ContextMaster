@@ -20,7 +20,7 @@ export function ListView({ knowledgeBases, onSelect }: ListViewProps) {
               key={kb.id}
               onClick={() => onSelect(kb.id)}
               className="flex flex-col gap-2 rounded-xl border bg-cream-50 p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md"
-              style={{ borderColor: "rgba(67,55,39,0.12)" }}
+              style={{ borderColor: "rgba(24,24,27,0.12)" }}
             >
               <div className="flex items-center gap-2">
                 <span
@@ -36,7 +36,7 @@ export function ListView({ knowledgeBases, onSelect }: ListViewProps) {
                 {kb.is_shared && (
                   <span
                     className="rounded-full px-1.5 py-0 text-[10.5px] text-ink-600"
-                    style={{ border: "1px dashed rgba(67,55,39,0.25)" }}
+                    style={{ border: "1px dashed rgba(24,24,27,0.25)" }}
                   >
                     Shared
                   </span>
@@ -44,8 +44,8 @@ export function ListView({ knowledgeBases, onSelect }: ListViewProps) {
                 {kb.is_system && (
                   <span
                     className="rounded-full px-1.5 py-0 text-[10.5px] text-ink-600"
-                    style={{ border: "1px dashed rgba(67,55,39,0.25)" }}
-                    title="Built-in Context Cloud knowledge base"
+                    style={{ border: "1px dashed rgba(24,24,27,0.25)" }}
+                    title="Built-in ContextMaster knowledge base"
                   >
                     System
                   </span>
