@@ -187,6 +187,22 @@ export async function insertChunks(
   return out;
 }
 
+// Supersede a single chunk only if it's currently active (idempotent guard for
+// the super-commit LLM-conflict path; mirrors the reference's
+// `.eq("status","active")` on the update). Returns true if it flipped a row.
+export async function supersedeActiveChunk(
+  redis: RedisClient,
+  id: string,
+  validToIso: string
+): Promise<boolean> {
+  const status = (await redis.hGet(k.chunk(id), "status")) as string | null;
+  if (status !== "active") return false;
+  await redis.sendCommand([
+    "HSET", k.chunk(id), "status", "superseded", "valid_to", String(epochOf(validToIso)), "updated_at", String(Date.now()),
+  ]);
+  return true;
+}
+
 // Mark chunks superseded: status='superseded', valid_to=<superseding validFrom>.
 export async function markSuperseded(
   redis: RedisClient,
@@ -256,6 +272,76 @@ export async function countActive(
   if (chunkType) query += ` ${tagIn("chunk_type", [chunkType])}`;
   const reply = await redis.sendCommand(["FT.SEARCH", idx.chunks, query, "LIMIT", "0", "0", "DIALECT", "2"]);
   return searchCount(reply);
+}
+
+// Entity-overlap signal for KB routing (replaces the reference's
+// .textSearch("content_tsv", terms, { type: "plain" }) count). Counts active
+// chunks in a KB whose content matches the distinctive terms via BM25. Terms
+// are sanitised to word tokens so URLs/version strings don't break the parser;
+// returns 0 on any parse error, exactly like the reference's error fallback.
+export async function countActiveByText(
+  redis: RedisClient,
+  kbId: string,
+  terms: string[]
+): Promise<number> {
+  if (terms.length === 0) return 0;
+  const tokens = terms
+    .map((t) => t.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim())
+    .filter(Boolean);
+  if (tokens.length === 0) return 0;
+  const phrase = tokens.join(" ");
+  const query = `@knowledge_base_id:{${escapeTag(kbId)}} @status:{active} @content:(${phrase})`;
+  try {
+    const reply = await redis.sendCommand([
+      "FT.SEARCH", idx.chunks, query, "LIMIT", "0", "0", "DIALECT", "2",
+    ]);
+    return searchCount(reply);
+  } catch {
+    return 0;
+  }
+}
+
+// Recent content for KBs, by chunk_type, newest first (KB description
+// regeneration). Returns just the content strings.
+export async function getRecentContentsByType(
+  redis: RedisClient,
+  kbId: string,
+  chunkType: string,
+  limit: number
+): Promise<string[]> {
+  const query = `@knowledge_base_id:{${escapeTag(kbId)}} @status:{active} @chunk_type:{${escapeTag(
+    chunkType
+  )}}`;
+  const reply = await redis.sendCommand([
+    "FT.SEARCH", idx.chunks, query,
+    "SORTBY", "created_at", "DESC",
+    "LIMIT", "0", String(limit),
+    "RETURN", "1", "content",
+    "DIALECT", "2",
+  ]);
+  return parseSearch(reply).map((r) => r.fields.content ?? "").filter(Boolean);
+}
+
+// Recent content + type for a KB EXCLUDING one chunk_type, newest first.
+export async function getRecentContentsExcludingType(
+  redis: RedisClient,
+  kbId: string,
+  excludeType: string,
+  limit: number
+): Promise<Array<{ content: string; chunk_type: string }>> {
+  const query = `@knowledge_base_id:{${escapeTag(kbId)}} @status:{active} -@chunk_type:{${escapeTag(
+    excludeType
+  )}}`;
+  const reply = await redis.sendCommand([
+    "FT.SEARCH", idx.chunks, query,
+    "SORTBY", "created_at", "DESC",
+    "LIMIT", "0", String(limit),
+    "RETURN", "2", "content", "chunk_type",
+    "DIALECT", "2",
+  ]);
+  return parseSearch(reply)
+    .map((r) => ({ content: r.fields.content ?? "", chunk_type: r.fields.chunk_type ?? "" }))
+    .filter((r) => r.content);
 }
 
 // ---- hybrid recall (replaces hybrid_recall_chunks RPC) -------------
@@ -547,4 +633,225 @@ export async function deleteChunksByKb(redis: RedisClient, kbId: string): Promis
   }
   await redis.del(k.kbChunks(kbId));
   return ids.length;
+}
+
+// ============================================================
+// Dashboard chunk operations (phase 6) — paginated listing, single-chunk
+// fetch/edit/archive, and document-scoped reads. These power the workspace KB
+// browser, the chunk editor, and document management.
+// ============================================================
+
+const LIST_FIELDS = [
+  "knowledge_base_id",
+  "content",
+  "chunk_type",
+  "topic_tags",
+  "related_chunk_ids",
+  "source_type",
+  "source_document_id",
+  "status",
+  "created_by",
+  "session_id",
+  "created_at",
+  "updated_at",
+];
+
+export interface FullChunk {
+  id: string;
+  knowledge_base_id: string;
+  content: string;
+  chunk_type: string;
+  topic_tags: string[];
+  related_chunk_ids: string[];
+  source_type: string;
+  source_document_id: string | null;
+  status: string;
+  created_by: string | null;
+  session_id: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+function toFullChunk(r: { id: string; fields: Record<string, string> }): FullChunk {
+  return {
+    id: r.id,
+    knowledge_base_id: r.fields.knowledge_base_id ?? "",
+    content: r.fields.content ?? "",
+    chunk_type: r.fields.chunk_type ?? "",
+    topic_tags: splitTags(r.fields.topic_tags),
+    related_chunk_ids: splitTags(r.fields.related_chunk_ids),
+    source_type: r.fields.source_type ?? "session",
+    source_document_id: r.fields.source_document_id || null,
+    status: r.fields.status ?? "active",
+    created_by: r.fields.created_by || null,
+    session_id: r.fields.session_id || null,
+    created_at: msToIso(r.fields.created_at),
+    updated_at: msToIso(r.fields.updated_at),
+  };
+}
+
+export interface ListChunksParams {
+  kbId: string;
+  offset: number;
+  limit: number;
+  status?: string; // 'active' (default) | 'all' | any status
+  chunkType?: string;
+  topicTags?: string[];
+  search?: string;
+}
+
+// Paginated chunk list with filters. Mirrors the reference's
+// GET /workspaces/:id/knowledge-bases/:kbId/chunks query (status/type/tags/
+// search + range), returning total for the pager.
+export async function listChunksByKb(
+  redis: RedisClient,
+  p: ListChunksParams
+): Promise<{ chunks: FullChunk[]; total: number }> {
+  const parts = [`@knowledge_base_id:{${escapeTag(p.kbId)}}`];
+  if (!p.status || p.status !== "all") {
+    parts.push(`@status:{${escapeTag(p.status ?? "active")}}`);
+  }
+  if (p.chunkType) parts.push(`@chunk_type:{${escapeTag(p.chunkType)}}`);
+  if (p.topicTags && p.topicTags.length > 0) {
+    parts.push(`@topic_tags:{${p.topicTags.map(escapeTag).join("|")}}`);
+  }
+  if (p.search && p.search.trim()) {
+    const tokens = p.search.toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length >= 2);
+    if (tokens.length > 0) parts.push(`@content:(${tokens.join(" ")})`);
+  }
+  const query = parts.join(" ");
+  const reply = await redis.sendCommand([
+    "FT.SEARCH", idx.chunks, query,
+    "SORTBY", "created_at", "DESC",
+    "LIMIT", String(p.offset), String(p.limit),
+    "RETURN", String(LIST_FIELDS.length), ...LIST_FIELDS,
+    "DIALECT", "2",
+  ]);
+  return { chunks: parseSearch(reply).map(toFullChunk), total: searchCount(reply) };
+}
+
+// topic_key for a set of chunk ids (super-commit conflict candidates). Absent
+// ids map to null. Mirrors the reference's `select id, topic_key in (...)`.
+export async function getTopicKeys(
+  redis: RedisClient,
+  ids: string[]
+): Promise<Map<string, string | null>> {
+  const map = new Map<string, string | null>();
+  for (const id of ids) {
+    const tk = (await redis.hGet(k.chunk(id), "topic_key")) as string | null;
+    map.set(id, tk || null);
+  }
+  return map;
+}
+
+export async function getChunkById(redis: RedisClient, id: string): Promise<FullChunk | null> {
+  const reply = (await redis.sendCommand(["HMGET", k.chunk(id), ...LIST_FIELDS])) as unknown[];
+  const fields: Record<string, string> = {};
+  LIST_FIELDS.forEach((f, i) => {
+    const v = reply?.[i];
+    if (v != null) fields[f] = bufToStr(v);
+  });
+  if (!fields.content && !fields.chunk_type) return null;
+  return toFullChunk({ id, fields });
+}
+
+// Edit a chunk's content (+ re-embed) and/or chunk_type/topic_tags. The caller
+// passes a fresh embedding only when content changed.
+export async function updateChunk(
+  redis: RedisClient,
+  id: string,
+  fields: { content?: string; chunk_type?: string; topic_tags?: string[]; embedding?: number[] }
+): Promise<FullChunk | null> {
+  const args: string[] = [];
+  if (fields.content != null) args.push("content", fields.content);
+  if (fields.chunk_type != null) args.push("chunk_type", fields.chunk_type);
+  if (fields.topic_tags != null) args.push("topic_tags", fields.topic_tags.join("|"));
+  args.push("updated_at", String(Date.now()));
+  await redis.sendCommand(["HSET", k.chunk(id), ...args]);
+  if (fields.embedding) {
+    await redis.sendCommand(["HSET", k.chunk(id), "embedding", floatBuf(fields.embedding)]);
+  }
+  return getChunkById(redis, id);
+}
+
+// Soft-archive a single chunk (status='archived'). Returns false if absent.
+export async function archiveChunk(
+  redis: RedisClient,
+  kbId: string,
+  chunkId: string
+): Promise<boolean> {
+  const existingKb = (await redis.hGet(k.chunk(chunkId), "knowledge_base_id")) as string | null;
+  if (existingKb !== kbId) return false;
+  await redis.sendCommand([
+    "HSET", k.chunk(chunkId), "status", "archived", "updated_at", String(Date.now()),
+  ]);
+  return true;
+}
+
+// Active chunks produced by a given document (source_document_id), oldest first.
+export async function getActiveChunksByDocument(
+  redis: RedisClient,
+  documentId: string
+): Promise<FullChunk[]> {
+  const query = `@source_document_id:{${escapeTag(documentId)}} @status:{active}`;
+  const reply = await redis.sendCommand([
+    "FT.SEARCH", idx.chunks, query,
+    "SORTBY", "created_at", "ASC",
+    "LIMIT", "0", "1000",
+    "RETURN", String(LIST_FIELDS.length), ...LIST_FIELDS,
+    "DIALECT", "2",
+  ]);
+  return parseSearch(reply).map(toFullChunk);
+}
+
+// Hard-delete every chunk produced by a document (the reference deletes
+// document chunks outright rather than archiving them).
+export async function deleteChunksByDocument(
+  redis: RedisClient,
+  kbId: string,
+  documentId: string
+): Promise<number> {
+  const query = `@source_document_id:{${escapeTag(documentId)}}`;
+  const reply = await redis.sendCommand([
+    "FT.SEARCH", idx.chunks, query, "NOCONTENT", "LIMIT", "0", "10000", "DIALECT", "2",
+  ]);
+  const ids = parseSearchKeys(reply);
+  if (ids.length > 0) {
+    await Promise.all(ids.map((id) => redis.del(k.chunk(id))));
+    await Promise.all(ids.map((id) => redis.sRem(k.kbChunks(kbId), id)));
+  }
+  return ids.length;
+}
+
+// Active chunks for a KB copy (content + metadata, no embedding — the copy
+// route re-embeds the identical content). Paged internally to bound memory.
+export async function getActiveChunksForCopy(
+  redis: RedisClient,
+  kbId: string
+): Promise<Array<{ content: string; chunk_type: string; topic_tags: string[]; source_type: string }>> {
+  const query = `@knowledge_base_id:{${escapeTag(kbId)}} @status:{active}`;
+  const out: Array<{ content: string; chunk_type: string; topic_tags: string[]; source_type: string }> = [];
+  const PAGE = 200;
+  let offset = 0;
+  for (;;) {
+    const reply = await redis.sendCommand([
+      "FT.SEARCH", idx.chunks, query,
+      "LIMIT", String(offset), String(PAGE),
+      "RETURN", "4", "content", "chunk_type", "topic_tags", "source_type",
+      "DIALECT", "2",
+    ]);
+    const rows = parseSearch(reply);
+    if (rows.length === 0) break;
+    for (const r of rows) {
+      out.push({
+        content: r.fields.content ?? "",
+        chunk_type: r.fields.chunk_type ?? "reference",
+        topic_tags: splitTags(r.fields.topic_tags),
+        source_type: r.fields.source_type ?? "session",
+      });
+    }
+    if (rows.length < PAGE) break;
+    offset += PAGE;
+  }
+  return out;
 }

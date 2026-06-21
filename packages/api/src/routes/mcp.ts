@@ -7,7 +7,22 @@ import {
   generateSupplementaryChunks,
 } from "../services/entityExtractor.js";
 import { recall } from "../services/recallService.js";
+import { routeSearch } from "../services/routingService.js";
+import {
+  checkEligibility,
+  consumeCredit,
+  isSuperCommitConfigured,
+  verifyCommit,
+  reExtractGaps,
+  VERIFICATION_TIMEOUT_MS,
+  REEXTRACTION_TIMEOUT_MS,
+  VERIFICATION_RECALL_FETCH,
+  VERIFICATION_CONTEXT_LIMIT,
+  VERIFICATION_QUERY_CHARS,
+  type ExistingChunkRef,
+} from "../services/superCommitService.js";
 import { getWorkspaceAccess, meetsMinimumRole } from "../lib/access.js";
+import { notify } from "../services/notificationService.js";
 import { descriptionForNewKb } from "../lib/kbTemplates.js";
 import { track, recordMcpUsage } from "../lib/analytics.js";
 import {
@@ -20,6 +35,8 @@ import * as kbRepo from "../lib/kbRepo.js";
 import * as chunkRepo from "../lib/chunkRepo.js";
 import * as workspaceRepo from "../lib/workspaceRepo.js";
 import * as sessionRepo from "../lib/sessionRepo.js";
+import * as orgRepo from "../lib/orgRepo.js";
+import { getUser } from "../lib/userRepo.js";
 import type { CommitRequest, RecallRequest } from "../lib/types.js";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -127,6 +144,21 @@ mcpRouter.get("/context", async (req: Request, res: Response) => {
       };
     }
 
+    // Org-shared KBs: walk the user's organizations → org workspaces → shared
+    // KBs (is_shared, non-hidden). Mirrors the reference's union of owned +
+    // member orgs (getOrgsForUser already covers both paths).
+    const sharedKbs: any[] = [];
+    const orgs = await orgRepo.getOrgsForUser(redis, userId);
+    for (const org of orgs) {
+      const orgWorkspaces = await workspaceRepo.getWorkspacesByOrg(redis, org.id);
+      for (const ws of orgWorkspaces) {
+        const kbs = await kbRepo.getKbsByWorkspace(redis, ws.id);
+        for (const kb of kbs) {
+          if (kb.is_shared && !kb.name.startsWith("_")) sharedKbs.push(kb);
+        }
+      }
+    }
+
     track(userId, "mcp.check_memory", {
       kb_count: allKbs.length,
       workspace_count: workspaces.length,
@@ -136,8 +168,13 @@ mcpRouter.get("/context", async (req: Request, res: Response) => {
     res.json({
       most_recent_kb: mostRecentKb,
       workspaces,
-      // Org-shared KBs land in phase 6.
-      shared_knowledge_bases: [],
+      shared_knowledge_bases: sharedKbs.map((kb) => ({
+        id: kb.id,
+        name: kb.name,
+        type: kb.kb_type,
+        description: kb.description,
+        chunk_count: kb.chunk_count,
+      })),
       tip: "Use save_session to preserve this conversation's knowledge. It processes in the background — you'll get a response instantly.",
     });
   } catch (err: any) {
@@ -168,6 +205,11 @@ mcpRouter.post("/recall", async (req: Request, res: Response) => {
     // Resolve KB IDs. Priority: ids > kb name > workspace name > default.
     let kbIds: string[] | undefined;
     const userWsIds = await workspaceRepo.getUserWorkspaceIds(redis, userId);
+    const explicitScopeRequested = !!(
+      body.knowledge_base_ids?.length ||
+      body.knowledge_base ||
+      body.workspace
+    );
 
     if (body.knowledge_base_ids && body.knowledge_base_ids.length > 0) {
       kbIds = body.knowledge_base_ids;
@@ -184,8 +226,18 @@ mcpRouter.post("/recall", async (req: Request, res: Response) => {
       }
     }
 
-    // Semantic KB routing (when nothing resolved) lands in phase 5; until then
-    // recall() falls back to all of the user's open-scope KBs.
+    // Semantic KB routing: when the caller gave no explicit scope, pick the
+    // most relevant KBs via embedding + entity overlap. If routing yields
+    // nothing, recall() falls back to all of the user's open-scope KBs.
+    if (!explicitScopeRequested) {
+      try {
+        const routed = await routeSearch(body.query, userId);
+        if (routed.length > 0) kbIds = routed;
+      } catch (routeErr: any) {
+        console.warn("[search_memory] routeSearch failed:", routeErr?.message ?? routeErr);
+      }
+    }
+
     const result = await recall({
       query: body.query,
       knowledgeBaseIds: kbIds,
@@ -289,6 +341,18 @@ mcpRouter.post("/commit", async (req: Request, res: Response) => {
       }
     }
 
+    // Super commit eligibility — only computed when the AI passes
+    // enhanced: true (driven by the save_memory tool description's
+    // trigger-phrase guidance). On routine saves we skip the lookup entirely:
+    // no credit accounting, the AI never sees super_commit fields.
+    const wantsEnhanced = body.enhanced === true;
+    let eligibility: Awaited<ReturnType<typeof checkEligibility>> | null = null;
+    let isSuperCommit = false;
+    if (wantsEnhanced) {
+      eligibility = await checkEligibility(userId);
+      isSuperCommit = eligibility.eligible;
+    }
+
     // Create the session row.
     const session = await sessionRepo.createSession(redis, {
       user_id: userId,
@@ -386,6 +450,23 @@ mcpRouter.post("/commit", async (req: Request, res: Response) => {
 
     const updatedKb = await kbRepo.getKb(redis, knowledgeBaseId);
 
+    // Fire-and-forget activity notification — must NOT add latency to the
+    // commit response, so we deliberately do not await this.
+    if (targetWorkspaceId && result.stored > 0) {
+      const actor = await getUser(redis, userId);
+      const actorName = actor?.name ?? actor?.email ?? "Someone";
+      const itemWord = result.stored === 1 ? "item" : "items";
+      notify({
+        type: "commit",
+        title: `${actorName} saved ${result.stored} ${itemWord} to ${
+          updatedKb?.name ?? "a knowledge base"
+        }`,
+        body: body.session_summary ?? null,
+        workspaceId: targetWorkspaceId,
+        actorId: userId,
+      });
+    }
+
     track(userId, "mcp.save_memory", {
       chunk_count: body.chunks.length,
       kb_id: knowledgeBaseId,
@@ -395,13 +476,34 @@ mcpRouter.post("/commit", async (req: Request, res: Response) => {
     });
     recordMcpUsage(userId, "mcp.save_memory");
 
-    // Super commit (LLM verification) lands in phase 6; report it as skipped
-    // so the response shape stays stable for enhanced callers.
-    const wantsEnhanced = body.enhanced === true;
+    // super_commit.exhausted fires at response time because exhaustion is
+    // known synchronously. completed/failed fire from the background below.
+    if (wantsEnhanced && eligibility && !eligibility.eligible && eligibility.limit > 0) {
+      track(userId, "super_commit.exhausted", {
+        plan: eligibility.plan,
+        kb_id: knowledgeBaseId,
+      });
+    }
+
+    const willSuperCommit = isSuperCommit && isSuperCommitConfigured();
     const willRunCoverage =
       !body.skip_coverage_verification &&
       !!body.session_summary &&
       body.session_summary.trim().length > 0;
+
+    const enhancedResponse =
+      wantsEnhanced && eligibility
+        ? {
+            super_commit: willSuperCommit,
+            super_commit_status: willSuperCommit ? "processing" : "skipped",
+            // Optimistic decrement: credit is actually consumed only after
+            // successful background storage.
+            super_commit_remaining: Math.max(
+              0,
+              eligibility.remaining - (willSuperCommit ? 1 : 0)
+            ),
+          }
+        : {};
 
     res.json({
       success: true,
@@ -411,8 +513,10 @@ mcpRouter.post("/commit", async (req: Request, res: Response) => {
       coverage_gaps_detected: 0,
       supplementary_chunks: 0,
       coverage_verification: willRunCoverage ? "processing" : "skipped",
-      knowledge_base: updatedKb ? { id: updatedKb.id, name: updatedKb.name, chunk_count: updatedKb.chunk_count } : null,
-      ...(wantsEnhanced ? { super_commit: false, super_commit_status: "skipped" } : {}),
+      knowledge_base: updatedKb
+        ? { id: updatedKb.id, name: updatedKb.name, chunk_count: updatedKb.chunk_count }
+        : null,
+      ...enhancedResponse,
     });
 
     // ---- Background: entity coverage verification (regex NER) ----
@@ -475,6 +579,152 @@ mcpRouter.post("/commit", async (req: Request, res: Response) => {
           console.error("[session-summary:background]", err?.message ?? String(err));
         }
       })();
+    }
+
+    // ---- Background: super commit LLM verification (Stage 3) ----
+    // Three trust-boundary defenses on the LLM output are preserved:
+    //   1. Whitelist `existing_chunk_id` against the candidate set.
+    //   2. Treat `new_chunk_content` as log-only.
+    //   3. Idempotent supersession via status==='active' (supersedeActiveChunk).
+    // Credit is consumed only after confirmed storage — any throw before
+    // consumeCredit leaves the user's daily count untouched.
+    if (willSuperCommit) {
+      const kbIdForSuper = knowledgeBaseId!;
+      const summaryForSuper = body.session_summary!;
+      void (async () => {
+        let chunksSupersededByLlm = 0;
+        let chunksReExtractedCount = 0;
+        try {
+          const justStoredIds = new Set<string>(result.chunkMap.map((e) => e.id));
+
+          const recallResult = await recall({
+            query: summaryForSuper.slice(0, VERIFICATION_QUERY_CHARS),
+            knowledgeBaseIds: [kbIdForSuper],
+            maxResults: VERIFICATION_RECALL_FETCH,
+            userId,
+          });
+
+          const candidateChunks = recallResult.chunks
+            .filter((c) => !justStoredIds.has(c.id))
+            .slice(0, VERIFICATION_CONTEXT_LIMIT);
+
+          let topicKeyMap = new Map<string, string | null>();
+          if (candidateChunks.length > 0) {
+            topicKeyMap = await chunkRepo.getTopicKeys(
+              redis,
+              candidateChunks.map((c) => c.id)
+            );
+          }
+
+          const existingSimilar: ExistingChunkRef[] = candidateChunks.map((c) => ({
+            id: c.id,
+            content: c.content,
+            topic_key: topicKeyMap.get(c.id) ?? null,
+          }));
+
+          // LLM Call 1 — gaps, conflicts, quality issues.
+          const verification = await verifyCommit(
+            datedChunks.map((c) => ({ content: c.content, chunk_type: c.chunk_type })),
+            summaryForSuper,
+            existingSimilar,
+            { timeoutMs: VERIFICATION_TIMEOUT_MS }
+          );
+
+          const validExistingIds = new Set(existingSimilar.map((c) => c.id));
+          const validConflicts = verification.conflicts.filter((c) =>
+            validExistingIds.has(c.existing_chunk_id)
+          );
+
+          for (const conflict of validConflicts) {
+            const flipped = await chunkRepo.supersedeActiveChunk(
+              redis,
+              conflict.existing_chunk_id,
+              sessionDate
+            );
+            if (flipped) {
+              chunksSupersededByLlm++;
+              console.log(
+                JSON.stringify({
+                  event: "supersession",
+                  mechanism: "llm_conflict",
+                  old_chunk_id: conflict.existing_chunk_id,
+                  llm_described_new_content: conflict.new_chunk_content,
+                  kb_id: kbIdForSuper,
+                })
+              );
+            }
+          }
+
+          if (verification.gaps.length > 0) {
+            let reExtracted: Awaited<ReturnType<typeof reExtractGaps>> = [];
+            try {
+              reExtracted = await reExtractGaps(verification.gaps, summaryForSuper, datePrefix, {
+                timeoutMs: REEXTRACTION_TIMEOUT_MS,
+              });
+            } catch (reExtractErr: any) {
+              console.warn(
+                "[super-commit:background] re-extraction (Call 2) failed; keeping Call 1 results:",
+                reExtractErr?.message
+              );
+            }
+
+            if (reExtracted.length > 0) {
+              // Must succeed before consumeCredit below.
+              const rawResult = await storeChunksRaw(
+                kbIdForSuper,
+                reExtracted.map((c) => ({
+                  content: c.content,
+                  chunk_type: c.chunk_type,
+                  topic_tags: c.topic_tags,
+                  source_type: "super_commit",
+                  topic_key: c.topic_key ?? null,
+                })),
+                userId,
+                session.id,
+                sessionDate
+              );
+              chunksReExtractedCount = rawResult.stored;
+            }
+          }
+
+          if (chunksSupersededByLlm > 0 || chunksReExtractedCount > 0) {
+            const count = await chunkRepo.countActive(redis, [kbIdForSuper]);
+            await kbRepo.setChunkCount(redis, kbIdForSuper, count);
+          }
+
+          if (chunksSupersededByLlm > 0) {
+            await sessionRepo.updateSessionCounts(redis, session.id, {
+              chunks_superseded: result.superseded + chunksSupersededByLlm,
+            });
+          }
+
+          // Credit consumed only after confirmed storage.
+          await consumeCredit(userId);
+
+          track(userId, "super_commit.completed", {
+            gaps_found: verification.gaps.length,
+            conflicts_found: validConflicts.length,
+            quality_issues_found: verification.quality_issues.length,
+            chunks_created: chunksReExtractedCount,
+            kb_id: kbIdForSuper,
+            plan: eligibility!.plan,
+            credits_remaining: Math.max(0, eligibility!.remaining - 1),
+          });
+        } catch (err: any) {
+          console.error(
+            "[super-commit:background] verification failed, no credit consumed:",
+            err?.message ?? String(err)
+          );
+          track(userId, "super_commit.failed", {
+            error: err?.message ?? "unknown",
+            fallback: "standard_commit",
+            kb_id: kbIdForSuper,
+            plan: eligibility!.plan,
+          });
+        }
+      })();
+    } else if (isSuperCommit && !isSuperCommitConfigured()) {
+      console.warn("[super-commit] OPENAI_API_KEY not configured — skipping verification");
     }
   } catch (err: any) {
     console.error("[save_memory] Error:", err.message);

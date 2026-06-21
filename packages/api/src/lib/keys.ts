@@ -30,19 +30,28 @@ export const k = {
   // Organizations
   org: (id: string) => `${PREFIX}:org:${id}`,
   orgMembers: (orgId: string) => `${PREFIX}:org:${orgId}:members`, // Hash userId -> role
+  orgWorkspaces: (orgId: string) => `${PREFIX}:org:${orgId}:workspaces`, // Set of workspace ids
+  userOrgs: (userId: string) => `${PREFIX}:user:${userId}:orgs`, // reverse: Set of org ids (member of)
 
   // Workspaces (access-control + retrieval boundary)
   workspace: (id: string) => `${PREFIX}:workspace:${id}`,
   workspaceMembers: (wsId: string) => `${PREFIX}:workspace:${wsId}:members`, // Hash userId -> role
   workspaceKbs: (wsId: string) => `${PREFIX}:workspace:${wsId}:kbs`, // Set of kb ids
+  // Reverse of workspaceMembers: every workspace the user is a direct member
+  // of (not owner). The "deferred per-user membership set" — lets
+  // getUserWorkspaceIds resolve member workspaces without scanning.
+  userWorkspaceMemberships: (userId: string) => `${PREFIX}:user:${userId}:workspace-memberships`,
 
   // Knowledge base -> its chunks / documents (for batch delete + counts)
   kbChunks: (kbId: string) => `${PREFIX}:kb:${kbId}:chunks`, // Set of chunk ids
   kbDocs: (kbId: string) => `${PREFIX}:kb:${kbId}:documents`, // Set of document ids
+  kbSessions: (kbId: string) => `${PREFIX}:kb:${kbId}:sessions`, // Sorted set of session ids by created_at
+  kbJobs: (kbId: string) => `${PREFIX}:kb:${kbId}:jobs`, // Sorted set of job ids by created_at
 
   // Sessions
   session: (id: string) => `${PREFIX}:session:${id}`,
   userSessions: (userId: string) => `${PREFIX}:user:${userId}:sessions`, // Sorted set by created_at
+  sessionJob: (sessionId: string) => `${PREFIX}:session:${sessionId}:job`, // string jobId (server-side path)
 
   // Documents (metadata; file bytes live on local disk at STORAGE_DIR)
   doc: (id: string) => `${PREFIX}:doc:${id}`,
@@ -61,6 +70,11 @@ export const k = {
 
   // Super-commit usage accounting (per user per day)
   superCommitUsage: (userId: string, day: string) => `${PREFIX}:usage:supercommit:${userId}:${day}`,
+
+  // OAuth (RFC 7591 dynamic clients + authorization codes). Replaces the
+  // reference's oauth_clients / oauth_authorization_codes Postgres tables.
+  oauthClient: (clientId: string) => `${PREFIX}:oauth:client:${clientId}`, // Hash
+  oauthCode: (code: string) => `${PREFIX}:oauth:code:${code}`, // Hash (10-min TTL)
 
   // Server-side extraction jobs
   jobsStream: `${PREFIX}:jobs:stream`,

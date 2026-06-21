@@ -69,8 +69,51 @@ export async function createApiKey(
 }
 
 export async function touchLastUsed(redis: RedisClient, rawKeyHash: string): Promise<void> {
-  // We only have the hash on the auth path; find the meta row via user set is
-  // overkill, so we skip per-key last_used tracking until phase 6 wires the
-  // dashboard. No-op kept for call-site parity.
+  // We only have the hash on the auth path; finding the meta row via the user
+  // set is overkill, so we skip per-key last_used tracking. No-op kept for
+  // call-site parity with the reference.
   void rawKeyHash;
+}
+
+function hashToApiKey(id: string, h: Record<string, string>): ApiKey {
+  return {
+    id,
+    user_id: h.user_id ?? "",
+    key_hash: h.key_hash ?? "",
+    key_prefix: h.key_prefix ?? "",
+    name: h.name ?? null,
+    last_used_at: msToIso(h.last_used_at),
+    created_at: msToIso(h.created_at) ?? new Date().toISOString(),
+    revoked_at: msToIso(h.revoked_at),
+  };
+}
+
+// List a user's API keys, newest first. Mirrors the reference's
+// GET /api/auth/api-keys (id, key_prefix, name, last_used_at, created_at,
+// revoked_at — never the hash or raw key).
+export async function listApiKeys(redis: RedisClient, userId: string): Promise<ApiKey[]> {
+  const ids = (await redis.sMembers(k.userApiKeys(userId))) as string[];
+  const out: ApiKey[] = [];
+  for (const id of ids) {
+    const h = (await redis.hGetAll(k.apiKeyMeta(id))) as Record<string, string>;
+    if (h && Object.keys(h).length > 0) out.push(hashToApiKey(id, h));
+  }
+  out.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  return out;
+}
+
+// Soft-revoke a key: stamp revoked_at on the meta hash and drop the O(1) auth
+// mapping so the key stops authenticating immediately. Scoped to the owning
+// user so one user can't revoke another's key.
+export async function revokeApiKey(
+  redis: RedisClient,
+  userId: string,
+  id: string
+): Promise<boolean> {
+  const h = (await redis.hGetAll(k.apiKeyMeta(id))) as Record<string, string>;
+  if (!h || Object.keys(h).length === 0) return false;
+  if (h.user_id !== userId) return false;
+  await redis.sendCommand(["HSET", k.apiKeyMeta(id), "revoked_at", String(Date.now())]);
+  if (h.key_hash) await redis.del(k.apiKeyByHash(h.key_hash));
+  return true;
 }

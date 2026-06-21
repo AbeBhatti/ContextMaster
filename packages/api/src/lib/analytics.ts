@@ -43,4 +43,15 @@ export function recordMcpUsage(userId: string, event: ServerEvent): void {
   void event;
 }
 
-export default { track, recordMcpUsage };
+// People-profile set (Mixpanel $set). No-op without a token; kept for parity
+// with the reference's clerkWebhook signup tracking.
+export function setUserProfile(
+  userId: string,
+  properties: Record<string, string | number | boolean | null>
+): void {
+  if (!enabled) return;
+  void userId;
+  void properties;
+}
+
+export default { track, recordMcpUsage, setUserProfile };

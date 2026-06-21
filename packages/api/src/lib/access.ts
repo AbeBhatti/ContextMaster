@@ -1,7 +1,8 @@
 import type { RedisClient } from "./redis.js";
 import { k } from "./keys.js";
 import { getWorkspace } from "./workspaceRepo.js";
-import type { Workspace } from "./types.js";
+import { getKb } from "./kbRepo.js";
+import type { Workspace, KnowledgeBase } from "./types.js";
 
 // Workspace role / access resolution — Redis port of the reference's
 // lib/access.ts. The single-user dev model only exercises the "owner" path;
@@ -62,4 +63,19 @@ export async function getWorkspaceAccess(
   }
 
   return null;
+}
+
+// KB → workspace access resolution (reference's getKbWorkspaceAccess). Returns
+// the KB row alongside the workspace access so route handlers can both
+// authorize and reject system KBs in one lookup.
+export async function getKbWorkspaceAccess(
+  redis: RedisClient,
+  kbId: string,
+  userId: string
+): Promise<{ kb: KnowledgeBase; access: WorkspaceAccess } | null> {
+  const kb = await getKb(redis, kbId);
+  if (!kb) return null;
+  const access = await getWorkspaceAccess(redis, kb.workspace_id, userId);
+  if (!access) return null;
+  return { kb, access };
 }

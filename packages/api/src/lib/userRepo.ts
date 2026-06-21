@@ -35,6 +35,26 @@ export async function getUserByClerkId(redis: RedisClient, clerkId: string): Pro
   return getUser(redis, id);
 }
 
+export async function getUserByEmail(redis: RedisClient, email: string): Promise<User | null> {
+  const id = (await redis.get(k.userByEmail(email))) as string | null;
+  if (!id) return null;
+  return getUser(redis, id);
+}
+
+// Batch hydrate users by id (member-list enrichment). Returns a Map for O(1)
+// joins; missing ids are simply absent from the map.
+export async function getUsersByIds(
+  redis: RedisClient,
+  ids: string[]
+): Promise<Map<string, User>> {
+  const map = new Map<string, User>();
+  for (const id of ids) {
+    const u = await getUser(redis, id);
+    if (u) map.set(id, u);
+  }
+  return map;
+}
+
 export interface CreateUserInput {
   clerk_id: string;
   email: string;
@@ -65,4 +85,21 @@ export async function ensureUser(redis: RedisClient, input: CreateUserInput): Pr
   const existing = await getUserByClerkId(redis, input.clerk_id);
   if (existing) return existing;
   return createUser(redis, input);
+}
+
+// Link a Clerk identity onto a user that already existed by email (e.g. created
+// before Clerk linking). Mirrors the reference's clerk_id back-fill update:
+// stamps clerk_id + name, refreshes updated_at, and points the reverse
+// userByClerk lookup at the canonical id.
+export async function linkClerkId(
+  redis: RedisClient,
+  id: string,
+  clerkId: string,
+  name?: string | null
+): Promise<User> {
+  const fields: string[] = ["clerk_id", clerkId, "updated_at", String(Date.now())];
+  if (name) fields.push("name", name);
+  await redis.sendCommand(["HSET", k.user(id), ...fields]);
+  await redis.set(k.userByClerk(clerkId), id);
+  return (await getUser(redis, id))!;
 }

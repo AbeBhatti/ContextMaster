@@ -1,9 +1,9 @@
 import type { RedisClient } from "./redis.js";
 import { k } from "./keys.js";
-import { ensureUser } from "./userRepo.js";
-import { getDefaultWorkspace, createWorkspace } from "./workspaceRepo.js";
+import { upsertUserFromClerk } from "./provisioning.js";
+import { getDefaultWorkspace } from "./workspaceRepo.js";
 import { createApiKey, hashKey } from "./apiKeyRepo.js";
-import { DEV_CLERK_ID } from "../middleware/auth.js";
+import { DEV_CLERK_ID, DEV_EMAIL, DEV_NAME } from "../middleware/auth.js";
 
 // Fixed dev API key so it can be pasted into a client once and stay stable
 // across restarts. Only meaningful while AUTH_BYPASS=true.
@@ -16,21 +16,16 @@ const DEV_API_KEY = process.env.CNTXT_API_KEY?.trim() || "cm_dev_local_key";
 export async function ensureDevEnvironment(redis: RedisClient): Promise<void> {
   if (process.env.AUTH_BYPASS !== "true") return;
 
-  const user = await ensureUser(redis, {
-    clerk_id: DEV_CLERK_ID,
-    email: process.env.AUTH_BYPASS_EMAIL || "dev@contextmaster.local",
-    name: process.env.AUTH_BYPASS_NAME || "Dev User",
+  // upsertUserFromClerk provisions the user + default workspace + owner
+  // membership + Getting Started KB on first run, and is a no-op afterwards —
+  // identical to what the Clerk webhook does for real signups.
+  const user = await upsertUserFromClerk(redis, {
+    clerkId: DEV_CLERK_ID,
+    email: DEV_EMAIL,
+    name: DEV_NAME,
   });
 
-  let ws = await getDefaultWorkspace(redis, user.id);
-  if (!ws) {
-    ws = await createWorkspace(redis, {
-      name: "General",
-      owner_id: user.id,
-      is_default: true,
-      description: "Default workspace.",
-    });
-  }
+  const ws = await getDefaultWorkspace(redis, user.id);
 
   // Ensure the fixed dev key maps to this user (create only if absent).
   const existing = (await redis.get(k.apiKeyByHash(hashKey(DEV_API_KEY)))) as string | null;
@@ -39,6 +34,6 @@ export async function ensureDevEnvironment(redis: RedisClient): Promise<void> {
   }
 
   console.log(`[bootstrap] AUTH_BYPASS dev user ready: ${user.email} (${user.id})`);
-  console.log(`[bootstrap] default workspace: ${ws.name} (${ws.id})`);
+  if (ws) console.log(`[bootstrap] default workspace: ${ws.name} (${ws.id})`);
   console.log(`[bootstrap] dev API key: ${DEV_API_KEY}`);
 }

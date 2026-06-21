@@ -6,13 +6,24 @@ import { getRedis, connectRedis, resolveRedisUrl, redactUrl } from "./lib/redis.
 import { ensureRedisInfra, listIndexes } from "./lib/indexes.js";
 import { idx } from "./lib/keys.js";
 import { ensureDevEnvironment } from "./lib/bootstrap.js";
-import { mcpAuth } from "./middleware/auth.js";
+import { apiKeyAuth } from "./middleware/apiKeyAuth.js";
+import { clerkAuth } from "./middleware/clerkAuth.js";
 import { mcpRouter } from "./routes/mcp.js";
 import { mcpProtocolHandler } from "./routes/mcpProtocol.js";
 import { mcpSSEHandler } from "./routes/mcpSSE.js";
+import { authRouter } from "./routes/auth.js";
+import { clerkWebhookRouter } from "./routes/clerkWebhook.js";
+import { workspacesRouter, publicInvitesRouter } from "./routes/workspaces.js";
+import { organizationsRouter } from "./routes/organizations.js";
+import { notificationsRouter } from "./routes/notifications.js";
+import { billingRouter } from "./routes/billing.js";
+import { oauthRouter } from "./routes/oauth.js";
 import { startWorker } from "./services/jobService.js";
 
 const PORT = Number(process.env.PORT ?? 3001);
+const PUBLIC_API_URL = process.env.PUBLIC_API_URL ?? `http://localhost:${PORT}`;
+const PUBLIC_DASHBOARD_URL =
+  process.env.PUBLIC_DASHBOARD_URL ?? "http://localhost:3000";
 const redisUrl = resolveRedisUrl();
 const redis = getRedis();
 
@@ -33,6 +44,44 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "Mcp-Session-Id", "Last-Event-ID", "Accept"],
   })
 );
+
+// Clerk webhook — MUST be mounted before express.json() and clerkAuth so svix
+// can verify the raw request body. Webhooks authenticate via the svix
+// signature, not a Clerk JWT.
+app.use("/api/auth", clerkWebhookRouter);
+
+// OAuth 2.0 authorization-server metadata (RFC 8414). Public — no auth.
+// OAuth-aware MCP clients read this from the WWW-Authenticate challenge to
+// discover our authorize/token endpoints without manual configuration.
+app.get("/.well-known/oauth-authorization-server", (_req, res) => {
+  res.json({
+    issuer: PUBLIC_API_URL,
+    authorization_endpoint: `${PUBLIC_DASHBOARD_URL}/oauth/authorize`,
+    token_endpoint: `${PUBLIC_API_URL}/oauth/token`,
+    registration_endpoint: `${PUBLIC_API_URL}/oauth/register`,
+    response_types_supported: ["code"],
+    grant_types_supported: ["authorization_code"],
+    code_challenge_methods_supported: ["S256"],
+    token_endpoint_auth_methods_supported: ["client_secret_post", "none"],
+    scopes_supported: ["mcp"],
+  });
+});
+
+// OAuth 2.0 protected-resource metadata (RFC 9728).
+app.get("/.well-known/oauth-protected-resource", (_req, res) => {
+  res.json({
+    resource: PUBLIC_API_URL,
+    authorization_servers: [PUBLIC_API_URL],
+    scopes_supported: ["mcp"],
+    bearer_methods_supported: ["header"],
+  });
+});
+
+// OAuth routes — manage their own auth + body parsing (Clerk for
+// /authorize/callback, client_secret/PKCE for /token, none for /register), so
+// they're mounted before the global express.json().
+app.use("/oauth", oauthRouter);
+
 app.use(express.json({ limit: "10mb" }));
 
 app.get("/health", async (_req, res) => {
@@ -63,16 +112,22 @@ app.get("/health", async (_req, res) => {
   });
 });
 
-// MCP Streamable HTTP transport (remote clients: Claude connectors).
-app.all("/mcp/protocol", mcpAuth, mcpProtocolHandler);
+// MCP transports + REST authenticate via API key (apiKeyAuth) — used by the
+// stdio mcp-client and the remote HTTP/SSE connectors. AUTH_BYPASS-aware in dev.
+app.all("/mcp/protocol", apiKeyAuth, mcpProtocolHandler);
+app.get("/mcp/sse", apiKeyAuth, mcpSSEHandler.get);
+app.post("/mcp/sse", apiKeyAuth, mcpSSEHandler.post);
+app.use("/mcp", apiKeyAuth, mcpRouter);
 
-// MCP SSE transport (legacy remote clients: Cursor, ChatGPT).
-app.get("/mcp/sse", mcpAuth, mcpSSEHandler.get);
-app.post("/mcp/sse", mcpAuth, mcpSSEHandler.post);
-
-// MCP REST routes — used by the stdio mcp-client and forwarded to by the
-// HTTP transports above over localhost.
-app.use("/mcp", mcpAuth, mcpRouter);
+// ---- Dashboard-facing REST API (Clerk JWT auth; AUTH_BYPASS-aware in dev) ----
+// Public invite preview is mounted before auth so signed-out users can see an
+// invite.
+app.use("/api", publicInvitesRouter);
+app.use("/api/auth", clerkAuth, authRouter);
+app.use("/api/organizations", clerkAuth, organizationsRouter);
+app.use("/api/notifications", clerkAuth, notificationsRouter);
+app.use("/api/billing", clerkAuth, billingRouter);
+app.use("/api", clerkAuth, workspacesRouter);
 
 // Start the HTTP server immediately; connect to Redis in the background so the
 // API boots (and /health responds) even when Redis isn't up yet.
@@ -82,6 +137,8 @@ app.listen(PORT, () => {
   console.log(`[api] MCP REST: http://localhost:${PORT}/mcp/*`);
   console.log(`[api] MCP-RPC:  http://localhost:${PORT}/mcp/protocol  (Streamable HTTP)`);
   console.log(`[api] MCP-SSE:  http://localhost:${PORT}/mcp/sse        (SSE)`);
+  console.log(`[api] OAuth:    http://localhost:${PORT}/oauth/*`);
+  console.log(`[api] OAuth metadata: http://localhost:${PORT}/.well-known/oauth-authorization-server`);
   if (process.env.AUTH_BYPASS === "true") console.log(`[api] AUTH_BYPASS enabled — using dev user`);
 
   if (process.env.SERVER_SIDE_EXTRACTION === "true") {
