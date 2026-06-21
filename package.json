@@ -1,0 +1,25 @@
+{
+  "name": "contextmaster",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:api": "pnpm --filter @contextmaster/api dev",
+    "dev:mcp": "pnpm --filter @contextmaster/mcp-client dev",
+    "build:api": "pnpm --filter @contextmaster/api build",
+    "build:mcp": "pnpm --filter @contextmaster/mcp-client build",
+    "redis:up": "docker compose up -d redis",
+    "redis:down": "docker compose down",
+    "redis:logs": "docker compose logs -f redis",
+    "redis:smoke": "pnpm --filter @contextmaster/api redis:smoke",
+    "engine:smoke": "pnpm --filter @contextmaster/api engine:smoke",
+    "lint": "pnpm -r lint"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "openai": "^4.104.0",
+    "redis": "^4.7.0"
+  }
+}

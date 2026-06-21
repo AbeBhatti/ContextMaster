@@ -1,0 +1,29 @@
+# ── Secrets ───────────────────────────────────────────────
+# Never commit real env files. .env.example IS committed as the template.
+.env
+.env.*
+!.env.example
+
+# ── Dependencies ──────────────────────────────────────────
+node_modules/
+.pnpm-store/
+
+# ── Build output ──────────────────────────────────────────
+dist/
+build/
+*.tsbuildinfo
+
+# ── Local document storage (uploaded file bytes) ──────────
+storage/
+
+# ── Logs / debug ──────────────────────────────────────────
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# ── OS / editor cruft ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
