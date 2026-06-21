@@ -16,6 +16,10 @@ build/
 # ── Local document storage (uploaded file bytes) ──────────
 storage/
 
+# ── Private source/design assets (videos, images) ─────────
+# Kept local only; not for the public repo.
+imports/
+
 # ── Logs / debug ──────────────────────────────────────────
 *.log
 npm-debug.log*
