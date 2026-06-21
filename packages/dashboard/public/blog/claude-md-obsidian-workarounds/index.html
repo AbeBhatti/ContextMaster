@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams | Context Cloud Blog</title>
+<meta name="description" content="Every team using AI coding tools has invented their own version of the same hack. They all work for one person. They all break the moment you add a second.">
+<meta name="author" content="Abhi">
+<link rel="canonical" href="https://contextcloud.pro/blog/claude-md-obsidian-workarounds/">
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams">
+<meta property="og:description" content="Every team using AI coding tools has invented their own version of the same hack. They all work for one person. They all break the moment you add a second.">
+<meta property="og:url" content="https://contextcloud.pro/blog/claude-md-obsidian-workarounds/">
+<meta property="og:site_name" content="Context Cloud">
+<meta property="og:image" content="https://contextcloud.pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Context Cloud — Shared AI memory for engineering teams">
+<meta name="twitter:image" content="https://contextcloud.pro/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams">
+<meta name="twitter:description" content="Every team using AI coding tools has invented their own version of the same hack. They all work for one person. They all break the moment you add a second.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams",
+  "author": { "@type": "Person", "name": "Abhi", "url": "https://github.com/abhinavala" },
+  "publisher": { "@type": "Organization", "name": "Context Cloud", "url": "https://contextcloud.pro" },
+  "datePublished": "2026-05-22",
+  "dateModified": "2026-05-22",
+  "description": "Every team using AI coding tools has invented their own version of the same hack. They all work for one person. They all break the moment you add a second.",
+  "mainEntityOfPage": "https://contextcloud.pro/blog/claude-md-obsidian-workarounds/"
+}
+</script>
+
+<meta name="color-scheme" content="light">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#fffaf0;color:#2a2415;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{display:flex;flex-direction:column;min-height:100vh}
+.site-header{border-bottom:1px solid rgba(67,55,39,.10);background:rgba(255,250,240,.85);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:10}
+.site-header .container{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:#2a2415;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.brand .mark{display:inline-flex;width:28px;height:28px;background:linear-gradient(135deg,#3a3320,#5a4d36);border-radius:8px;align-items:center;justify-content:center;color:#fffaf0;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:#5a4d36;text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:#2a2415}
+.breadcrumb{color:#7a6e54;font-size:13px;max-width:720px;margin:0 auto;padding:32px 24px 0;width:100%}
+.breadcrumb a{color:#5a4d36;text-decoration:none}
+.breadcrumb a:hover{color:#2a2415;text-decoration:underline}
+.breadcrumb .sep{margin:0 8px;color:#a08665}
+main.article{flex:1;max-width:720px;margin:0 auto;padding:8px 24px 96px;width:100%}
+.article-meta{color:#7a6e54;font-size:13px;margin-top:14px;margin-bottom:32px}
+.article h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin-top:28px;color:#2a2415}
+.article h2{font-size:clamp(22px,2.8vw,28px);font-weight:600;letter-spacing:-.015em;margin-top:56px;margin-bottom:16px;line-height:1.25;color:#2a2415}
+.article h3{font-size:19px;font-weight:600;margin-top:36px;margin-bottom:12px;color:#2a2415}
+.article p{margin:18px 0;font-size:17px;color:#3a3320}
+.article p strong,.article li strong{color:#2a2415;font-weight:600}
+.article a{color:#3a3320;text-decoration:underline;text-decoration-color:rgba(214,162,74,.55);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article a:hover{text-decoration-color:#d6a24a}
+.article ul,.article ol{margin:18px 0;padding-left:24px;color:#3a3320;font-size:17px}
+.article li{margin:8px 0}
+.article hr{border:0;height:1px;background:rgba(67,55,39,.12);margin:48px 0}
+.article blockquote{border-left:3px solid #d6a24a;background:#faf6ec;padding:16px 22px;margin:24px 0;color:#5a4d36;font-style:italic;border-radius:0 6px 6px 0}
+.article blockquote p{margin:6px 0;color:inherit;font-size:16px}
+.article code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;background:#f5efe2;color:#3a3320;padding:2px 6px;border-radius:4px;font-size:.9em;border:1px solid rgba(67,55,39,.08)}
+.article pre{background:#2a2415;border-radius:10px;padding:18px 22px;overflow-x:auto;margin:24px 0}
+.article pre code{background:transparent;padding:0;color:#faf6ec;font-size:14px;line-height:1.6;border:0}
+.table-wrap{overflow-x:auto;margin:28px -4px;border-radius:10px;border:1px solid rgba(67,55,39,.12);background:#fffaf0}
+.article table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.article table th,.article table td{border-bottom:1px solid rgba(67,55,39,.08);padding:12px 16px;text-align:left;vertical-align:top;color:#3a3320}
+.article table tr:last-child td{border-bottom:0}
+.article table th{background:#faf6ec;color:#2a2415;font-weight:600;font-size:13px;letter-spacing:.01em}
+.article table tr:nth-child(even) td{background:rgba(247,241,227,.5)}
+.article table strong{color:#2a2415}
+.site-footer{border-top:1px solid rgba(67,55,39,.10);padding:32px 24px;font-size:13px;color:#7a6e54;margin-top:auto;background:#faf6ec}
+.site-footer .container{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.site-footer .links{display:flex;gap:20px;flex-wrap:wrap}
+.site-footer a{color:#5a4d36;text-decoration:none}
+.site-footer a:hover{color:#2a2415}
+@media (max-width:600px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+  main.article{padding:4px 20px 64px}
+  .article p,.article ul,.article ol{font-size:16px}
+  .article table{font-size:13px}
+  .breadcrumb{padding:24px 20px 0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <div class="container">
+    <a href="https://contextcloud.pro" class="brand">
+      <span class="mark">cn</span>
+      <span>cntxt</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/blog/">Blog</a>
+      <a href="https://contextcloud.pro/#how">How it works</a>
+      <a href="https://contextcloud.pro/#pricing">Pricing</a>
+      <a href="https://contextcloud.pro/">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://contextcloud.pro">Context Cloud</a><span class="sep">&rsaquo;</span><a href="/blog/">Blog</a><span class="sep">&rsaquo;</span><span>Why Workarounds Don't Scale for Teams</span>
+</nav>
+
+<main class="article">
+<h1>CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams</h1>
+<div class="article-meta">By Abhi · May 22, 2026 · 7 min read</div>
+
+<p>Every team using AI coding tools has invented their own version of the same hack.</p>
+
+<p>Some put everything in CLAUDE.md and commit it to the repo. Some maintain shared Obsidian vaults. Some have a <code>context/</code> folder full of markdown files that someone updates when they remember to. Some paste a summary prompt at the start of every session. Some just re-explain everything every time and accept the tax.</p>
+
+<p>These all work, kind of, for one person. They all break the moment you add a second person or a second tool.</p>
+
+<p>I've used all of these workarounds and eventually built <a href="https://contextcloud.pro">Context Cloud</a> because none of them actually solved the problem. Here's what I learned about each one.</p>
+
+<h2>CLAUDE.md: instructions, not memory</h2>
+
+<p>CLAUDE.md is the closest thing Claude Code has to a built-in persistence layer. It gets loaded at the start of every session and gives Claude persistent context about your project. Anthropic recently added auto-memory, where Claude writes its own notes based on corrections and preferences.</p>
+
+<p><strong>What it does well:</strong></p>
+
+<p>CLAUDE.md is great for static instructions. "Use TypeScript strict mode." "Run tests with <code>pnpm test</code>." "The API is at <code>localhost:3001</code>." These are things that don't change session to session, and CLAUDE.md handles them perfectly. It lives in your repo, it's version-controlled, and every session reads it automatically.</p>
+
+<p><strong>Where it breaks:</strong></p>
+
+<p>CLAUDE.md is not memory. It's a config file. Here's the difference:</p>
+
+<p>Memory is dynamic. It grows from sessions. "We tried Redis for caching but the latency was worse than Postgres for our query patterns — decision: stick with Postgres query cache." That came out of an hour-long debugging session. It's the kind of insight that should persist and be available to anyone who touches the caching layer. Putting it in CLAUDE.md means manually writing it up, committing it, and hoping your teammate pulls before their next session.</p>
+
+<p>Memory has attribution. When your teammate reads a decision in CLAUDE.md, there's no way to know who put it there, when, or why — unless they wrote a detailed commit message (they didn't). Was this decision made last week or six months ago? Is it still valid? Who do I ask about it?</p>
+
+<p>Memory has structure. In CLAUDE.md, everything is flat text. A critical architecture decision sits next to a linting preference. There's no way for the AI to know "this is a settled decision with specific rationale" versus "this is a temporary note about the current sprint state." It all gets treated the same.</p>
+
+<p>Memory has search. CLAUDE.md is one file. As it grows, it becomes a wall of text that Claude reads in full at the start of every session, eating context window for things that aren't relevant to the current task. There's no semantic search, no way to query "what do we know about the payment service?" and get back just the relevant chunks.</p>
+
+<p>And the real problem: <strong>CLAUDE.md doesn't work across tools.</strong> It's Claude Code only. If your teammate uses Cursor, they have .cursorrules, which is a completely separate file with separate syntax and separate limitations. If someone uses Codex, they have neither. There's no shared layer.</p>
+
+<h2>Obsidian + MCP: the power-user trap</h2>
+
+<p>Some teams connect Obsidian to their AI tools via MCP plugins. The idea is solid — Obsidian has great search, graph visualization, and a plugin ecosystem. Use it as the knowledge store, connect it to Claude or Cursor, and you have persistent memory with a nice UI.</p>
+
+<p><strong>What it does well:</strong></p>
+
+<p>Obsidian is a genuinely good personal knowledge tool. The graph view gives you visual structure. The search is fast. Plugins extend it in every direction. If you're already an Obsidian user, adding an MCP connector feels natural.</p>
+
+<p><strong>Where it breaks:</strong></p>
+
+<p>Obsidian is personal by design. Your vault lives on your machine. Making it "shared" means either:</p>
+
+<ol>
+<li><strong>Obsidian Sync</strong> — paid service ($4/mo per person), and syncing large vaults with multiple editors creates conflicts. Obsidian isn't built for real-time multi-user editing.</li>
+<li><strong>Git sync</strong> — fragile. Merge conflicts on markdown files are ugly. Someone always forgets to pull. The sync latency means your teammate's AI might be reading stale context.</li>
+<li><strong>Shared network drive</strong> — works in theory, breaks in practice. File locking issues, latency, and the assumption that everyone is on the same network.</li>
+</ol>
+
+<p>Beyond the sharing problem, Obsidian has no knowledge typing. A note is a note. There's no semantic difference between a decision and a finding and a convention. No attribution per note. No deduplication. And the MCP plugins are community-maintained with varying quality — they're not designed for the team use case.</p>
+
+<p>The power-user trap is real: you spend hours setting up Obsidian + plugins + sync + folder structure + tagging conventions, and at the end you have a system that works for you but that nobody else on the team wants to maintain.</p>
+
+<h2>Markdown files in git repos</h2>
+
+<p>The most common workaround I see: a <code>docs/</code> or <code>context/</code> folder in the repo with markdown files that describe the project's architecture, decisions, and conventions. Sometimes it's an ADR (Architecture Decision Record) folder. Sometimes it's a single <code>ARCHITECTURE.md</code> file.</p>
+
+<p><strong>What it does well:</strong></p>
+
+<p>It's version-controlled. It's visible to the whole team. It doesn't require any new tools. Every developer already knows how to read and write markdown.</p>
+
+<p><strong>Where it breaks:</strong></p>
+
+<p>The maintenance problem is brutal. Documentation written by humans goes stale the moment it's committed. The decision you documented in <code>docs/decisions/003-database-choice.md</code> three months ago might no longer reflect reality, but nobody updated it because nobody remembers it exists.</p>
+
+<p>There's no search beyond grep. When your AI needs to know about the payment service, it can't semantically query your docs folder — it reads all of it or none of it. And reading all of it burns context window on irrelevant content.</p>
+
+<p>There's no automatic extraction. Every piece of knowledge in those markdown files was manually written by a developer who stopped coding to write documentation. We all know how often that happens. The reason AI memory servers exist is precisely because developers don't maintain documentation reliably.</p>
+
+<p>And there's no attribution, no typing, no deduplication, no temporal awareness. It's text files in a folder. Better than nothing, but not by as much as you'd hope.</p>
+
+<h2>.cursorrules and .windsurfrules</h2>
+
+<p>Same concept as CLAUDE.md, but for Cursor and Windsurf respectively. Same strengths (persistent project-level instructions, lives in the repo). Same weaknesses (static, unstructured, manual, no search, no attribution).</p>
+
+<p>The additional problem: these are tool-specific. Your .cursorrules don't help your teammate who uses Claude Code. Your CLAUDE.md doesn't help the person on Cursor. If your team uses multiple AI tools — and most teams do — you're maintaining separate config files for each one with no shared layer.</p>
+
+<p>Some teams try to solve this by maintaining all three files and keeping them in sync manually. This is exactly the kind of work that should be automated.</p>
+
+<h2>Notion / Confluence / Google Docs</h2>
+
+<p>"Just put it in Notion" is the suggestion that sounds reasonable until you try it.</p>
+
+<p>The problem isn't that Notion is bad. It's that Notion is disconnected from your AI sessions. Your Claude Code session can't read your Notion workspace (without a separate MCP integration). Your team's AI doesn't know about the decisions documented in Confluence. The knowledge exists, but it's not in the loop.</p>
+
+<p>Some MCP plugins connect Notion to AI tools, which helps. But Notion wasn't designed as an AI memory store. There's no typed knowledge structure, no session attribution, no deduplication, no semantic search tuned for the kind of short, decision-oriented chunks that AI sessions produce. You're fighting the tool's design instead of working with it.</p>
+
+<h2>What a real solution looks like</h2>
+
+<p>After trying all of these, here's what I think the solution actually needs:</p>
+
+<p><strong>Automatic extraction.</strong> The AI does the work, not you. When you make a decision, the AI extracts it as a typed chunk — you don't stop coding to write documentation.</p>
+
+<p><strong>Typed knowledge.</strong> Decisions are different from state which is different from conventions. The system should know the difference so it can treat a settled architecture decision differently from a temporary sprint status update.</p>
+
+<p><strong>Shared across teammates with attribution.</strong> Not "commit and push and pull." Just shared. Person A commits, Person B's next session has it. With clear tracking of who committed what and when.</p>
+
+<p><strong>Searchable.</strong> Not ctrl+F over a flat file. Semantic search (vector + keyword) that can handle natural language queries like "what do we know about the auth module?"</p>
+
+<p><strong>Cross-tool.</strong> Works in Claude Code AND Cursor AND Codex. One shared knowledge layer, accessible from any AI tool.</p>
+
+<p><strong>A dashboard.</strong> Someone needs to be able to see the full picture — what's been committed, what's stale, what's contradictory. A knowledge graph, not a folder of text files.</p>
+
+<p>This is what I built <a href="https://contextcloud.pro">Context Cloud</a> to be. It's an MCP memory server with shared team workspaces, typed knowledge chunks (decision, finding, convention, state, question, reference), role-based access, and cross-tool support for Claude, Cursor, and Codex.</p>
+
+<h2>The honest take</h2>
+
+<p>CLAUDE.md and these workarounds aren't bad. They're fine for solo developers on small projects. If you're one person working on one project in one tool, CLAUDE.md plus maybe Basic Memory or claude-mem will get you 80% of the way there.</p>
+
+<p>The moment you add a second person or a second tool, they collapse. That's not a criticism of these tools — they weren't designed for teams. They were designed for individual persistence, and they do that well.</p>
+
+<p>The team problem is a different problem. It needs shared infrastructure, not shared files. That's the gap I'm building to fill.</p>
+
+<hr>
+
+<p><strong>Context Cloud</strong> is an MCP memory server with shared team workspaces, typed knowledge chunks, role-based access, and cross-tool support for Claude, Cursor, and Codex. Free to use.</p>
+
+<ul>
+<li>Website: <a href="https://contextcloud.pro">contextcloud.pro</a></li>
+<li>npm: <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">@contextcloud/mcp-client</a></li>
+<li>MCP endpoint: <code>https://api.contextcloud.pro/mcp/protocol</code></li>
+<li>GitHub: <a href="https://github.com/abhinavala/cntxtv2">github.com/abhinavala/cntxtv2</a></li>
+</ul>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>&copy; 2026 Context Cloud</div>
+    <div class="links">
+      <a href="https://contextcloud.pro">contextcloud.pro</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/abhinavala/cntxtv2">GitHub</a>
+      <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">npm</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Cloud vs Basic Memory: When You Need More Than Markdown Files | Context Cloud Blog</title>
+<meta name="description" content="Basic Memory is markdown files on disk. Context Cloud is typed knowledge chunks in a shared cloud workspace. Whether you need the structure depends on your team.">
+<meta name="author" content="Abhi">
+<link rel="canonical" href="https://contextcloud.pro/blog/context-cloud-vs-basic-memory/">
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Context Cloud vs Basic Memory: When You Need More Than Markdown Files">
+<meta property="og:description" content="Basic Memory is markdown files on disk. Context Cloud is typed knowledge chunks in a shared cloud workspace. Whether you need the structure depends on your team.">
+<meta property="og:url" content="https://contextcloud.pro/blog/context-cloud-vs-basic-memory/">
+<meta property="og:site_name" content="Context Cloud">
+<meta property="og:image" content="https://contextcloud.pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Context Cloud — Shared AI memory for engineering teams">
+<meta name="twitter:image" content="https://contextcloud.pro/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Context Cloud vs Basic Memory: When You Need More Than Markdown Files">
+<meta name="twitter:description" content="Basic Memory is markdown files on disk. Context Cloud is typed knowledge chunks in a shared cloud workspace. Whether you need the structure depends on your team.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Context Cloud vs Basic Memory: When You Need More Than Markdown Files",
+  "author": { "@type": "Person", "name": "Abhi", "url": "https://github.com/abhinavala" },
+  "publisher": { "@type": "Organization", "name": "Context Cloud", "url": "https://contextcloud.pro" },
+  "datePublished": "2026-05-22",
+  "dateModified": "2026-05-22",
+  "description": "Basic Memory is markdown files on disk. Context Cloud is typed knowledge chunks in a shared cloud workspace. Whether you need the structure depends on your team.",
+  "mainEntityOfPage": "https://contextcloud.pro/blog/context-cloud-vs-basic-memory/"
+}
+</script>
+
+<meta name="color-scheme" content="light">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#fffaf0;color:#2a2415;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{display:flex;flex-direction:column;min-height:100vh}
+.site-header{border-bottom:1px solid rgba(67,55,39,.10);background:rgba(255,250,240,.85);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:10}
+.site-header .container{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:#2a2415;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.brand .mark{display:inline-flex;width:28px;height:28px;background:linear-gradient(135deg,#3a3320,#5a4d36);border-radius:8px;align-items:center;justify-content:center;color:#fffaf0;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:#5a4d36;text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:#2a2415}
+.breadcrumb{color:#7a6e54;font-size:13px;max-width:720px;margin:0 auto;padding:32px 24px 0;width:100%}
+.breadcrumb a{color:#5a4d36;text-decoration:none}
+.breadcrumb a:hover{color:#2a2415;text-decoration:underline}
+.breadcrumb .sep{margin:0 8px;color:#a08665}
+main.article{flex:1;max-width:720px;margin:0 auto;padding:8px 24px 96px;width:100%}
+.article-meta{color:#7a6e54;font-size:13px;margin-top:14px;margin-bottom:32px}
+.article h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin-top:28px;color:#2a2415}
+.article h2{font-size:clamp(22px,2.8vw,28px);font-weight:600;letter-spacing:-.015em;margin-top:56px;margin-bottom:16px;line-height:1.25;color:#2a2415}
+.article h3{font-size:19px;font-weight:600;margin-top:36px;margin-bottom:12px;color:#2a2415}
+.article p{margin:18px 0;font-size:17px;color:#3a3320}
+.article p strong,.article li strong{color:#2a2415;font-weight:600}
+.article a{color:#3a3320;text-decoration:underline;text-decoration-color:rgba(214,162,74,.55);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article a:hover{text-decoration-color:#d6a24a}
+.article ul,.article ol{margin:18px 0;padding-left:24px;color:#3a3320;font-size:17px}
+.article li{margin:8px 0}
+.article hr{border:0;height:1px;background:rgba(67,55,39,.12);margin:48px 0}
+.article blockquote{border-left:3px solid #d6a24a;background:#faf6ec;padding:16px 22px;margin:24px 0;color:#5a4d36;font-style:italic;border-radius:0 6px 6px 0}
+.article blockquote p{margin:6px 0;color:inherit;font-size:16px}
+.article code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;background:#f5efe2;color:#3a3320;padding:2px 6px;border-radius:4px;font-size:.9em;border:1px solid rgba(67,55,39,.08)}
+.article pre{background:#2a2415;border-radius:10px;padding:18px 22px;overflow-x:auto;margin:24px 0}
+.article pre code{background:transparent;padding:0;color:#faf6ec;font-size:14px;line-height:1.6;border:0}
+.table-wrap{overflow-x:auto;margin:28px -4px;border-radius:10px;border:1px solid rgba(67,55,39,.12);background:#fffaf0}
+.article table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.article table th,.article table td{border-bottom:1px solid rgba(67,55,39,.08);padding:12px 16px;text-align:left;vertical-align:top;color:#3a3320}
+.article table tr:last-child td{border-bottom:0}
+.article table th{background:#faf6ec;color:#2a2415;font-weight:600;font-size:13px;letter-spacing:.01em}
+.article table tr:nth-child(even) td{background:rgba(247,241,227,.5)}
+.article table strong{color:#2a2415}
+.site-footer{border-top:1px solid rgba(67,55,39,.10);padding:32px 24px;font-size:13px;color:#7a6e54;margin-top:auto;background:#faf6ec}
+.site-footer .container{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.site-footer .links{display:flex;gap:20px;flex-wrap:wrap}
+.site-footer a{color:#5a4d36;text-decoration:none}
+.site-footer a:hover{color:#2a2415}
+@media (max-width:600px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+  main.article{padding:4px 20px 64px}
+  .article p,.article ul,.article ol{font-size:16px}
+  .article table{font-size:13px}
+  .breadcrumb{padding:24px 20px 0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <div class="container">
+    <a href="https://contextcloud.pro" class="brand">
+      <span class="mark">cn</span>
+      <span>cntxt</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/blog/">Blog</a>
+      <a href="https://contextcloud.pro/#how">How it works</a>
+      <a href="https://contextcloud.pro/#pricing">Pricing</a>
+      <a href="https://contextcloud.pro/">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://contextcloud.pro">Context Cloud</a><span class="sep">&rsaquo;</span><a href="/blog/">Blog</a><span class="sep">&rsaquo;</span><span>Context Cloud vs Basic Memory</span>
+</nav>
+
+<main class="article">
+<h1>Context Cloud vs Basic Memory: When You Need More Than Markdown Files</h1>
+<div class="article-meta">By Abhi · May 22, 2026 · 4 min read</div>
+
+<p>Basic Memory and Context Cloud sit at opposite ends of the MCP memory spectrum. Basic Memory is the simplest possible approach: markdown files on your machine that your AI can read and write. Context Cloud is the most structured: typed knowledge chunks in a cloud-hosted shared workspace with a dashboard and team features.</p>
+
+<p>The question is whether you need the extra structure or if files are enough.</p>
+
+<h2>Quick comparison</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th></th><th>Context Cloud</th><th>Basic Memory</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Primary use case</strong></td><td>Team shared memory</td><td>Simple personal persistence</td></tr>
+<tr><td><strong>Team workspaces</strong></td><td>✅ Shared with RBAC, invites, attribution</td><td>❌ Single-user</td></tr>
+<tr><td><strong>Knowledge structure</strong></td><td>7 typed chunks</td><td>Markdown files (unstructured)</td></tr>
+<tr><td><strong>Storage</strong></td><td>Cloud (Supabase + pgvector)</td><td>Local markdown files</td></tr>
+<tr><td><strong>AI tools supported</strong></td><td>Claude (web/desktop/Code), Cursor, Codex, Windsurf</td><td>CLI-based</td></tr>
+<tr><td><strong>Dashboard</strong></td><td>✅ Web UI with knowledge graph</td><td>❌ Read the files directly</td></tr>
+<tr><td><strong>Retrieval</strong></td><td>Hybrid RRF (vector + BM25)</td><td>File-based lookup</td></tr>
+<tr><td><strong>Deduplication</strong></td><td>✅ Automatic</td><td>❌ Manual</td></tr>
+<tr><td><strong>Cross-machine</strong></td><td>✅ Cloud-hosted</td><td>❌ Local only</td></tr>
+<tr><td><strong>Price</strong></td><td>Free tier</td><td>Free (OSS)</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>What Basic Memory does well</h2>
+
+<p>Basic Memory's strength is its simplicity. Memories are markdown files. You can open them in any text editor. You can version-control them with git. You can read them without any special tool. There's no database, no cloud service, no dependencies beyond the CLI.</p>
+
+<p>For developers who want full control and total transparency — "I want to see exactly what my AI remembers, in a format I can edit with vim" — Basic Memory is exactly right. There's no magic. No abstraction layers. Just files.</p>
+
+<p>The philosophy is appealing: your AI's memory is just text files that you own completely. No vendor lock-in, no data on someone else's servers, no subscription fees.</p>
+
+<h2>Where Basic Memory falls short</h2>
+
+<p>No search beyond file-based lookup. As your memory grows past a few dozen files, finding the right context becomes manual. There's no semantic search, no way to ask "what do we know about the payment service?" and get back relevant chunks ranked by relevance.</p>
+
+<p>No team features at all. The files are on your machine. Sharing them means putting them in a git repo and hoping your teammate remembers to pull. There's no real-time sharing, no attribution, no access controls.</p>
+
+<p>No knowledge typing. Everything is markdown text. A critical architecture decision looks the same as a debugging note. Your AI can't distinguish between them when deciding how to interpret recalled context.</p>
+
+<p>No deduplication. If you commit similar knowledge multiple times, it stacks up. Over time, your memory fills with redundant or contradictory information that nobody cleans up because there's no dashboard to see the full picture.</p>
+
+<p>No cross-tool support. Basic Memory is CLI-based. Connecting it to Cursor, Codex, or Claude Desktop requires additional setup that may or may not work well.</p>
+
+<h2>What Context Cloud does differently</h2>
+
+<p>Context Cloud gives up the simplicity of raw files for structured, shared, searchable knowledge. Every chunk has a type, an author, a timestamp, a vector embedding, and a lifecycle state (active, superseded, archived). That structure enables things files can't do: semantic search across thousands of chunks, automatic deduplication of conflicting knowledge, temporal tracking of how facts evolve, and shared access across a team.</p>
+
+<p>The dashboard provides visibility that file systems don't. You can see the knowledge graph, browse by type or author, archive stale chunks, and track your team's commit activity over time.</p>
+
+<p>The tradeoff is real: you're trusting a cloud service with your data, and the system is more complex than a folder of markdown files. That complexity buys you things (team features, search, dedup, dashboard), but if you don't need those things, it's unnecessary overhead.</p>
+
+<h2>When to use Basic Memory</h2>
+
+<p>You work solo on small projects. You want full control over your memory store. You value simplicity and transparency above everything else. You're comfortable with the limitations of file-based storage and don't need search, team features, or a dashboard.</p>
+
+<h2>When to use Context Cloud</h2>
+
+<p>You work on a team. You need shared knowledge across teammates and tools. Your memory store will grow past the point where files are manageable. You want semantic search, automatic deduplication, and a visual dashboard. You need cross-tool support.</p>
+
+<h2>The honest take</h2>
+
+<p>Basic Memory is the right tool for people who think most developer tools are over-engineered. It does one thing — store memories as files — and does it with zero complexity. Context Cloud is for the people who've hit the ceiling of file-based approaches: they need search, they need sharing, they need structure. Different developers, different needs.</p>
+
+<hr>
+
+<p><strong>Context Cloud</strong> is an MCP memory server with shared team workspaces, typed knowledge chunks, role-based access, and cross-tool support for Claude, Cursor, and Codex.</p>
+
+<ul>
+<li>Website: <a href="https://contextcloud.pro">contextcloud.pro</a></li>
+<li>npm: <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">@contextcloud/mcp-client</a></li>
+<li>MCP endpoint: <code>https://api.contextcloud.pro/mcp/protocol</code></li>
+</ul>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>&copy; 2026 Context Cloud</div>
+    <div class="links">
+      <a href="https://contextcloud.pro">contextcloud.pro</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/abhinavala/cntxtv2">GitHub</a>
+      <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">npm</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

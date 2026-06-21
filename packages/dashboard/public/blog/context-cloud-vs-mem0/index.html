@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Context Cloud vs mem0: Which MCP Memory Server Should You Use? | Context Cloud Blog</title>
+<meta name="description" content="mem0 and Context Cloud are both cloud-hosted MCP memory servers, but they're built around fundamentally different models. Here's the honest comparison.">
+<meta name="author" content="Abhi">
+<link rel="canonical" href="https://contextcloud.pro/blog/context-cloud-vs-mem0/">
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Context Cloud vs mem0: Which MCP Memory Server Should You Use?">
+<meta property="og:description" content="mem0 and Context Cloud are both cloud-hosted MCP memory servers, but they're built around fundamentally different models. Here's the honest comparison.">
+<meta property="og:url" content="https://contextcloud.pro/blog/context-cloud-vs-mem0/">
+<meta property="og:site_name" content="Context Cloud">
+<meta property="og:image" content="https://contextcloud.pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Context Cloud — Shared AI memory for engineering teams">
+<meta name="twitter:image" content="https://contextcloud.pro/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Context Cloud vs mem0: Which MCP Memory Server Should You Use?">
+<meta name="twitter:description" content="mem0 and Context Cloud are both cloud-hosted MCP memory servers, but they're built around fundamentally different models. Here's the honest comparison.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Context Cloud vs mem0: Which MCP Memory Server Should You Use?",
+  "author": { "@type": "Person", "name": "Abhi", "url": "https://github.com/abhinavala" },
+  "publisher": { "@type": "Organization", "name": "Context Cloud", "url": "https://contextcloud.pro" },
+  "datePublished": "2026-05-22",
+  "dateModified": "2026-05-22",
+  "description": "mem0 and Context Cloud are both cloud-hosted MCP memory servers, but they're built around fundamentally different models. Here's the honest comparison.",
+  "mainEntityOfPage": "https://contextcloud.pro/blog/context-cloud-vs-mem0/"
+}
+</script>
+
+<meta name="color-scheme" content="light">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#fffaf0;color:#2a2415;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{display:flex;flex-direction:column;min-height:100vh}
+.site-header{border-bottom:1px solid rgba(67,55,39,.10);background:rgba(255,250,240,.85);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:10}
+.site-header .container{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:#2a2415;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.brand .mark{display:inline-flex;width:28px;height:28px;background:linear-gradient(135deg,#3a3320,#5a4d36);border-radius:8px;align-items:center;justify-content:center;color:#fffaf0;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:#5a4d36;text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:#2a2415}
+.breadcrumb{color:#7a6e54;font-size:13px;max-width:720px;margin:0 auto;padding:32px 24px 0;width:100%}
+.breadcrumb a{color:#5a4d36;text-decoration:none}
+.breadcrumb a:hover{color:#2a2415;text-decoration:underline}
+.breadcrumb .sep{margin:0 8px;color:#a08665}
+main.article{flex:1;max-width:720px;margin:0 auto;padding:8px 24px 96px;width:100%}
+.article-meta{color:#7a6e54;font-size:13px;margin-top:14px;margin-bottom:32px}
+.article h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin-top:28px;color:#2a2415}
+.article h2{font-size:clamp(22px,2.8vw,28px);font-weight:600;letter-spacing:-.015em;margin-top:56px;margin-bottom:16px;line-height:1.25;color:#2a2415}
+.article h3{font-size:19px;font-weight:600;margin-top:36px;margin-bottom:12px;color:#2a2415}
+.article p{margin:18px 0;font-size:17px;color:#3a3320}
+.article p strong,.article li strong{color:#2a2415;font-weight:600}
+.article a{color:#3a3320;text-decoration:underline;text-decoration-color:rgba(214,162,74,.55);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article a:hover{text-decoration-color:#d6a24a}
+.article ul,.article ol{margin:18px 0;padding-left:24px;color:#3a3320;font-size:17px}
+.article li{margin:8px 0}
+.article hr{border:0;height:1px;background:rgba(67,55,39,.12);margin:48px 0}
+.article blockquote{border-left:3px solid #d6a24a;background:#faf6ec;padding:16px 22px;margin:24px 0;color:#5a4d36;font-style:italic;border-radius:0 6px 6px 0}
+.article blockquote p{margin:6px 0;color:inherit;font-size:16px}
+.article code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;background:#f5efe2;color:#3a3320;padding:2px 6px;border-radius:4px;font-size:.9em;border:1px solid rgba(67,55,39,.08)}
+.article pre{background:#2a2415;border-radius:10px;padding:18px 22px;overflow-x:auto;margin:24px 0}
+.article pre code{background:transparent;padding:0;color:#faf6ec;font-size:14px;line-height:1.6;border:0}
+.table-wrap{overflow-x:auto;margin:28px -4px;border-radius:10px;border:1px solid rgba(67,55,39,.12);background:#fffaf0}
+.article table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.article table th,.article table td{border-bottom:1px solid rgba(67,55,39,.08);padding:12px 16px;text-align:left;vertical-align:top;color:#3a3320}
+.article table tr:last-child td{border-bottom:0}
+.article table th{background:#faf6ec;color:#2a2415;font-weight:600;font-size:13px;letter-spacing:.01em}
+.article table tr:nth-child(even) td{background:rgba(247,241,227,.5)}
+.article table strong{color:#2a2415}
+.site-footer{border-top:1px solid rgba(67,55,39,.10);padding:32px 24px;font-size:13px;color:#7a6e54;margin-top:auto;background:#faf6ec}
+.site-footer .container{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.site-footer .links{display:flex;gap:20px;flex-wrap:wrap}
+.site-footer a{color:#5a4d36;text-decoration:none}
+.site-footer a:hover{color:#2a2415}
+@media (max-width:600px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+  main.article{padding:4px 20px 64px}
+  .article p,.article ul,.article ol{font-size:16px}
+  .article table{font-size:13px}
+  .breadcrumb{padding:24px 20px 0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <div class="container">
+    <a href="https://contextcloud.pro" class="brand">
+      <span class="mark">cn</span>
+      <span>cntxt</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/blog/">Blog</a>
+      <a href="https://contextcloud.pro/#how">How it works</a>
+      <a href="https://contextcloud.pro/#pricing">Pricing</a>
+      <a href="https://contextcloud.pro/">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://contextcloud.pro">Context Cloud</a><span class="sep">&rsaquo;</span><a href="/blog/">Blog</a><span class="sep">&rsaquo;</span><span>Context Cloud vs mem0</span>
+</nav>
+
+<main class="article">
+<h1>Context Cloud vs mem0: Which MCP Memory Server Should You Use?</h1>
+<div class="article-meta">By Abhi · May 22, 2026 · 4 min read</div>
+
+<p>mem0 and Context Cloud are both cloud-hosted MCP memory servers, which already puts them in a different category from local-only options like claude-mem, MemPalace, and Basic Memory. But they're built around fundamentally different models of how AI memory should work.</p>
+
+<p>Here's the honest comparison.</p>
+
+<h2>Quick comparison</h2>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th></th><th>Context Cloud</th><th>mem0</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Primary use case</strong></td><td>Team shared memory</td><td>Individual semantic memory</td></tr>
+<tr><td><strong>Team workspaces</strong></td><td>✅ Shared with RBAC, email invites, attribution</td><td>❌ Single-user</td></tr>
+<tr><td><strong>Knowledge structure</strong></td><td>7 typed chunks (decision, finding, convention, state, question, reference, session_summary)</td><td>Flat semantic memories</td></tr>
+<tr><td><strong>Retrieval</strong></td><td>Hybrid RRF (vector + BM25) with auto chunk-type intent detection</td><td>Semantic vector search</td></tr>
+<tr><td><strong>Dashboard</strong></td><td>✅ Web UI with knowledge graph, chunk editing, team activity</td><td>✅ Cloud dashboard</td></tr>
+<tr><td><strong>Cross-tool</strong></td><td>Claude (web/desktop/Code), Cursor, Codex, Windsurf</td><td>Any MCP client</td></tr>
+<tr><td><strong>Attribution</strong></td><td>✅ Per-chunk (who, when, which tool)</td><td>❌</td></tr>
+<tr><td><strong>Deduplication</strong></td><td>Session-aware dedup + topic-key supersession + bi-temporal tracking</td><td>Basic deduplication</td></tr>
+<tr><td><strong>Server-side LLM cost</strong></td><td>$0</td><td>Varies by plan</td></tr>
+<tr><td><strong>Price</strong></td><td>Free tier (unlimited teammates)</td><td>Free / $25-$475/mo</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>What mem0 does well</h2>
+
+<p>mem0 is the most mature cloud-hosted individual memory option. Their semantic search is solid — memories are embedded and retrieved by meaning, not just keywords. The API is clean and well-documented, which makes integration straightforward. They support multiple LLM providers and have a cloud dashboard for browsing stored memories.</p>
+
+<p>If you're a solo developer who wants hosted semantic memory without running anything locally, mem0 is a strong choice. It's been around longer, has more users, and the cloud infrastructure is proven.</p>
+
+<h2>Where mem0 falls short for teams</h2>
+
+<p>mem0 stores flat semantic memories — there's no type system. A critical architecture decision gets stored the same way as a casual observation about a variable name. When your AI recalls context, it can't distinguish between "this is a settled decision with specific rationale" and "this was a passing thought three weeks ago."</p>
+
+<p>No shared workspaces. No RBAC. No attribution. If you're on a team, your teammate's sessions can't access your memories and there's no mechanism to change that. This isn't a missing feature — it's a different architecture. mem0 was built as an individual memory layer, and adding team features would require significant changes to how memories are scoped and accessed.</p>
+
+<p>Pricing can also add up. The free tier is limited, and paid plans range from $25 to $475/month depending on volume. Context Cloud's free tier includes unlimited team members.</p>
+
+<h2>What Context Cloud does differently</h2>
+
+<p>Context Cloud was designed from the start for the team use case. Shared workspaces, role-based access, email invites, and per-chunk attribution are core architecture, not bolted on.</p>
+
+<p>The typed knowledge structure means when your AI recalls a shared <code>decision</code> chunk, it knows to treat it as a settled choice with rationale, not a generic memory blob. When it recalls a <code>state</code> chunk, it knows this represents the current status of something and might be stale. This affects how the AI presents and reasons about recalled context.</p>
+
+<p>Retrieval uses hybrid RRF — reciprocal rank fusion of vector similarity and BM25 keyword search. This catches things that pure semantic search misses (exact project names, specific version numbers, error codes) while still understanding meaning. Auto chunk-type intent detection reads the query shape ("what decisions did we make about auth?") and filters retrieval to the relevant types.</p>
+
+<p>Zero server-side LLM cost. All extraction happens on your AI tool — Claude, Cursor, whatever you're using does the work. The backend is a smart storage layer, not an LLM wrapper.</p>
+
+<h2>When to use mem0</h2>
+
+<p>You're a solo developer. You want cloud-hosted semantic memory with a proven track record. You don't need typed knowledge structure or team features. You're comfortable with the pricing tiers for your usage volume.</p>
+
+<h2>When to use Context Cloud</h2>
+
+<p>You're on a team of 2+. You need your teammates' AI sessions to share context with yours. You want knowledge typed and structured, not flat. You use multiple AI tools and need them to share a memory layer. You want a dashboard to browse and curate the team's accumulated knowledge.</p>
+
+<h2>The bottom line</h2>
+
+<p>mem0 is good individual memory. Context Cloud is team memory. They're solving different problems. If you work alone, mem0 works. If you work with other people, Context Cloud is currently the only option with shared workspaces, RBAC, and attribution.</p>
+
+<hr>
+
+<p><strong>Context Cloud</strong> is an MCP memory server with shared team workspaces, typed knowledge chunks, role-based access, and cross-tool support for Claude, Cursor, and Codex.</p>
+
+<ul>
+<li>Website: <a href="https://contextcloud.pro">contextcloud.pro</a></li>
+<li>npm: <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">@contextcloud/mcp-client</a></li>
+<li>MCP endpoint: <code>https://api.contextcloud.pro/mcp/protocol</code></li>
+</ul>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>&copy; 2026 Context Cloud</div>
+    <div class="links">
+      <a href="https://contextcloud.pro">contextcloud.pro</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/abhinavala/cntxtv2">GitHub</a>
+      <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">npm</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

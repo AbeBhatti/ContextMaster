@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step) | Context Cloud Blog</title>
+<meta name="description" content="A 10-minute setup guide for getting your whole team's Claude, Cursor, and Codex sessions reading and writing to one shared knowledge store.">
+<meta name="author" content="Abhi">
+<link rel="canonical" href="https://contextcloud.pro/blog/how-to-give-your-team-shared-ai-memory/">
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step)">
+<meta property="og:description" content="A 10-minute setup guide for getting your whole team's Claude, Cursor, and Codex sessions reading and writing to one shared knowledge store.">
+<meta property="og:url" content="https://contextcloud.pro/blog/how-to-give-your-team-shared-ai-memory/">
+<meta property="og:site_name" content="Context Cloud">
+<meta property="og:image" content="https://contextcloud.pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Context Cloud — Shared AI memory for engineering teams">
+<meta name="twitter:image" content="https://contextcloud.pro/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step)">
+<meta name="twitter:description" content="A 10-minute setup guide for getting your whole team's Claude, Cursor, and Codex sessions reading and writing to one shared knowledge store.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step)",
+  "author": { "@type": "Person", "name": "Abhi", "url": "https://github.com/abhinavala" },
+  "publisher": { "@type": "Organization", "name": "Context Cloud", "url": "https://contextcloud.pro" },
+  "datePublished": "2026-05-22",
+  "dateModified": "2026-05-22",
+  "description": "A 10-minute setup guide for getting your whole team's Claude, Cursor, and Codex sessions reading and writing to one shared knowledge store.",
+  "mainEntityOfPage": "https://contextcloud.pro/blog/how-to-give-your-team-shared-ai-memory/"
+}
+</script>
+
+<meta name="color-scheme" content="light">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#fffaf0;color:#2a2415;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{display:flex;flex-direction:column;min-height:100vh}
+.site-header{border-bottom:1px solid rgba(67,55,39,.10);background:rgba(255,250,240,.85);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:10}
+.site-header .container{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:#2a2415;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.brand .mark{display:inline-flex;width:28px;height:28px;background:linear-gradient(135deg,#3a3320,#5a4d36);border-radius:8px;align-items:center;justify-content:center;color:#fffaf0;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:#5a4d36;text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:#2a2415}
+.breadcrumb{color:#7a6e54;font-size:13px;max-width:720px;margin:0 auto;padding:32px 24px 0;width:100%}
+.breadcrumb a{color:#5a4d36;text-decoration:none}
+.breadcrumb a:hover{color:#2a2415;text-decoration:underline}
+.breadcrumb .sep{margin:0 8px;color:#a08665}
+main.article{flex:1;max-width:720px;margin:0 auto;padding:8px 24px 96px;width:100%}
+.article-meta{color:#7a6e54;font-size:13px;margin-top:14px;margin-bottom:32px}
+.article h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin-top:28px;color:#2a2415}
+.article h2{font-size:clamp(22px,2.8vw,28px);font-weight:600;letter-spacing:-.015em;margin-top:56px;margin-bottom:16px;line-height:1.25;color:#2a2415}
+.article h3{font-size:19px;font-weight:600;margin-top:36px;margin-bottom:12px;color:#2a2415}
+.article p{margin:18px 0;font-size:17px;color:#3a3320}
+.article p strong,.article li strong{color:#2a2415;font-weight:600}
+.article a{color:#3a3320;text-decoration:underline;text-decoration-color:rgba(214,162,74,.55);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article a:hover{text-decoration-color:#d6a24a}
+.article ul,.article ol{margin:18px 0;padding-left:24px;color:#3a3320;font-size:17px}
+.article li{margin:8px 0}
+.article hr{border:0;height:1px;background:rgba(67,55,39,.12);margin:48px 0}
+.article blockquote{border-left:3px solid #d6a24a;background:#faf6ec;padding:16px 22px;margin:24px 0;color:#5a4d36;font-style:italic;border-radius:0 6px 6px 0}
+.article blockquote p{margin:6px 0;color:inherit;font-size:16px}
+.article code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;background:#f5efe2;color:#3a3320;padding:2px 6px;border-radius:4px;font-size:.9em;border:1px solid rgba(67,55,39,.08)}
+.article pre{background:#2a2415;border-radius:10px;padding:18px 22px;overflow-x:auto;margin:24px 0}
+.article pre code{background:transparent;padding:0;color:#faf6ec;font-size:14px;line-height:1.6;border:0}
+.table-wrap{overflow-x:auto;margin:28px -4px;border-radius:10px;border:1px solid rgba(67,55,39,.12);background:#fffaf0}
+.article table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.article table th,.article table td{border-bottom:1px solid rgba(67,55,39,.08);padding:12px 16px;text-align:left;vertical-align:top;color:#3a3320}
+.article table tr:last-child td{border-bottom:0}
+.article table th{background:#faf6ec;color:#2a2415;font-weight:600;font-size:13px;letter-spacing:.01em}
+.article table tr:nth-child(even) td{background:rgba(247,241,227,.5)}
+.article table strong{color:#2a2415}
+.site-footer{border-top:1px solid rgba(67,55,39,.10);padding:32px 24px;font-size:13px;color:#7a6e54;margin-top:auto;background:#faf6ec}
+.site-footer .container{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.site-footer .links{display:flex;gap:20px;flex-wrap:wrap}
+.site-footer a{color:#5a4d36;text-decoration:none}
+.site-footer a:hover{color:#2a2415}
+@media (max-width:600px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+  main.article{padding:4px 20px 64px}
+  .article p,.article ul,.article ol{font-size:16px}
+  .article table{font-size:13px}
+  .breadcrumb{padding:24px 20px 0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <div class="container">
+    <a href="https://contextcloud.pro" class="brand">
+      <span class="mark">cn</span>
+      <span>cntxt</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/blog/">Blog</a>
+      <a href="https://contextcloud.pro/#how">How it works</a>
+      <a href="https://contextcloud.pro/#pricing">Pricing</a>
+      <a href="https://contextcloud.pro/">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="https://contextcloud.pro">Context Cloud</a><span class="sep">&rsaquo;</span><a href="/blog/">Blog</a><span class="sep">&rsaquo;</span><span>How to Give Your Team Shared AI Memory</span>
+</nav>
+
+<main class="article">
+<h1>How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step)</h1>
+<div class="article-meta">By Abhi · May 22, 2026 · 8 min read</div>
+
+<p>Your Claude Code session knows your project inside out. Your teammate's Claude Code session knows nothing. Every morning, one of you re-explains the architecture, the conventions, the decisions you already made — to an AI that was there for all of it yesterday, just in someone else's session.</p>
+
+<p>This is the setup guide for fixing that. By the end, your entire team's AI sessions — Claude, Cursor, Codex, whatever — will read and write to the same knowledge store. When your teammate commits a decision at 2am, your morning session already knows about it.</p>
+
+<p>We're using <a href="https://contextcloud.pro">Context Cloud</a>, which is the only MCP memory server with shared team workspaces. The whole setup takes about 10 minutes.</p>
+
+<h2>Step 1: Create your account</h2>
+
+<p>Go to <a href="https://contextcloud.pro">contextcloud.pro</a> and sign up. You'll land on the onboarding flow, which walks you through connecting your first AI tool.</p>
+
+<p>When you sign up, Context Cloud automatically creates a "Getting Started" knowledge base with 20 pre-embedded chunks that explain how the system works. Your AI can query this immediately to understand the tools it has access to.</p>
+
+<h2>Step 2: Create a workspace for your project</h2>
+
+<p>Workspaces are how you scope knowledge. Think of them like repos — one workspace per project or service.</p>
+
+<p>Click "New Workspace" from the home screen. Give it a name that matches your project ("Backend API", "Mobile App", whatever your team calls it). Each workspace gets its own set of knowledge bases, its own team members, and its own access controls.</p>
+
+<p>Inside a workspace, you'll create knowledge bases. A knowledge base is a scoped collection of knowledge — you might have one for "Backend API" and another for "Infrastructure" within the same workspace. The AI handles routing between KBs based on what you're talking about.</p>
+
+<h2>Step 3: Invite your teammates</h2>
+
+<p>Go to the Team tab in your workspace. Add teammates by email. They'll get an invite link via email, click it, create their account, and land directly in the shared workspace.</p>
+
+<p>Roles matter here:</p>
+
+<ul>
+<li><strong>Owner</strong>: full access, can invite/remove members, delete workspace</li>
+<li><strong>Editor</strong>: can read and write knowledge, manage KBs</li>
+<li><strong>Viewer</strong>: can read knowledge but not commit new chunks</li>
+</ul>
+
+<p>For most dev teams, everyone should be an Editor. The Owner is whoever created the workspace.</p>
+
+<h2>Step 4: Connect your AI tool</h2>
+
+<p>Context Cloud works with Claude (web, desktop, and Code), Cursor, Codex, and Windsurf. Here's the setup for each:</p>
+
+<h3>Claude (web &amp; desktop)</h3>
+
+<p>The simplest path. Go to Settings → Connectors → Add custom connector. Paste this URL:</p>
+
+<pre><code>https://api.contextcloud.pro/mcp/protocol</code></pre>
+
+<p>Sign in with your Context Cloud account when prompted. That's it — Claude now has access to your shared knowledge.</p>
+
+<h3>Claude Code (CLI)</h3>
+
+<p>Add to your MCP config (usually <code>~/.claude/settings.json</code> or your project's <code>.mcp.json</code>):</p>
+
+<pre><code>{
+  "mcpServers": {
+    "context-cloud": {
+      "url": "https://api.contextcloud.pro/mcp/protocol"
+    }
+  }
+}</code></pre>
+
+<h3>Cursor / VS Code / Windsurf</h3>
+
+<p>Add to your MCP settings:</p>
+
+<pre><code>{
+  "mcpServers": {
+    "context-cloud": {
+      "command": "npx",
+      "args": ["@contextcloud/mcp-client"],
+      "env": {
+        "CNTXT_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}</code></pre>
+
+<p>Get your API key from the workspace Settings tab in the dashboard.</p>
+
+<h3>Codex</h3>
+
+<p>Go to Settings → MCP → Add Streamable HTTP server. Paste the URL:</p>
+
+<pre><code>https://api.contextcloud.pro/mcp/protocol</code></pre>
+
+<p>Authorize when prompted.</p>
+
+<h2>Step 5: Commit your first knowledge</h2>
+
+<p>This is where it gets real. Open your AI tool and start working normally. When something important comes up — an architecture decision, a convention, a finding — tell your AI to save it.</p>
+
+<p>Here's what that looks like in practice:</p>
+
+<p><strong>You:</strong> "We decided to use Postgres over MySQL because the client's DBA only supports Postgres. This is a hard constraint and won't change. Save this as a decision to our Backend API knowledge base."</p>
+
+<p>Context Cloud extracts this as a typed <code>decision</code> chunk with the rationale, timestamps it, attributes it to you, and stores it in the shared knowledge base. Your AI handles the extraction — you just talk normally and say "save this."</p>
+
+<p>A few more examples of things worth committing:</p>
+
+<ul>
+<li><strong>Decision:</strong> "We're using JWT in httpOnly cookies for auth — security team requirement, non-negotiable."</li>
+<li><strong>Convention:</strong> "All API routes use camelCase. Database columns use snake_case. No exceptions."</li>
+<li><strong>Finding:</strong> "The Stripe webhook fires twice on subscription changes — always check the idempotency key before processing."</li>
+<li><strong>State:</strong> "Auth module refactor is 70% done. Token validation extracted, middleware updated, tests pending."</li>
+</ul>
+
+<p>The key thing to understand: you don't save everything. CLAUDE.md is for static instructions (linting rules, project structure). Context Cloud is for knowledge that emerges from work — decisions, findings, conventions that your team discovers along the way.</p>
+
+<h2>Step 6: Recall from your teammate's session</h2>
+
+<p>This is the moment that matters. Your teammate opens their AI tool — could be a completely different tool on a completely different machine. They ask about the project:</p>
+
+<p><strong>Teammate:</strong> "Check my memory — what do we know about the database setup?"</p>
+
+<p>Context Cloud returns your decision with full attribution:</p>
+
+<blockquote>
+<p><strong>Decision</strong> (committed by you, yesterday at 11:34pm)<br>
+We decided to use Postgres over MySQL because the client's DBA only supports Postgres. This is a hard constraint and won't change.</p>
+</blockquote>
+
+<p>Your teammate's AI session never saw your session. They might be using Cursor while you used Claude Code. But the knowledge transferred — with the original reasoning, the attribution, and the semantic type so the AI knows this is a settled decision, not a suggestion.</p>
+
+<p>That's the core loop: commit structured knowledge from any tool, recall it from any tool, across the whole team.</p>
+
+<h2>Step 7: Browse the dashboard</h2>
+
+<p>Go to <a href="https://contextcloud.pro">contextcloud.pro</a> and open your workspace. The dashboard gives you visibility into everything your team's AI sessions have committed:</p>
+
+<p><strong>Knowledge Graph:</strong> A visual map of your knowledge bases and how chunks relate to each other. Nodes are sized by chunk count, colored by KB type (software, research, business). Click any node to see its contents.</p>
+
+<p><strong>List View:</strong> Every chunk in your workspace, filterable by KB, type, author, and date. You can edit, archive, or move chunks between KBs.</p>
+
+<p><strong>History:</strong> A timeline of every commit — who committed what, when, from which tool. This is your team's knowledge activity feed.</p>
+
+<p><strong>Documents:</strong> Upload files (PDFs, docs, markdown) that get chunked and embedded for recall alongside session-committed knowledge.</p>
+
+<p>The dashboard is for curation, not for daily work. You work in your AI tool. You come to the dashboard when you want to see the big picture, clean up stale knowledge, or browse what your team has been learning.</p>
+
+<h2>What to commit vs. what not to</h2>
+
+<p>This comes up a lot, so here's the mental model:</p>
+
+<p><strong>Commit to Context Cloud:</strong></p>
+<ul>
+<li>Architecture decisions with rationale</li>
+<li>Coding conventions the team agreed on</li>
+<li>Findings — things you discovered that others should know</li>
+<li>Project state — what's done, what's in progress, what's blocked</li>
+<li>Domain knowledge — gotchas, edge cases, tribal knowledge about your codebase</li>
+</ul>
+
+<p><strong>Keep in CLAUDE.md:</strong></p>
+<ul>
+<li>Static project-level instructions (linting config, folder structure, tech stack)</li>
+<li>Personal coding preferences</li>
+<li>Tool-specific instructions</li>
+</ul>
+
+<p><strong>Don't commit:</strong></p>
+<ul>
+<li>Temporary debugging notes</li>
+<li>One-off questions you asked the AI</li>
+<li>Code snippets (that's what git is for)</li>
+<li>Sensitive credentials (obviously)</li>
+</ul>
+
+<p>The rule of thumb: if your teammate's AI should know this tomorrow, commit it. If it's only useful for the next five minutes, don't.</p>
+
+<h2>Advanced: organizing knowledge bases</h2>
+
+<p>As your team's knowledge grows, you'll want multiple KBs within a workspace. Some patterns that work:</p>
+
+<p><strong>By service:</strong> "Backend API", "Mobile App", "Infrastructure", "Auth Service". Each maps to a part of your codebase. When someone asks about auth, the AI routes to the Auth Service KB.</p>
+
+<p><strong>By concern:</strong> "Architecture Decisions", "Conventions", "Sprint Context". Separates durable knowledge from temporal state.</p>
+
+<p><strong>By team scope:</strong> Start with a personal KB in your General workspace for things only relevant to you. When something should be shared, create or move it to a team workspace. Context Cloud supports promoting KBs from personal to team scope.</p>
+
+<p>The AI handles routing between KBs automatically based on what you're talking about. You don't need to specify which KB to query — just ask your question and the retrieval system selects the right KBs using a two-layer approach: first the AI selects relevant KBs from the table of contents, then hybrid search (vector + BM25) finds the best chunks within those KBs.</p>
+
+<h2>What you should see after a week</h2>
+
+<p>If your team is using this daily, after a week you should have:</p>
+
+<ul>
+<li>20-50 committed chunks across your knowledge bases</li>
+<li>A visible knowledge graph showing how your project's context is organized</li>
+<li>The experience of opening a session and having the AI already know what happened yesterday</li>
+<li>At least one moment where a teammate's session recalled something you committed — that's the multiplayer magic moment</li>
+</ul>
+
+<p>The thing that makes people stick is the first time they open a fresh session and don't have to re-explain their project. Once you feel that, going back to stateless sessions feels broken.</p>
+
+<hr>
+
+<p><strong>Context Cloud</strong> is an MCP memory server with shared team workspaces, typed knowledge chunks, role-based access, and cross-tool support for Claude, Cursor, and Codex. Free to use.</p>
+
+<ul>
+<li>Website: <a href="https://contextcloud.pro">contextcloud.pro</a></li>
+<li>npm: <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">@contextcloud/mcp-client</a></li>
+<li>MCP endpoint: <code>https://api.contextcloud.pro/mcp/protocol</code></li>
+<li>GitHub: <a href="https://github.com/abhinavala/cntxtv2">github.com/abhinavala/cntxtv2</a></li>
+</ul>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>&copy; 2026 Context Cloud</div>
+    <div class="links">
+      <a href="https://contextcloud.pro">contextcloud.pro</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/abhinavala/cntxtv2">GitHub</a>
+      <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">npm</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

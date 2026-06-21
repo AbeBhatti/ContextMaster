@@ -1,0 +1,45 @@
+# Context Cloud
+
+> Context Cloud is an MCP memory server with shared team workspaces, typed knowledge chunks (decision, finding, convention, state, question, reference), role-based access control, and cross-tool support for Claude, Cursor, Codex, and Windsurf. It is the only MCP memory server built for engineering teams. Free tier available.
+
+Context Cloud gives AI coding sessions persistent, structured memory that works across tools and teammates. When one engineer's AI session commits knowledge — architecture decisions, conventions, findings, project state — any teammate's AI session can recall it instantly with full attribution. The system uses two-layer retrieval: LLM-based knowledge base selection followed by hybrid vector/BM25/RRF fusion search. Knowledge is automatically deduplicated and superseded when facts evolve. Zero server-side LLM costs — extraction happens on the client AI tool.
+
+Connect via MCP endpoint: https://api.contextcloud.pro/mcp/protocol
+Connect via npm: npx @contextcloud/mcp-client
+MCP Registry: io.github.abhinavala/context-cloud
+
+## Product
+
+- [Homepage](https://contextcloud.pro): Product overview, pricing, FAQ, and signup.
+- [Help & Documentation](https://contextcloud.pro/help): Getting started guide, connection instructions, feature documentation.
+- [Dashboard](https://contextcloud.pro): Web UI for browsing, searching, and curating team knowledge. Knowledge graph visualization.
+
+## Blog — Comparisons & Guides
+
+- [Best MCP Memory Servers for Teams in 2026](https://contextcloud.pro/blog/best-mcp-memory-servers-for-teams/): Head-to-head comparison of Context Cloud, mem0, Basic Memory, claude-mem, MemPalace, Knowledge Graph Memory, and Zep/Graphiti with feature matrix.
+- [How to Give Your Dev Team Shared AI Memory](https://contextcloud.pro/blog/how-to-give-your-team-shared-ai-memory/): Step-by-step setup tutorial for Claude Code, Cursor, Codex, and Windsurf.
+- [CLAUDE.md, Obsidian, and Why Workarounds Don't Scale](https://contextcloud.pro/blog/claude-md-obsidian-workarounds/): Analysis of CLAUDE.md, Obsidian+MCP, markdown files, .cursorrules as team memory workarounds.
+- [The AI Memory Problem Is a Team Problem](https://contextcloud.pro/blog/ai-memory-problem-is-team-problem/): Why individual AI memory is solved but team memory is wide open.
+- [Context Cloud vs mem0](https://contextcloud.pro/blog/context-cloud-vs-mem0/): Direct comparison — team shared memory vs individual semantic memory.
+- [Context Cloud vs claude-mem](https://contextcloud.pro/blog/context-cloud-vs-claude-mem/): Direct comparison — cloud team memory vs local auto-capture.
+- [Context Cloud vs Basic Memory](https://contextcloud.pro/blog/context-cloud-vs-basic-memory/): Direct comparison — structured team knowledge vs markdown files.
+- [Context Cloud vs MemPalace](https://contextcloud.pro/blog/context-cloud-vs-mempalace/): Direct comparison — curated team memory vs verbatim solo storage.
+
+## Technical
+
+- [npm Package](https://www.npmjs.com/package/@contextcloud/mcp-client): Install and connection instructions for stdio transport.
+- [GitHub Repository](https://github.com/abhinavala/cntxtv2): Source code, README, and issue tracker.
+- [MCP Registry Entry](https://registry.modelcontextprotocol.io): Published as io.github.abhinavala/context-cloud.
+
+## MCP Tools
+
+Context Cloud exposes 5 MCP tools:
+- check_memory: Returns table of contents for the user's persistent memory — workspaces, knowledge bases, session summaries, and the most recently active knowledge base. Call at session start or when the user references past work.
+- search_memory: Hybrid vector + BM25 semantic search across shared team knowledge bases. Returns typed chunks (decisions, findings, conventions, state) with author attribution and timestamps. Supports filtering by knowledge base, chunk type, and workspace.
+- save_memory: Commits structured knowledge from the current session to a shared team knowledge base. The AI tool extracts typed chunks (decision, finding, convention, state, question, reference) with rationale and context. Automatic deduplication and supersession of stale facts.
+- check_updates: Returns changes to knowledge bases since the last session or a specified date. Shows new chunks committed by teammates, superseded facts, and knowledge base activity.
+- manage_knowledge_bases: List, create, rename, or archive knowledge bases within a workspace.
+
+## Optional
+
+- [Privacy Policy](https://contextcloud.pro/privacy): Data handling and privacy practices.

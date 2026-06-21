@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #fffaf0;
+  color: #2a2415;
+  overflow: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(214, 162, 74, 0.35);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(67, 55, 39, 0.18);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(67, 55, 39, 0.3);
+}
+
+/* ============================================
+ * KB processing animation (ProcessingRing)
+ *
+ * Used by the knowledge graph to show that a server-side extraction job is
+ * in-flight for a KB node. `processing-spin` rotates the arc; the queued
+ * variant overlays a slow pulse so "waiting" reads differently from
+ * "active". `processing-ring-fade` handles graceful exit when the job
+ * completes.
+ *
+ * transform-box: fill-box anchors the rotation to the arc's own bounding
+ * box, so the arc spins around the node's center instead of the SVG origin.
+ * ============================================ */
+@keyframes processing-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes processing-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.processing-ring-spin {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: processing-spin 1.5s linear infinite;
+}
+
+.processing-ring-spin-slow {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: processing-spin 2.8s linear infinite,
+             processing-pulse 1.6s ease-in-out infinite;
+}
+
+.processing-ring-fade {
+  transition: opacity 0.5s ease-out;
+}
+
+/* Smooth resize on graph nodes when chunk_count changes. Modern browsers
+ * transition SVG presentation attrs (r, opacity) via CSS. Keeping it short
+ * so the force layout's position updates don't fight the radius animation. */
+.graph-node-radius {
+  transition: r 0.35s ease-out;
+}

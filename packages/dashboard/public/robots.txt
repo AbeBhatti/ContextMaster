@@ -1,0 +1,48 @@
+# Standard search crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI search and citation crawlers — allow for discoverability
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Block training-only crawlers (we want citations, not training data extraction)
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Default — allow everything else
+User-agent: *
+Allow: /
+
+Sitemap: https://contextcloud.pro/sitemap.xml
+
+# AI assistant documentation index
+# See https://llmstxt.org for specification
+# llms.txt: https://contextcloud.pro/llms.txt

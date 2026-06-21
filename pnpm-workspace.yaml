@@ -5,7 +5,7 @@ allowBuilds:
   '@clerk/shared': set this to true or false
   esbuild: set this to true or false
 
-# pnpm v10 blocks postinstall by default, which breaks esbuild (needs its
+# pnpm v10+ blocks postinstall by default, which breaks esbuild (needs its
 # native binary) and Clerk (postinstall wiring). Mirrors the reference repo.
 onlyBuiltDependencies:
   - esbuild

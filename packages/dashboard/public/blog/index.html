@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Context Cloud</title>
+<meta name="description" content="Articles about MCP memory servers, team AI memory, context engineering, and how to give your dev team shared persistent AI context.">
+<meta name="author" content="Abhi">
+<link rel="canonical" href="https://contextcloud.pro/blog/">
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Context Cloud Blog">
+<meta property="og:description" content="Articles about MCP memory servers, team AI memory, context engineering, and how to give your dev team shared persistent AI context.">
+<meta property="og:url" content="https://contextcloud.pro/blog/">
+<meta property="og:site_name" content="Context Cloud">
+<meta property="og:image" content="https://contextcloud.pro/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Context Cloud — Shared AI memory for engineering teams">
+<meta name="twitter:image" content="https://contextcloud.pro/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Context Cloud Blog">
+<meta name="twitter:description" content="Articles about MCP memory servers, team AI memory, context engineering, and how to give your dev team shared persistent AI context.">
+
+<meta name="color-scheme" content="light">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#fffaf0;color:#2a2415;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.page{display:flex;flex-direction:column;min-height:100vh}
+.site-header{border-bottom:1px solid rgba(67,55,39,.10);background:rgba(255,250,240,.85);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);position:sticky;top:0;z-index:10}
+.site-header .container{max-width:1100px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:#2a2415;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.brand .mark{display:inline-flex;width:28px;height:28px;background:linear-gradient(135deg,#3a3320,#5a4d36);border-radius:8px;align-items:center;justify-content:center;color:#fffaf0;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-links{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.nav-links a{color:#5a4d36;text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:#2a2415}
+.breadcrumb{color:#7a6e54;font-size:13px;max-width:720px;margin:0 auto;padding:32px 24px 0;width:100%}
+.breadcrumb a{color:#5a4d36;text-decoration:none}
+.breadcrumb a:hover{color:#2a2415;text-decoration:underline}
+.breadcrumb .sep{margin:0 8px;color:#a08665}
+main.article{flex:1;max-width:720px;margin:0 auto;padding:8px 24px 96px;width:100%}
+.article-meta{color:#7a6e54;font-size:13px;margin-top:14px;margin-bottom:32px}
+.article h1{font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin-top:28px;color:#2a2415}
+.article h2{font-size:clamp(22px,2.8vw,28px);font-weight:600;letter-spacing:-.015em;margin-top:56px;margin-bottom:16px;line-height:1.25;color:#2a2415}
+.article h3{font-size:19px;font-weight:600;margin-top:36px;margin-bottom:12px;color:#2a2415}
+.article p{margin:18px 0;font-size:17px;color:#3a3320}
+.article p strong,.article li strong{color:#2a2415;font-weight:600}
+.article a{color:#3a3320;text-decoration:underline;text-decoration-color:rgba(214,162,74,.55);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article a:hover{text-decoration-color:#d6a24a}
+.article ul,.article ol{margin:18px 0;padding-left:24px;color:#3a3320;font-size:17px}
+.article li{margin:8px 0}
+.article hr{border:0;height:1px;background:rgba(67,55,39,.12);margin:48px 0}
+.article blockquote{border-left:3px solid #d6a24a;background:#faf6ec;padding:16px 22px;margin:24px 0;color:#5a4d36;font-style:italic;border-radius:0 6px 6px 0}
+.article blockquote p{margin:6px 0;color:inherit;font-size:16px}
+.article code{font-family:ui-monospace,SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace;background:#f5efe2;color:#3a3320;padding:2px 6px;border-radius:4px;font-size:.9em;border:1px solid rgba(67,55,39,.08)}
+.article pre{background:#2a2415;border-radius:10px;padding:18px 22px;overflow-x:auto;margin:24px 0}
+.article pre code{background:transparent;padding:0;color:#faf6ec;font-size:14px;line-height:1.6;border:0}
+.table-wrap{overflow-x:auto;margin:28px -4px;border-radius:10px;border:1px solid rgba(67,55,39,.12);background:#fffaf0}
+.article table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.article table th,.article table td{border-bottom:1px solid rgba(67,55,39,.08);padding:12px 16px;text-align:left;vertical-align:top;color:#3a3320}
+.article table tr:last-child td{border-bottom:0}
+.article table th{background:#faf6ec;color:#2a2415;font-weight:600;font-size:13px;letter-spacing:.01em}
+.article table tr:nth-child(even) td{background:rgba(247,241,227,.5)}
+.article table strong{color:#2a2415}
+.site-footer{border-top:1px solid rgba(67,55,39,.10);padding:32px 24px;font-size:13px;color:#7a6e54;margin-top:auto;background:#faf6ec}
+.site-footer .container{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.site-footer .links{display:flex;gap:20px;flex-wrap:wrap}
+.site-footer a{color:#5a4d36;text-decoration:none}
+.site-footer a:hover{color:#2a2415}
+.blog-index{flex:1;max-width:860px;margin:0 auto;padding:48px 24px 96px;width:100%}
+.blog-index h1{font-size:clamp(36px,5vw,52px);font-weight:600;letter-spacing:-.025em;margin:8px 0 16px;color:#2a2415;line-height:1.08}
+.blog-index .intro{color:#5a4d36;font-size:18px;max-width:640px;line-height:1.6}
+.article-list{margin-top:48px;display:flex;flex-direction:column;gap:14px}
+.article-card{border:1px solid rgba(67,55,39,.10);border-radius:14px;padding:24px 28px;background:#fffaf0;transition:border-color .15s,box-shadow .15s,transform .15s}
+.article-card:hover{border-color:rgba(214,162,74,.4);box-shadow:0 4px 16px rgba(67,55,39,.06);transform:translateY(-1px)}
+.article-card h2{font-size:20px;font-weight:600;margin-bottom:8px;line-height:1.3;letter-spacing:-.01em}
+.article-card h2 a{color:#2a2415;text-decoration:none}
+.article-card h2 a:hover{color:#5a4d36}
+.article-card .desc{color:#5a4d36;font-size:15px;line-height:1.55}
+.article-card .date{color:#9b8e74;font-size:12px;margin-top:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+@media (max-width:600px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+  main.article{padding:4px 20px 64px}
+  .article p,.article ul,.article ol{font-size:16px}
+  .article table{font-size:13px}
+  .breadcrumb{padding:24px 20px 0}
+  .blog-index{padding:24px 20px 64px}
+  .article-card{padding:20px 22px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="site-header">
+  <div class="container">
+    <a href="https://contextcloud.pro" class="brand">
+      <span class="mark">cn</span>
+      <span>cntxt</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/blog/">Blog</a>
+      <a href="https://contextcloud.pro/#how">How it works</a>
+      <a href="https://contextcloud.pro/#pricing">Pricing</a>
+      <a href="https://contextcloud.pro/">Get started</a>
+    </nav>
+  </div>
+</header>
+
+<main class="blog-index">
+  <h1>The Context Cloud Blog</h1>
+  <p class="intro">Articles about MCP memory servers, team AI memory, context engineering, and how to give your dev team shared persistent AI context.</p>
+
+  <div class="article-list">
+    <article class="article-card">
+      <h2><a href="/blog/best-mcp-memory-servers-for-teams/">Best MCP Memory Servers for Teams in 2026: Context Cloud vs mem0 vs Basic Memory vs claude-mem vs MemPalace</a></h2>
+      <p class="desc">An honest comparison of every major MCP memory server. They all solve individual memory. None of them solve the team problem.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/how-to-give-your-team-shared-ai-memory/">How to Give Your Dev Team Shared AI Memory with MCP (Step-by-Step)</a></h2>
+      <p class="desc">A 10-minute setup guide for getting your whole team's Claude, Cursor, and Codex sessions reading and writing to one shared knowledge store.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/claude-md-obsidian-workarounds/">CLAUDE.md, Obsidian, Markdown Files, and Why Workarounds Don't Scale for Teams</a></h2>
+      <p class="desc">Every team has invented their own AI memory hack. They all work for one person. They all break the moment you add a second person or tool.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/ai-memory-problem-is-team-problem/">The AI Memory Problem Is a Team Problem (And Nobody's Talking About It)</a></h2>
+      <p class="desc">The individual AI memory problem is solved. Your AI remembers your context. Your teammate's AI still doesn't. Here's what that costs you.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/context-cloud-vs-mem0/">Context Cloud vs mem0: Which MCP Memory Server Should You Use?</a></h2>
+      <p class="desc">Both are cloud-hosted MCP memory servers, but they're built around fundamentally different models. Here's the honest breakdown.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/context-cloud-vs-claude-mem/">Context Cloud vs claude-mem: Cloud Team Memory vs Local Auto-Capture</a></h2>
+      <p class="desc">claude-mem captures everything automatically and stays local. Context Cloud structures knowledge and shares it across a team. Both are valid.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/context-cloud-vs-basic-memory/">Context Cloud vs Basic Memory: When You Need More Than Markdown Files</a></h2>
+      <p class="desc">Basic Memory is files on disk. Context Cloud is typed chunks in a shared workspace. Whether you need the structure depends on your team.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+
+    <article class="article-card">
+      <h2><a href="/blog/context-cloud-vs-mempalace/">Context Cloud vs MemPalace: Shared Team Memory vs Solo Persistent Storage</a></h2>
+      <p class="desc">MemPalace stores every conversation verbatim, locally. Context Cloud stores typed knowledge, in the cloud, shared. Different problems, different tools.</p>
+      <div class="date">May 22, 2026</div>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div>&copy; 2026 Context Cloud</div>
+    <div class="links">
+      <a href="https://contextcloud.pro">contextcloud.pro</a>
+      <a href="/blog/">Blog</a>
+      <a href="https://github.com/abhinavala/cntxtv2">GitHub</a>
+      <a href="https://www.npmjs.com/package/@contextcloud/mcp-client">npm</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!blog/|blog$|sitemap\\.xml|robots\\.txt|llms\\.txt).*)", "destination": "/index.html" }
+  ]
+}
